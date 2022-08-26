@@ -1,0 +1,95 @@
+# 系统设置
+system:
+  env: 'public'  # Change to "develop" to skip authentication for development mode
+  addr: 8989
+  db-type: 'mysql'
+  oss-type: 'local'    # 控制oss选择走本地还是 七牛云等其他仓
+  use-multipoint: false
+  # IP限制次数 一个小时15000次
+  ip-limit-count: 15000
+  #  IP限制一个小时
+  ip-limit-time: 3600
+  language: 'zh-CN'
+
+# jwt 配置
+jwt:
+  signing-key: 'uvdream'
+  expires-time: 604800
+  buffer-time: 86400
+  issuer: 'uvdream'
+
+# 日志设置
+zap:
+  level: 'info'
+  prefix: '[ZAP] '
+  format: 'console'
+  director: 'log'
+  encode-level: 'LowercaseColorLevelEncoder'
+  stacktrace-key: 'stacktrace'
+  max-age: 30 # 默认日志留存默认以天为单位
+  show-line: true
+  log-in-console: true
+
+#  mysql
+mysql:
+  path: '127.0.0.1'
+  port: '3306'
+  config: 'charset=utf8&parseTime=True&loc=Local'
+  db-name: 'kyara'
+  username: 'root'
+  password: '123456'
+  max-idle-conns: 10
+  max-open-conns: 100
+  log-mode: false
+  log-zap: false
+
+#redis 设置
+redis:
+  db: 0
+  addr: 127.0.0.1:6379
+  password: "redispw"
+
+# 跨域配置
+# 需要配合 server/initialize/router.go#L32 使用
+cors:
+  mode: whitelist # 放行模式: allow-all, 放行全部; whitelist, 白名单模式, 来自白名单内域名的请求添加 cors 头; strict-whitelist 严格白名单模式, 白名单外的请求一律拒绝
+  whitelist:
+    - allow-origin: example1.com
+      allow-headers: content-type
+      allow-methods: GET, POST
+      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
+      allow-credentials: true # 布尔值
+    - allow-origin: example2.com
+      allow-headers: content-type
+      allow-methods: GET, POST
+      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
+      allow-credentials: true # 布尔值
+
+#验证码配置
+captcha:
+  type: "math"
+  language: "zh"
+  height: 40
+  width: 100
+  length: 4
+  noise-count: 10
+  show-line-options: 1
+  bg-color:
+    R: 255
+    G: 255
+    B: 255
+    A: 1
+
+#七牛云
+qiniu:
+  access-key: 'Z3z3iRk1ar8KHMj09tKqKvyddarHG_hdh8apaEHy'
+  secret-key: 'Cv8oYw_xQlj6xWkovmLRNaIJqtWfWdIqkAtExEzX'
+  bucket: 'uvdream'
+  domain: 'HuaDong'
+  path: 'your-path'
+  domain-name: 'www.pic.uvdream.cn'
+  domain-protocol: 'http'
+
+#本地存储
+local:
+    path: './files'
