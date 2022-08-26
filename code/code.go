@@ -4,6 +4,9 @@ import "server/global"
 
 const (
 	SUCCESS                   = 200
+	ERROR                     = 500
+	ErrorNotLogin             = 50000
+	ErrorAuthorizationExpires = 50001
 	ErrorImageNotFound        = 1001  //图片不存在
 	UploadImageSuccess        = 2001  //上传图片成功
 	ErrorCreateDir            = 1002  //创建文件夹失败

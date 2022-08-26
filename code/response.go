@@ -12,10 +12,6 @@ type Response struct {
 	Success bool        `json:"success" binding:"required"`
 }
 
-const (
-	ERROR = 7
-)
-
 func Result(code int, data interface{}, msg string, c *gin.Context, success bool) {
 	c.JSON(http.StatusOK, Response{
 		code,

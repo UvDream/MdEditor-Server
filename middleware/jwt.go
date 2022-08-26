@@ -14,7 +14,8 @@ func JWTAuth() gin.HandlerFunc {
 		token := c.Request.Header.Get("x-token")
 		//未获取到登陆令牌
 		if token == "" {
-			code.FailWithDetailed(gin.H{"reload": true}, "未登录或非法访问", c)
+			//code.FailWithDetailed(gin.H{"reload": true}, "未登录或非法访问", c)
+			code.FailResponse(code.ErrorNotLogin, c)
 			c.Abort()
 			return
 		}
@@ -23,7 +24,8 @@ func JWTAuth() gin.HandlerFunc {
 		claims, err := j.ParseToken(token)
 		if err != nil {
 			if err == utils.TokenExpired {
-				code.FailWithDetailed(gin.H{"reload": true}, "授权已过期", c)
+				//code.FailWithDetailed(gin.H{"reload": true}, "授权已过期", c)
+				code.FailResponse(code.ErrorAuthorizationExpires, c)
 				c.Abort()
 				return
 			}

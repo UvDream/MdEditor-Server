@@ -2,6 +2,9 @@ package code
 
 var enUSText = map[int]string{
 	SUCCESS:                   "Success",
+	ERROR:                     "error",
+	ErrorNotLogin:             "not login",
+	ErrorAuthorizationExpires: "Authorization Expires",
 	ErrorImageNotFound:        "Image not found",
 	UploadImageSuccess:        "Upload image success",
 	ErrorCreateDir:            "Create dir failed",
