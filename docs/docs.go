@@ -215,37 +215,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/article/md": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "article"
-                ],
-                "summary": "查询文章markdown内容",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "参数",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{\"code\":200,\"data\":article.Article.MdContent,\"msg\":\"操作成功\"}",
-                        "schema": {
-                            "$ref": "#/definitions/code.Response"
-                        }
-                    }
-                }
-            }
-        },
         "/article/update": {
             "put": {
                 "consumes": [
@@ -473,21 +442,48 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{\"\"code\"\":200,\"\"message\"\":\"\"删除成功\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "{\"\"code\"\":400,\"\"message\"\":\"\"删除失败\"\"}",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "{\"\"code\"\":500,\"\"message\"\":\"\"服务器错误\"\"}",
-                        "schema": {
-                            "type": "string"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/code.PaginatedData"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/file.File"
+                                                            }
+                                                        },
+                                                        "total": {
+                                                            "type": "integer"
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -571,6 +567,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/public/base/detail": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "查询文章详情",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "参数",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":article.Article,\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/public/base/init_data": {
             "get": {
                 "description": "初始化数据",
@@ -641,6 +668,37 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/public/base/md": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "查询文章markdown内容",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "参数",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":article.Article.MdContent,\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
                         }
                     }
                 }
@@ -1202,6 +1260,15 @@ const docTemplate = `{
                 }
             }
         },
+        "code.PaginatedData": {
+            "type": "object",
+            "properties": {
+                "list": {},
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "code.Response": {
             "type": "object",
             "required": [
@@ -1265,6 +1332,44 @@ const docTemplate = `{
                 "width": {
                     "description": "验证码宽度",
                     "type": "integer"
+                }
+            }
+        },
+        "file.File": {
+            "type": "object",
+            "properties": {
+                "auth_id": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
                 }
             }
         },
@@ -1378,9 +1483,6 @@ const docTemplate = `{
         },
         "theme.Theme": {
             "type": "object",
-            "required": [
-                "theme"
-            ],
             "properties": {
                 "create_time": {
                     "type": "string"

@@ -7,6 +7,8 @@ import (
 	"server/code"
 	"server/config"
 	"server/global"
+	article2 "server/models/article"
+	"server/models/theme"
 )
 
 var store = base64Captcha.DefaultMemStore
@@ -73,4 +75,36 @@ func (b *BaseApi) VerifyCaptcha(captcha string, captchaId string) (err bool) {
 	} else {
 		return false
 	}
+}
+
+//GetArticleMd 查询文章markdown内容
+//@Summary 查询文章markdown内容
+//@Tags article
+//@Accept  json
+//@Produce  json
+//@Param        id   query     string  true  "参数"
+//@Success 200 {object} code.Response "{"code":200,"data":article.Article.MdContent,"msg":"操作成功"}"
+//@Router /public/base/md [get]
+func (*BaseApi) GetArticleMd(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	var article article2.Article
+	db := global.DB
+	if err := db.Where("id = ?", id).First(&article).Error; err != nil {
+		code.FailResponse(code.ErrorFindArticle, c)
+		return
+	}
+	type MdResponse struct {
+		MdContent string      `json:"md_content"`
+		ThemeID   string      `json:"theme_id"`
+		Theme     theme.Theme `json:"theme"`
+	}
+	code.SuccessResponse(&MdResponse{
+		MdContent: article.MdContent,
+		ThemeID:   article.ThemeID,
+		Theme:     article.Theme,
+	}, code.SUCCESS, c)
 }

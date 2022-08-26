@@ -61,3 +61,25 @@ func (b *BaseApi) Register(c *gin.Context) {
 	}
 	code.SuccessResponse(data, cd, c)
 }
+
+//GetArticleDetail 查询文章详情
+//@Summary 查询文章详情
+//@Tags article
+//@Accept  json
+//@Produce  json
+//@Param        id   query     string  true  "参数"
+//@Success 200 {object} code.Response "{"code":200,"data":article.Article,"msg":"操作成功"}"
+//@Router /public/base/detail [get]
+func (*BaseApi) GetArticleDetail(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		code.FailWithMessage("id不能为空", c)
+		return
+	}
+	articleContent, msg, err := articleService.GetArticleDetailService(id)
+	if err != nil {
+		code.FailWithMessage(msg, c)
+		return
+	}
+	code.OkWithDetailed(articleContent, msg, c)
+}

@@ -9,6 +9,6 @@ type ApiSystemGroup struct {
 }
 
 var (
-	sysConfigService = service.ServicesGroupApp.SystemServiceGroup.SysConfigService
-	userService      = service.ServicesGroupApp.SystemServiceGroup.SysUserService
+	articleService = service.ServicesGroupApp.ArticleServiceGroup.ToArticleService
+	userService    = service.ServicesGroupApp.SystemServiceGroup.SysUserService
 )

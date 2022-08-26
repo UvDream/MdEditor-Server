@@ -15,6 +15,7 @@ func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		baseRouter.POST("/register", baseApi.Register)
 		baseRouter.GET("/init_data", baseApi.InitData)
 		baseRouter.POST("/captcha", baseApi.Captcha)
+		baseRouter.GET("/md", baseApi.GetArticleMd)
 	}
 	return baseRouter
 }

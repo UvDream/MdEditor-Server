@@ -11,6 +11,10 @@ type Response struct {
 	Msg     string      `json:"msg" binding:"required"`
 	Success bool        `json:"success" binding:"required"`
 }
+type PaginatedData struct {
+	List  interface{} `json:"list"`
+	Total int64       `json:"total"`
+}
 
 func Result(code int, data interface{}, msg string, c *gin.Context, success bool) {
 	c.JSON(http.StatusOK, Response{

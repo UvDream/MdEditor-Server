@@ -157,6 +157,12 @@ definitions:
     required:
     - name
     type: object
+  code.PaginatedData:
+    properties:
+      list: {}
+      total:
+        type: integer
+    type: object
   code.Response:
     properties:
       code:
@@ -203,6 +209,31 @@ definitions:
       width:
         description: 验证码宽度
         type: integer
+    type: object
+  file.File:
+    properties:
+      auth_id:
+        type: string
+      create_time:
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: string
+      key:
+        type: string
+      name:
+        type: string
+      position:
+        type: string
+      size:
+        type: integer
+      type:
+        type: string
+      update_time:
+        type: string
+      url:
+        type: string
     type: object
   gorm.DeletedAt:
     properties:
@@ -308,8 +339,6 @@ definitions:
       user_id:
         description: 作者ID
         type: string
-    required:
-    - theme
     type: object
 info:
   contact: {}
@@ -442,26 +471,6 @@ paths:
           schema:
             $ref: '#/definitions/code.Response'
       summary: 查询文章
-      tags:
-      - article
-  /article/md:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: 参数
-        in: query
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"code":200,"data":article.Article.MdContent,"msg":"操作成功"}'
-          schema:
-            $ref: '#/definitions/code.Response'
-      summary: 查询文章markdown内容
       tags:
       - article
   /article/update:
@@ -610,17 +619,29 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{""code"":200,""message"":""删除成功""}'
+          description: OK
           schema:
-            type: string
-        "400":
-          description: '{""code"":400,""message"":""删除失败""}'
-          schema:
-            type: string
-        "500":
-          description: '{""code"":500,""message"":""服务器错误""}'
-          schema:
-            type: string
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  allOf:
+                  - $ref: '#/definitions/code.PaginatedData'
+                  - properties:
+                      list:
+                        items:
+                          $ref: '#/definitions/file.File'
+                        type: array
+                      total:
+                        type: integer
+                    type: object
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
       summary: 文件列表
       tags:
       - file
@@ -675,6 +696,26 @@ paths:
       summary: 图形验证码
       tags:
       - system
+  /public/base/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 参数
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":article.Article,"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 查询文章详情
+      tags:
+      - article
   /public/base/init_data:
     get:
       consumes:
@@ -721,6 +762,26 @@ paths:
       summary: 用户登录
       tags:
       - user
+  /public/base/md:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 参数
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":article.Article.MdContent,"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 查询文章markdown内容
+      tags:
+      - article
   /public/base/register:
     post:
       parameters:

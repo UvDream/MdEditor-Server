@@ -18,7 +18,6 @@ func (article *ArticlesRouter) InitArticleRouter(Router *gin.RouterGroup) (R gin
 		articleRouter.GET("/list", articleApi.GetArticleList)
 		articleRouter.GET("/history", articleApi.GetArticleHistory)
 		articleRouter.GET("/detail", articleApi.GetArticleDetail)
-		articleRouter.GET("/md", articleApi.GetArticleMd)
 	}
 	return articleRouter
 }

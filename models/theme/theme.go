@@ -19,5 +19,5 @@ type Theme struct {
 	UserID string `json:"user_id" gorm:"type:varchar(100);comment:作者的UUID"`
 	//作者
 	User  system.User `json:"user"`
-	Theme string      `json:"theme" gorm:"type:longblob" binding:"required"` // 主题
+	Theme string      `json:"theme" gorm:"type:longblob" ` // 主题
 }

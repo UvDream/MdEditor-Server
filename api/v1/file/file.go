@@ -62,9 +62,7 @@ func (i *FilesApi) Delete(c *gin.Context) {
 // @Summary 文件列表
 // @Produce json
 // @Param    query   query     models.PaginationRequest  false  "分页参数"
-// @Success 200 {string} string "{""code"":200,""message"":""删除成功""}"
-// @Failure 400 {string} string "{""code"":400,""message"":""删除失败""}"
-// @Failure 500 {string} string "{""code"":500,""message"":""服务器错误""}"
+//@Success 200 {object} code.Response{data=code.PaginatedData{list=[]file.File,total=int64},code=int,msg=string,success=bool}
 // @Router /file/list [get]
 func (i *FilesApi) List(c *gin.Context) {
 	var fileOpts models.PaginationRequest
@@ -83,8 +81,8 @@ func (i *FilesApi) List(c *gin.Context) {
 		code.FailResponse(ce, c)
 		return
 	}
-	code.SuccessResponse(map[string]interface{}{
-		"list":  list,
-		"total": total,
+	code.SuccessResponse(&code.PaginatedData{
+		List:  list,
+		Total: total,
 	}, ce, c)
 }
