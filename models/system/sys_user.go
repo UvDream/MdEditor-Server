@@ -47,3 +47,8 @@ func (user *User) BeforeUpdate(tx *gorm.DB) (err error) {
 	}
 	return
 }
+
+func Init(db *gorm.DB) (err error) {
+
+	return nil
+}

@@ -27,6 +27,9 @@ func main() {
 	if global.DB != nil {
 		// 初始化表
 		initialize.RegistrationTable(global.DB)
+		//初始化默认数据
+		//初始化数据
+
 		// 程序结束关闭数据库链接
 		db, _ := global.DB.DB()
 		defer func(db *sql.DB) {

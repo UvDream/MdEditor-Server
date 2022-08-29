@@ -1,9 +1,11 @@
 package article
 
 import (
+	"gorm.io/gorm"
 	"server/models"
 	"server/models/system"
 	"server/models/theme"
+	"server/utils"
 )
 
 type Article struct {
@@ -42,4 +44,43 @@ type ListArticleRequest struct {
 	Status     string `form:"status" json:"status"`
 	CategoryID int    `form:"category_id" json:"category_id"`
 	TagID      int    `form:"tag_id" json:"tag_id"`
+}
+
+func init() {
+	utils.AddAutoMigrateMethods(func(db *gorm.DB) {
+		var tagCount int64
+		if err := db.Model(&Tag{}).Count(&tagCount).Error; err != nil {
+			return
+		}
+		if tagCount == 0 {
+			tag := []Tag{
+				{
+					Name:      "默认标签",
+					Slug:      "默认标签",
+					Thumbnail: "",
+					Color:     "red",
+				},
+			}
+			if err := db.Create(&tag).Error; err != nil {
+				return
+			}
+		}
+		var categoryCount int64
+		if err := db.Model(&Category{}).Count(&categoryCount).Error; err != nil {
+			return
+		}
+		if categoryCount == 0 {
+			category := []Category{
+				{
+					Name:        "默认分类",
+					Slug:        "默认分类",
+					Description: "默认分类描述",
+					Thumbnail:   "",
+				},
+			}
+			if err := db.Create(&category).Error; err != nil {
+				return
+			}
+		}
+	})
 }
