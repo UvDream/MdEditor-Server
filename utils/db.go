@@ -5,6 +5,8 @@ import (
 	"server/global"
 )
 
+// 自动初始化数据
+
 var AutoMigrateMethods []func(db *gorm.DB)
 
 func AddAutoMigrateMethods(method func(client *gorm.DB)) {

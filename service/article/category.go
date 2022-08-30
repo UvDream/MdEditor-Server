@@ -61,7 +61,7 @@ func (*CategoryService) GetCategoryService() (categoryList []article.Category, m
 	//	db = db.Where("name LIKE ?", "%"+keyword+"%").Or("slug LIKE ?", "%"+keyword+"%")
 	//}
 	//先查询顶级
-	err = db.Where("parent_id = ?", 0).Find(&categoryList).Error
+	err = db.Where("parent_id = ?", "").Find(&categoryList).Error
 	if err != nil {
 		return categoryList, "获取category顶级失败", err
 	}
@@ -71,12 +71,10 @@ func (*CategoryService) GetCategoryService() (categoryList []article.Category, m
 	}
 	return categoryList, "查询category列表成功", err
 }
-func findChildrenCategory(category article.Category) []article.Category {
+func findChildrenCategory(category article.Category) (children []article.Category) {
 	db := global.DB
-	var children []article.Category
-	err := db.Where("parent_id = ?", category.ID).Find(&children).Error
-	if err != nil {
-		return []article.Category{}
+	if err := db.Model(&article.Category{}).Where("parent_id = ?", category.ID).Find(&children).Error; err != nil {
+		return nil
 	}
 	for k, i := range children {
 		children[k].Children = findChildrenCategory(i)

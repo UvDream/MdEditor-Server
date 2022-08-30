@@ -1205,7 +1205,7 @@ const docTemplate = `{
                 },
                 "parent_id": {
                     "description": "父级ID",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "password": {
                     "description": "访问密码",
