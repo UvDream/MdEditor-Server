@@ -7,6 +7,7 @@ import (
 	"os"
 	"server/global"
 	"server/initialize/internal"
+	"server/models/account"
 	"server/models/article"
 	"server/models/file"
 	"server/models/system"
@@ -52,6 +53,10 @@ func RegistrationTable(db *gorm.DB) {
 		file.File{},
 		//	主题
 		theme.Theme{},
+		//	记账软件
+		account.Ledger{},
+		account.LedgerCategory{},
+		account.LedgerTag{},
 	)
 	if err != nil {
 		global.Log.Error("注册数据表失败", zap.Error(err))

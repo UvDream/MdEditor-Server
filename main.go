@@ -5,6 +5,7 @@ import (
 	"server/core"
 	"server/global"
 	"server/initialize"
+	"server/utils"
 
 	"go.uber.org/zap"
 )
@@ -15,8 +16,8 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name x-token
-// @BasePath /
 func main() {
+	utils.Welcome()
 	// 初始化配置文件
 	global.Viper = core.Viper()
 	// 初始化日志

@@ -19,6 +19,7 @@ require (
 )
 
 require (
+	github.com/fatih/color v1.13.0 // indirect
 	github.com/go-openapi/spec v0.20.6 // indirect
 	github.com/go-openapi/swag v0.21.1 // indirect
 	github.com/go-playground/validator/v10 v10.11.0 // indirect
