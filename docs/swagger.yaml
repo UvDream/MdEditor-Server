@@ -243,6 +243,114 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
+  ledger.Ledger:
+    properties:
+      categories:
+        description: 分类
+        items:
+          $ref: '#/definitions/ledger.LedgerCategory'
+        type: array
+      create_time:
+        type: string
+      creator:
+        $ref: '#/definitions/system.User'
+        description: 账本创建者
+      creator_id:
+        description: 账本创建者ID
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        description: 账本描述
+        type: string
+      id:
+        type: string
+      member_count:
+        description: 账本成员数量
+        type: integer
+      name:
+        description: 账本名称
+        type: string
+      status:
+        description: 账本状态
+        type: string
+      tags:
+        description: 标签
+        items:
+          $ref: '#/definitions/ledger.LedgerTag'
+        type: array
+      thumbnail:
+        description: 缩略图
+        type: string
+      type:
+        description: 账本类型
+        type: string
+      update_time:
+        type: string
+      user:
+        description: 账本成员ID
+        items:
+          $ref: '#/definitions/system.User'
+        type: array
+    type: object
+  ledger.LedgerCategory:
+    properties:
+      create_time:
+        type: string
+      creator:
+        $ref: '#/definitions/system.User'
+        description: 分类创建者
+      creator_id:
+        description: 分类创建者ID
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        description: 分类描述
+        type: string
+      id:
+        type: string
+      name:
+        description: 分类名称
+        type: string
+      status:
+        description: 分类状态
+        type: string
+      thumbnail:
+        description: 分类缩略图
+        type: string
+      update_time:
+        type: string
+    type: object
+  ledger.LedgerTag:
+    properties:
+      create_time:
+        type: string
+      creator:
+        $ref: '#/definitions/system.User'
+        description: 标签创建者
+      creator_id:
+        description: 标签创建者ID
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        description: 标签描述
+        type: string
+      id:
+        type: string
+      name:
+        description: 标签名称
+        type: string
+      status:
+        description: 标签状态
+        type: string
+      thumbnail:
+        description: 标签缩略图
+        type: string
+      update_time:
+        type: string
+    type: object
   system.LoginRequest:
     properties:
       captcha:
@@ -673,6 +781,115 @@ paths:
       summary: 文件上传
       tags:
       - file
+  /ledger/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建账单
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.Ledger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 创建账本
+      tags:
+      - ledger
+  /ledger/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 删除账本
+      tags:
+      - ledger
+  /ledger/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取账本详情
+      tags:
+      - ledger
+  /ledger/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取账本列表
+      tags:
+      - ledger
+  /ledger/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 更新账单
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.Ledger'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 更新账本
+      tags:
+      - ledger
   /public/base/captcha:
     post:
       consumes:

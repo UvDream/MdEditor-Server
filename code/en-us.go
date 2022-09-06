@@ -26,7 +26,7 @@ var enUSText = map[int]string{
 	ErrorUpdateTheme:          "Update theme failed",
 	ErrorRegisterMissingParam: "Missing param",
 	ErrorUserExist:            "User exist",
-	ErrorUserExistAccount:     "User exist account",
+	ErrorUserExistAccount:     "User exist ledger",
 	ErrorUserExistNickname:    "User exist nickname",
 	ErrorUserExistEmail:       "User exist email",
 	ErrorUserExistPhone:       "User exist phone",

@@ -523,6 +523,176 @@
                 }
             }
         },
+        "/ledger/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "创建账本",
+                "parameters": [
+                    {
+                        "description": "创建账单",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.Ledger"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/delete": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "删除账本",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/detail": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账本详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账本列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "key_word",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "更新账本",
+                "parameters": [
+                    {
+                        "description": "更新账单",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.Ledger"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/public/base/captcha": {
             "post": {
                 "description": "图形验证码",
@@ -1373,6 +1543,158 @@
                 "valid": {
                     "description": "Valid is true if Time is not NULL",
                     "type": "boolean"
+                }
+            }
+        },
+        "ledger.Ledger": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "description": "分类",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ledger.LedgerCategory"
+                    }
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "账本创建者",
+                    "$ref": "#/definitions/system.User"
+                },
+                "creator_id": {
+                    "description": "账本创建者ID",
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "description": "账本描述",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "member_count": {
+                    "description": "账本成员数量",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "账本名称",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "账本状态",
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "标签",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ledger.LedgerTag"
+                    }
+                },
+                "thumbnail": {
+                    "description": "缩略图",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "账本类型",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "user": {
+                    "description": "账本成员ID",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/system.User"
+                    }
+                }
+            }
+        },
+        "ledger.LedgerCategory": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "分类创建者",
+                    "$ref": "#/definitions/system.User"
+                },
+                "creator_id": {
+                    "description": "分类创建者ID",
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "description": "分类描述",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "分类名称",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "分类状态",
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "description": "分类缩略图",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "ledger.LedgerTag": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "标签创建者",
+                    "$ref": "#/definitions/system.User"
+                },
+                "creator_id": {
+                    "description": "标签创建者ID",
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "description": "标签描述",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "标签名称",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "标签状态",
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "description": "标签缩略图",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
                 }
             }
         },

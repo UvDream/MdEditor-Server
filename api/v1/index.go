@@ -3,6 +3,7 @@ package v1
 import (
 	"server/api/v1/article"
 	"server/api/v1/file"
+	"server/api/v1/ledger"
 	"server/api/v1/system"
 	"server/api/v1/theme"
 )
@@ -14,6 +15,7 @@ type ApiGroup struct {
 	CategoryApiGroup article.CategoriesApi
 	FileApiGroup     file.ApiFileGroup
 	ThemeApiGroup    theme.ApiThemeGroup
+	LedgerApiGroup   ledger.APILedgerGroup
 }
 
 var ApiGroupApp = new(ApiGroup)

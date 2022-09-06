@@ -26,6 +26,8 @@ func Routers() *gin.Engine {
 	fileRouter := router.RoutersGroupApp.File
 	//主题相关路由
 	themeRouter := router.RoutersGroupApp.Theme
+	//记账相关路由
+	ledgerRouter := router.RoutersGroupApp.Account
 	//跨域设置
 	Router.Use(middleware.Cors()) //放行所有的请求
 	//Router.Use(middleware.CorsByRules())  //按照配置规则放行跨域
@@ -52,6 +54,7 @@ func Routers() *gin.Engine {
 		categoryRouter.InitCategoriesRouter(PrivateGroup)
 		fileRouter.InitFileRouter(PrivateGroup)
 		themeRouter.InitThemeRouter(PrivateGroup)
+		ledgerRouter.InitLedgerRouter(PrivateGroup)
 	}
 	//管理端路由
 	AdminGroup := Router.Group("/admin")

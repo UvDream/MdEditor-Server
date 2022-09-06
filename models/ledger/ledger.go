@@ -1,4 +1,4 @@
-package account
+package ledger
 
 import (
 	"server/models"
@@ -29,6 +29,12 @@ type Ledger struct {
 	Categories []LedgerCategory `json:"categories" gorm:"many2many:ledger_categories;"`
 	//	标签
 	Tags []LedgerTag `json:"tags" gorm:"many2many:ledger_tag_tags;"`
+}
+
+// LedgerUser 关联表
+type LedgerUser struct {
+	LedgerID string `json:"ledger_id" gorm:"index;size:255;comment:账本ID"`
+	UserID   string `json:"user_id" gorm:"index;size:255;comment:用户ID"`
 }
 
 // LedgerCategory 分类
