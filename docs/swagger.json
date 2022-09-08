@@ -523,6 +523,412 @@
                 }
             }
         },
+        "/ledger/bill/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "创建账单",
+                "parameters": [
+                    {
+                        "description": "创建账单",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.Bill"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.Bill"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/bill/delete": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "删除账单",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账单ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/bill/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账单列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.Bill"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/bill/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "更新账单",
+                "parameters": [
+                    {
+                        "description": "更新账单",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.Bill"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.Bill"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/category/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "创建账本分类",
+                "parameters": [
+                    {
+                        "description": "创建账单分类",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.LedgerCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.LedgerCategory"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/category/delete": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "删除账本分类",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本分类ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/category/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账本分类列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.LedgerCategory"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/category/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "更新账本分类",
+                "parameters": [
+                    {
+                        "description": "更新账单分类",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.LedgerCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.LedgerCategory"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/create": {
             "post": {
                 "consumes": [
@@ -626,58 +1032,6 @@
                 }
             }
         },
-        "/ledger/detail": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ledger"
-                ],
-                "summary": "获取账本详情",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "账本ID",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/code.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "$ref": "#/definitions/ledger.Ledger"
-                                        },
-                                        "msg": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/ledger/list": {
             "get": {
                 "consumes": [
@@ -690,26 +1044,6 @@
                     "ledger"
                 ],
                 "summary": "获取账本列表",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "关键字",
-                        "name": "key_word",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "page",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "name": "page_size",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -729,6 +1063,209 @@
                                             "items": {
                                                 "$ref": "#/definitions/ledger.Ledger"
                                             }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/tag/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "创建账本标签",
+                "parameters": [
+                    {
+                        "description": "创建账单标签",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.LedgerTag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.LedgerTag"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/tag/delete": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "删除账本标签",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本标签ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/tag/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账本标签列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.LedgerTag"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/tag/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "更新账本标签",
+                "parameters": [
+                    {
+                        "description": "更新账单标签",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.LedgerTag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.LedgerTag"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -1651,6 +2188,111 @@
                 }
             }
         },
+        "ledger.Bill": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "description": "账单金额",
+                    "type": "number"
+                },
+                "category_id": {
+                    "description": "账单分类ID",
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "账单创建者",
+                    "$ref": "#/definitions/system.User"
+                },
+                "creator_id": {
+                    "description": "账单创建者ID",
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ledger_category": {
+                    "description": "账单分类",
+                    "$ref": "#/definitions/ledger.LedgerCategory"
+                },
+                "name": {
+                    "description": "账单名称",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "账单状态",
+                    "type": "string"
+                },
+                "tags": {
+                    "description": "账单标签",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ledger.LedgerTag"
+                    }
+                },
+                "type": {
+                    "description": "账单类型",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "ledger.CategoryLedger": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "分类创建者",
+                    "$ref": "#/definitions/system.User"
+                },
+                "creator_id": {
+                    "description": "分类创建者ID",
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "description": {
+                    "description": "分类描述",
+                    "type": "string"
+                },
+                "icon_type": {
+                    "description": "分类图标类型 1 图片/2 icon/3 文字",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "分类名称",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "父元素ID",
+                    "type": "string"
+                },
+                "thumbnail": {
+                    "description": "分类缩略图",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型  0 支出/ 1收入....",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                }
+            }
+        },
         "ledger.Ledger": {
             "type": "object",
             "properties": {
@@ -1658,7 +2300,7 @@
                     "description": "分类",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ledger.LedgerCategory"
+                        "$ref": "#/definitions/ledger.CategoryLedger"
                     }
                 },
                 "create_time": {
@@ -1690,15 +2332,11 @@
                     "description": "账本名称",
                     "type": "string"
                 },
-                "status": {
-                    "description": "账本状态",
-                    "type": "string"
-                },
                 "tags": {
                     "description": "标签",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ledger.LedgerTag"
+                        "$ref": "#/definitions/ledger.TagLedger"
                     }
                 },
                 "thumbnail": {
@@ -1724,45 +2362,26 @@
         "ledger.LedgerCategory": {
             "type": "object",
             "properties": {
-                "create_time": {
+                "category_id": {
                     "type": "string"
                 },
-                "creator": {
-                    "description": "分类创建者",
-                    "$ref": "#/definitions/system.User"
-                },
-                "creator_id": {
-                    "description": "分类创建者ID",
-                    "type": "string"
-                },
-                "delete_time": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "description": {
-                    "description": "分类描述",
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "description": "分类名称",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "分类状态",
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "description": "分类缩略图",
-                    "type": "string"
-                },
-                "update_time": {
+                "ledger_id": {
                     "type": "string"
                 }
             }
         },
         "ledger.LedgerTag": {
+            "type": "object",
+            "properties": {
+                "ledger_id": {
+                    "type": "string"
+                },
+                "tag_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ledger.TagLedger": {
             "type": "object",
             "properties": {
                 "create_time": {
@@ -1788,14 +2407,6 @@
                 },
                 "name": {
                     "description": "标签名称",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "标签状态",
-                    "type": "string"
-                },
-                "thumbnail": {
-                    "description": "标签缩略图",
                     "type": "string"
                 },
                 "update_time": {

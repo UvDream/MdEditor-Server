@@ -5,8 +5,8 @@ import (
 	"server/models/system"
 )
 
-// LedgerTag 标签
-type LedgerTag struct {
+// TagLedger 标签
+type TagLedger struct {
 	models.Model
 	// 标签名称
 	Name string `json:"name"`
@@ -16,4 +16,10 @@ type LedgerTag struct {
 	User system.User `json:"creator"`
 	// 标签创建者ID
 	UserID string `json:"creator_id"`
+}
+
+// LedgerTag
+type LedgerTag struct {
+	LedgerID string `json:"ledger_id" gorm:"index;size:255;comment:账本ID"`
+	TagID    string `json:"tag_id" gorm:"index;size:255;comment:标签ID"`
 }

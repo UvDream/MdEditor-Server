@@ -243,12 +243,87 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
+  ledger.Bill:
+    properties:
+      amount:
+        description: 账单金额
+        type: number
+      category_id:
+        description: 账单分类ID
+        type: string
+      create_time:
+        type: string
+      creator:
+        $ref: '#/definitions/system.User'
+        description: 账单创建者
+      creator_id:
+        description: 账单创建者ID
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: string
+      ledger_category:
+        $ref: '#/definitions/ledger.LedgerCategory'
+        description: 账单分类
+      name:
+        description: 账单名称
+        type: string
+      status:
+        description: 账单状态
+        type: string
+      tags:
+        description: 账单标签
+        items:
+          $ref: '#/definitions/ledger.LedgerTag'
+        type: array
+      type:
+        description: 账单类型
+        type: string
+      update_time:
+        type: string
+    type: object
+  ledger.CategoryLedger:
+    properties:
+      create_time:
+        type: string
+      creator:
+        $ref: '#/definitions/system.User'
+        description: 分类创建者
+      creator_id:
+        description: 分类创建者ID
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        description: 分类描述
+        type: string
+      icon_type:
+        description: 分类图标类型 1 图片/2 icon/3 文字
+        type: string
+      id:
+        type: string
+      name:
+        description: 分类名称
+        type: string
+      parent_id:
+        description: 父元素ID
+        type: string
+      thumbnail:
+        description: 分类缩略图
+        type: string
+      type:
+        description: 类型  0 支出/ 1收入....
+        type: string
+      update_time:
+        type: string
+    type: object
   ledger.Ledger:
     properties:
       categories:
         description: 分类
         items:
-          $ref: '#/definitions/ledger.LedgerCategory'
+          $ref: '#/definitions/ledger.CategoryLedger'
         type: array
       create_time:
         type: string
@@ -271,13 +346,10 @@ definitions:
       name:
         description: 账本名称
         type: string
-      status:
-        description: 账本状态
-        type: string
       tags:
         description: 标签
         items:
-          $ref: '#/definitions/ledger.LedgerTag'
+          $ref: '#/definitions/ledger.TagLedger'
         type: array
       thumbnail:
         description: 缩略图
@@ -295,34 +367,19 @@ definitions:
     type: object
   ledger.LedgerCategory:
     properties:
-      create_time:
+      category_id:
         type: string
-      creator:
-        $ref: '#/definitions/system.User'
-        description: 分类创建者
-      creator_id:
-        description: 分类创建者ID
-        type: string
-      delete_time:
-        $ref: '#/definitions/gorm.DeletedAt'
-      description:
-        description: 分类描述
-        type: string
-      id:
-        type: string
-      name:
-        description: 分类名称
-        type: string
-      status:
-        description: 分类状态
-        type: string
-      thumbnail:
-        description: 分类缩略图
-        type: string
-      update_time:
+      ledger_id:
         type: string
     type: object
   ledger.LedgerTag:
+    properties:
+      ledger_id:
+        type: string
+      tag_id:
+        type: string
+    type: object
+  ledger.TagLedger:
     properties:
       create_time:
         type: string
@@ -341,12 +398,6 @@ definitions:
         type: string
       name:
         description: 标签名称
-        type: string
-      status:
-        description: 标签状态
-        type: string
-      thumbnail:
-        description: 标签缩略图
         type: string
       update_time:
         type: string
@@ -781,6 +832,246 @@ paths:
       summary: 文件上传
       tags:
       - file
+  /ledger/bill/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建账单
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.Bill'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.Bill'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 创建账单
+      tags:
+      - ledger
+  /ledger/bill/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账单ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 删除账单
+      tags:
+      - ledger
+  /ledger/bill/list:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.Bill'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取账单列表
+      tags:
+      - ledger
+  /ledger/bill/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 更新账单
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.Bill'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.Bill'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 更新账单
+      tags:
+      - ledger
+  /ledger/category/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建账单分类
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.LedgerCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.LedgerCategory'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 创建账本分类
+      tags:
+      - ledger
+  /ledger/category/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本分类ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 删除账本分类
+      tags:
+      - ledger
+  /ledger/category/list:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.LedgerCategory'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取账本分类列表
+      tags:
+      - ledger
+  /ledger/category/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 更新账单分类
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.LedgerCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.LedgerCategory'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 更新账本分类
+      tags:
+      - ledger
   /ledger/create:
     post:
       consumes:
@@ -842,54 +1133,10 @@ paths:
       summary: 删除账本
       tags:
       - ledger
-  /ledger/detail:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: 账本ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/code.Response'
-            - properties:
-                code:
-                  type: integer
-                data:
-                  $ref: '#/definitions/ledger.Ledger'
-                msg:
-                  type: string
-                success:
-                  type: boolean
-              type: object
-      summary: 获取账本详情
-      tags:
-      - ledger
   /ledger/list:
     get:
       consumes:
       - application/json
-      parameters:
-      - description: 关键字
-        in: query
-        name: key_word
-        type: string
-      - in: query
-        name: page
-        required: true
-        type: integer
-      - in: query
-        name: page_size
-        required: true
-        type: integer
       produces:
       - application/json
       responses:
@@ -911,6 +1158,126 @@ paths:
                   type: boolean
               type: object
       summary: 获取账本列表
+      tags:
+      - ledger
+  /ledger/tag/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建账单标签
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.LedgerTag'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.LedgerTag'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 创建账本标签
+      tags:
+      - ledger
+  /ledger/tag/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本标签ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 删除账本标签
+      tags:
+      - ledger
+  /ledger/tag/list:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.LedgerTag'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取账本标签列表
+      tags:
+      - ledger
+  /ledger/tag/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 更新账单标签
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.LedgerTag'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.LedgerTag'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 更新账本标签
       tags:
       - ledger
   /ledger/update:

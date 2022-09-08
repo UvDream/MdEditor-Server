@@ -5,8 +5,8 @@ import (
 	"server/models/system"
 )
 
-// LedgerBill 账单
-type LedgerBill struct {
+// Bill 账单
+type Bill struct {
 	models.Model `json:"models_._model"`
 	//	账单名称
 	Name string `json:"name"`

@@ -15,8 +15,6 @@ type Ledger struct {
 	Description string `json:"description"`
 	//	账本类型
 	Type string `json:"type"`
-	//	账本状态
-	Status string `json:"status"`
 	//	账本创建者
 	Creator system.User `json:"creator"`
 	//	账本创建者ID
@@ -26,9 +24,9 @@ type Ledger struct {
 	//	账本成员数量
 	MemberCount int `json:"member_count" gorm:"-"`
 	// 分类
-	Categories []LedgerCategory `json:"categories" gorm:"many2many:ledger_categories;"`
+	Categories []CategoryLedger `json:"categories" gorm:"many2many:ledger_categories;"`
 	//	标签
-	Tags []LedgerTag `json:"tags" gorm:"many2many:ledger_tag_tags;"`
+	Tags []TagLedger `json:"tags" gorm:"many2many:ledger_tag_tags;"`
 }
 
 // LedgerUser 关联表

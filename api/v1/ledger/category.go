@@ -11,6 +11,7 @@ import "github.com/gin-gonic/gin"
 // @Success 200 {object} code.Response{data=ledger.LedgerCategory,code=int,msg=string,success=bool}
 // @Router /ledger/category/create [post]
 func (*ApiLedger) CreateLedgerCategory(c *gin.Context) {
+
 }
 
 // DeleteLedgerCategory 删除账本分类

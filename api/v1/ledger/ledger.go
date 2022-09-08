@@ -2,6 +2,10 @@ package ledger
 
 import (
 	"github.com/gin-gonic/gin"
+	"server/code"
+	"server/global"
+	ledger2 "server/models/ledger"
+	"server/utils"
 )
 
 type ApiLedger struct{}
@@ -15,6 +19,19 @@ type ApiLedger struct{}
 //@Success 200 {object} code.Response{data=ledger.Ledger,code=int,msg=string,success=bool}
 //@Router /ledger/create [post]
 func (*ApiLedger) CreateLedger(c *gin.Context) {
+	var ledger ledger2.Ledger
+	err := c.ShouldBindJSON(&ledger)
+	if err != nil {
+		code.FailWithMessage(err.Error(), c)
+		return
+	}
+	ledger.CreatorID = utils.FindUserID(c)
+	data, cd, err := ledgerService.CreateLedger(ledger)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
 }
 
 // DeleteLedger 删除账本
@@ -26,6 +43,17 @@ func (*ApiLedger) CreateLedger(c *gin.Context) {
 //@Success 200 {object} code.Response{code=int,msg=string,success=bool}
 //@Router /ledger/delete [delete]
 func (*ApiLedger) DeleteLedger(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	cd, err := ledgerService.DeleteLedger(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
 }
 
 // UpdateLedger 更新账本
@@ -37,6 +65,23 @@ func (*ApiLedger) DeleteLedger(c *gin.Context) {
 //@Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.Ledger}
 //@Router /ledger/update [put]
 func (*ApiLedger) UpdateLedger(c *gin.Context) {
+	var ledger ledger2.Ledger
+	if err := c.ShouldBindJSON(&ledger); err != nil {
+		code.FailWithMessage(err.Error(), c)
+		return
+	}
+	db := global.DB
+	//	查询账本是否存在
+	if err := db.Where("id = ?", ledger.ID).First(&ledger2.Ledger{}).Error; err != nil {
+		code.FailResponse(code.ErrorLedgerNotExist, c)
+		return
+	}
+	//更新账本
+	if err := db.Model(&ledger2.Ledger{}).Where("id = ?", ledger.ID).Updates(&ledger).Error; err != nil {
+		code.FailResponse(code.ErrorUpdateLedger, c)
+		return
+	}
+	code.SuccessResponse(ledger, code.SUCCESS, c)
 }
 
 // GetLedgerList 获取账本列表
@@ -44,8 +89,14 @@ func (*ApiLedger) UpdateLedger(c *gin.Context) {
 //@Tags ledger
 //@Accept  json
 //@Produce  json
-//@Param    query  query    models.PaginationRequest  false  "参数"
 //@Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.Ledger}
 //@Router /ledger/list [get]
 func (*ApiLedger) GetLedgerList(c *gin.Context) {
+	userId := utils.FindUserID(c)
+	data, cd, err := ledgerService.GetLedgerList(userId)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
 }
