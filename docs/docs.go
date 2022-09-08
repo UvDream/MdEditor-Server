@@ -850,6 +850,15 @@ const docTemplate = `{
                     "ledger"
                 ],
                 "summary": "获取账本分类列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本分类ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2256,15 +2265,13 @@ const docTemplate = `{
         "ledger.CategoryLedger": {
             "type": "object",
             "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ledger.CategoryLedger"
+                    }
+                },
                 "create_time": {
-                    "type": "string"
-                },
-                "creator": {
-                    "description": "分类创建者",
-                    "$ref": "#/definitions/system.User"
-                },
-                "creator_id": {
-                    "description": "分类创建者ID",
                     "type": "string"
                 },
                 "delete_time": {
@@ -2298,6 +2305,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "update_time": {
+                    "type": "string"
+                },
+                "user": {
+                    "description": "分类创建者",
+                    "$ref": "#/definitions/system.User"
+                },
+                "user_id": {
+                    "description": "分类创建者ID",
                     "type": "string"
                 }
             }
@@ -2371,7 +2386,7 @@ const docTemplate = `{
         "ledger.LedgerCategory": {
             "type": "object",
             "properties": {
-                "category_id": {
+                "category_ledger_id": {
                     "type": "string"
                 },
                 "ledger_id": {

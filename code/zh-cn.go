@@ -47,4 +47,5 @@ var zhCNText = map[int]string{
 	ErrorDeleteLedgerCategoryRelation:  "删除账本分类关联关系失败",
 	ErrorDeleteLedgerCategory:          "删除账本分类失败",
 	ErrorUpdateLedger:                  "更新账本失败",
+	ErrorGetLedger:                     "查询账本失败",
 }

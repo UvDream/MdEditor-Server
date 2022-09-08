@@ -1,6 +1,9 @@
 package ledger
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"server/code"
+)
 
 // CreateLedgerCategory 创建账本分类
 // @Summary 创建账本分类
@@ -43,8 +46,19 @@ func (*ApiLedger) UpdateLedgerCategory(c *gin.Context) {
 // @Tags ledger
 // @Accept  json
 // @Produce  json
+// @Param id query int true "账本分类ID"
 // @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.LedgerCategory}
 // @Router /ledger/category/list [get]
 func (*ApiLedger) GetLedgerCategoryList(c *gin.Context) {
-
+	id := c.Query("id")
+	if id == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	data, cd, err := ledgerService.GetLedgerCategoryList(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
 }

@@ -47,4 +47,5 @@ var enUSText = map[int]string{
 	ErrorDeleteLedgerCategoryRelation:  "delete ledger category relation failed",
 	ErrorDeleteLedgerCategory:          "delete ledger category failed",
 	ErrorUpdateLedger:                  "update ledger failed",
+	ErrorGetLedger:                     "get ledger failed",
 }

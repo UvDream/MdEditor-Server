@@ -32,8 +32,8 @@ func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int,
 	var ledgerCategories []ledger2.LedgerCategory
 	for _, k := range data {
 		ledgerCategory := ledger2.LedgerCategory{
-			LedgerID:   ledger.ID,
-			CategoryID: k.ID,
+			LedgerID:         ledger.ID,
+			CategoryLedgerID: k.ID,
 		}
 		ledgerCategories = append(ledgerCategories, ledgerCategory)
 	}
@@ -74,7 +74,7 @@ func (*LedgersService) DeleteLedger(id string) (int, error) {
 	}
 	//删除对应的分类
 	for _, k := range ledgerCategories {
-		if err := db.Where("id = ?", k.CategoryID).Unscoped().Delete(&ledger2.CategoryLedger{}).Error; err != nil {
+		if err := db.Where("id = ?", k.CategoryLedgerID).Unscoped().Delete(&ledger2.CategoryLedger{}).Error; err != nil {
 			return code.ErrorDeleteLedgerCategory, err
 		}
 	}

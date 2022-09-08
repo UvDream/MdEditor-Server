@@ -17,19 +17,20 @@ type CategoryLedger struct {
 	// 分类描述
 	Description string `json:"description"`
 	// 分类创建者
-	User system.User `json:"creator"`
+	User system.User `json:"user"`
 	// 分类创建者ID
-	UserID string `json:"creator_id"`
+	UserID string `json:"user_id"`
 	//父元素ID
 	ParentID string `json:"parent_id"`
 	//	类型  0 支出/ 1收入....
-	Type string `json:"type"`
+	Type     string           `json:"type"`
+	Children []CategoryLedger `json:"children" gorm:"-"`
 }
 
 // LedgerCategory 中间表
 type LedgerCategory struct {
-	LedgerID   string `json:"ledger_id" gorm:"index;size:255;comment:账本ID"`
-	CategoryID string `json:"category_id" gorm:"index;size:255;comment:分类ID"`
+	LedgerID         string `json:"ledger_id" gorm:"index;size:255;comment:账本ID"`
+	CategoryLedgerID string `json:"category_ledger_id" gorm:"index;size:255;comment:分类ID"`
 }
 
 var InitLedgerCategory = []CategoryLedger{

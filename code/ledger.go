@@ -13,5 +13,6 @@ const (
 	ErrorDeleteLedgerCategoryRelation  = 11010 //	删除账本分类关联关系失败
 	ErrorDeleteLedgerCategory          = 11011 //	删除账本分类失败
 	ErrorUpdateLedger                  = 11012 //	更新账本失败
+	ErrorGetLedger                     = 11013 //	查询账本失败
 
 )

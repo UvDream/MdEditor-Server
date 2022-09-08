@@ -285,13 +285,11 @@ definitions:
     type: object
   ledger.CategoryLedger:
     properties:
+      children:
+        items:
+          $ref: '#/definitions/ledger.CategoryLedger'
+        type: array
       create_time:
-        type: string
-      creator:
-        $ref: '#/definitions/system.User'
-        description: 分类创建者
-      creator_id:
-        description: 分类创建者ID
         type: string
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'
@@ -316,6 +314,12 @@ definitions:
         description: 类型  0 支出/ 1收入....
         type: string
       update_time:
+        type: string
+      user:
+        $ref: '#/definitions/system.User'
+        description: 分类创建者
+      user_id:
+        description: 分类创建者ID
         type: string
     type: object
   ledger.Ledger:
@@ -367,7 +371,7 @@ definitions:
     type: object
   ledger.LedgerCategory:
     properties:
-      category_id:
+      category_ledger_id:
         type: string
       ledger_id:
         type: string
@@ -1017,6 +1021,12 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: 账本分类ID
+        in: query
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
