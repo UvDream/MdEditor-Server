@@ -796,9 +796,20 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          description: OK
           schema:
-            $ref: '#/definitions/code.Response'
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.Ledger'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
       summary: 创建账本
       tags:
       - ledger
@@ -816,9 +827,18 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          description: OK
           schema:
-            $ref: '#/definitions/code.Response'
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
       summary: 删除账本
       tags:
       - ledger
@@ -836,9 +856,20 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          description: OK
           schema:
-            $ref: '#/definitions/code.Response'
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.Ledger'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
       summary: 获取账本详情
       tags:
       - ledger
@@ -863,9 +894,22 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          description: OK
           schema:
-            $ref: '#/definitions/code.Response'
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.Ledger'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
       summary: 获取账本列表
       tags:
       - ledger
@@ -884,9 +928,20 @@ paths:
       - application/json
       responses:
         "200":
-          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          description: OK
           schema:
-            $ref: '#/definitions/code.Response'
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.Ledger'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
       summary: 更新账本
       tags:
       - ledger
