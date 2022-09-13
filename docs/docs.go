@@ -1900,6 +1900,10 @@ const docTemplate = `{
                     "description": "编辑器类型",
                     "type": "string"
                 },
+                "halo_id": {
+                    "description": "halo的文章ID",
+                    "type": "string"
+                },
                 "html_content": {
                     "description": "html内容",
                     "type": "string"

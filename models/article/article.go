@@ -35,6 +35,7 @@ type Article struct {
 	User            system.User `json:"user"`                                                                   // 作者
 	ThemeID         string      `json:"theme_id" gorm:"default:'default'"`                                      //主题ID
 	Theme           theme.Theme `json:"theme"`                                                                  //主题
+	HaloID          string      `json:"halo_id" gorm:"size:30;comment:halo的文章ID"`                               // halo的文章ID
 }
 
 type ListArticleRequest struct {
