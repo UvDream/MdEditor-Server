@@ -19,6 +19,7 @@ require (
 )
 
 require (
+	github.com/duke-git/lancet/v2 v2.1.6 // indirect
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/go-openapi/spec v0.20.6 // indirect
 	github.com/go-openapi/swag v0.21.1 // indirect

@@ -28,6 +28,8 @@ func Routers() *gin.Engine {
 	themeRouter := router.RoutersGroupApp.Theme
 	//记账相关路由
 	ledgerRouter := router.RoutersGroupApp.Account
+	//halo相关路由
+	haloRouter := router.RoutersGroupApp.Halo
 	//跨域设置
 	Router.Use(middleware.Cors()) //放行所有的请求
 	//Router.Use(middleware.CorsByRules())  //按照配置规则放行跨域
@@ -55,6 +57,7 @@ func Routers() *gin.Engine {
 		fileRouter.InitFileRouter(PrivateGroup)
 		themeRouter.InitThemeRouter(PrivateGroup)
 		ledgerRouter.InitLedgerRouter(PrivateGroup)
+		haloRouter.InitHaloRouter(PrivateGroup)
 	}
 	//管理端路由
 	AdminGroup := Router.Group("/admin")

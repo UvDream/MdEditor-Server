@@ -3,6 +3,7 @@ package router
 import (
 	"server/router/article"
 	"server/router/file"
+	"server/router/halo"
 	"server/router/ledger"
 	"server/router/system"
 	"server/router/theme"
@@ -16,6 +17,7 @@ type RoutersGroup struct {
 	File     file.FilesRouterGroup
 	Theme    theme.ThemesGroupRouter
 	Account  ledger.AccountsRouter
+	Halo     halo.RouteHaloGroup
 }
 
 var RoutersGroupApp = new(RoutersGroup)
