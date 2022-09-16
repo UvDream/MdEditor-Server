@@ -48,4 +48,5 @@ var enUSText = map[int]string{
 	ErrorDeleteLedgerCategory:          "delete ledger category failed",
 	ErrorUpdateLedger:                  "update ledger failed",
 	ErrorGetLedger:                     "get ledger failed",
+	HaloServerError:                    "Halo server error",
 }

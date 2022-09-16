@@ -12,6 +12,11 @@ func (*RouteHaloGroup) InitHaloRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 	haloApi := v1.ApiGroupApp.HaloApiGroup
 	{
 		haloRouter.GET("/token", haloApi.GetToken)
+		haloRouter.POST("/save", haloApi.SaveArticle)
+		//	tags
+		haloRouter.GET("/tags", haloApi.GetTags)
+		//	category
+		haloRouter.GET("/category", haloApi.GetCategory)
 	}
 	return haloRouter
 }

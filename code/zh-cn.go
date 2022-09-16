@@ -48,4 +48,5 @@ var zhCNText = map[int]string{
 	ErrorDeleteLedgerCategory:          "删除账本分类失败",
 	ErrorUpdateLedger:                  "更新账本失败",
 	ErrorGetLedger:                     "查询账本失败",
+	HaloServerError:                    "halo请求错误",
 }

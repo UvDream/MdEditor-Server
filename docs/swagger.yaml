@@ -246,6 +246,46 @@ definitions:
         description: Valid is true if Time is not NULL
         type: boolean
     type: object
+  halo.ArticleHaloResponse:
+    properties:
+      categoryIds:
+        items:
+          type: integer
+        type: array
+      content:
+        description: html
+        type: string
+      editorType:
+        description: MARKDOWN RICHTEXT
+        type: string
+      formatContent:
+        description: html
+        type: string
+      id:
+        type: integer
+      originalContent:
+        description: markdown
+        type: string
+      slug:
+        description: 别名
+        type: string
+      status:
+        description: PUBLISHED DRAFT INTIMATE RECYCLE
+        type: string
+      tagIds:
+        items:
+          type: integer
+        type: array
+      title:
+        type: string
+      token:
+        type: string
+      topped:
+        description: 是否置顶
+        type: boolean
+      url:
+        type: string
+    type: object
   ledger.Bill:
     properties:
       amount:
@@ -839,6 +879,107 @@ paths:
       summary: 文件上传
       tags:
       - file
+  /halo/category:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: url
+        in: query
+        name: url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取分类
+      tags:
+      - halo
+  /halo/save:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建文章
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/halo.ArticleHaloResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 保存文章
+      tags:
+      - halo
+  /halo/tags:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: url
+        in: query
+        name: url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取标签
+      tags:
+      - halo
+  /halo/token:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户名
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: 密码
+        in: query
+        name: password
+        required: true
+        type: string
+      - description: url
+        in: query
+        name: url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取token
+      tags:
+      - halo
   /ledger/bill/create:
     post:
       consumes:
