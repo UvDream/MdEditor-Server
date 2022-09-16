@@ -49,4 +49,5 @@ var zhCNText = map[int]string{
 	ErrorUpdateLedger:                  "更新账本失败",
 	ErrorGetLedger:                     "查询账本失败",
 	HaloServerError:                    "halo请求错误",
+	HaloTokenExpired:                   "halo登录过期",
 }

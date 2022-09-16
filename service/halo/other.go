@@ -24,6 +24,9 @@ func (*ServiceHaloGroup) GetTags(url string, token string) (tags interface{}, co
 	if err != nil {
 		return "", code2.HaloServerError, err
 	}
+	if result["message"] == "Token 已过期或不存在" {
+		return "", code2.HaloTokenExpired, err
+	}
 	return result["data"], code2.SUCCESS, nil
 }
 
@@ -43,6 +46,9 @@ func (*ServiceHaloGroup) GetCategory(url string, token string) (tags interface{}
 	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return "", code2.HaloServerError, err
+	}
+	if result["message"] == "Token 已过期或不存在" {
+		return "", code2.HaloTokenExpired, err
 	}
 	return result["data"], code2.SUCCESS, nil
 }

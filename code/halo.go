@@ -1,5 +1,6 @@
 package code
 
 const (
-	HaloServerError = 5000 //halo请求错误
+	HaloServerError  = 50004 //halo请求错误
+	HaloTokenExpired = 50005 //	halo登录过期
 )
