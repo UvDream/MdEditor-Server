@@ -43,6 +43,7 @@ func RegistrationTable(db *gorm.DB) {
 		system.User{},
 		system.SysRole{},
 		system.SysUserRole{},
+		system.UserConfig{},
 		//文章相关
 		article.Article{},
 		article.Tag{},

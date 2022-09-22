@@ -35,9 +35,5 @@ func (*ServiceHaloGroup) SaveArticle(query halo.ArticleHaloResponse) (token inte
 	if err != nil {
 		return "", code2.HaloServerError, err
 	}
-	data := result["data"]
-	if result["message"] != "OK" {
-		return "", code2.HaloServerError, err
-	}
-	return data, code2.SUCCESS, nil
+	return result["data"], code2.SUCCESS, nil
 }

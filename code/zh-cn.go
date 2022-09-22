@@ -50,4 +50,8 @@ var zhCNText = map[int]string{
 	ErrorGetLedger:                     "查询账本失败",
 	HaloServerError:                    "halo请求错误",
 	HaloTokenExpired:                   "halo登录过期",
+	ErrorFindUser:                      "查询用户失败",
+	ErrorUpYunPut:                      "又拍云上传失败",
+	ErrorSetUserConfig:                 "设置用户配置失败",
+	ErrorFindUserConfig:                "查询用户配置失败",
 }

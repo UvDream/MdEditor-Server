@@ -16,7 +16,9 @@ type User struct {
 	Email    string `json:"email" gorm:"comment:邮箱"`
 	Avatar   string `json:"avatar" gorm:"comment:头像"`
 	//关联到角色表
-	Roles []SysRole `json:"roles" gorm:"many2many:sys_user_role;"`
+	Roles        []SysRole  `json:"roles" gorm:"many2many:sys_user_role;"`
+	UserConfigID string     `json:"user_config_id" gorm:"comment:用户配置ID"`
+	UserConfig   UserConfig `json:"user_config" gorm:"foreignKey:UserConfigID"`
 }
 
 //LoginRequest 登陆请求参数
@@ -46,9 +48,4 @@ func (user *User) BeforeUpdate(tx *gorm.DB) (err error) {
 		tx.Statement.Omit("password")
 	}
 	return
-}
-
-func Init(db *gorm.DB) (err error) {
-
-	return nil
 }

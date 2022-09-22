@@ -7,6 +7,7 @@ import (
 	"server/code"
 	"server/global"
 	file2 "server/models/file"
+	"server/models/system"
 	"server/utils"
 	"strings"
 )
@@ -15,15 +16,18 @@ type FilesService struct{}
 
 // UploadFileService 文件上传
 func (*FilesService) UploadFileService(c *gin.Context) (data file2.File, ce int, err error) {
-	_, fileHeader, _ := c.Request.FormFile("file")
-	url, key, codes, err := NewOss().UploadFile(fileHeader)
+	file, fileHeader, _ := c.Request.FormFile("file")
+	userID := utils.FindUserID(c)
+	//查询用户配置
+	var user system.User
+	if err := global.DB.Preload("UserConfig").Where("id = ?", userID).First(&user).Error; err != nil {
+		return data, code.ErrorFindUser, err
+	}
+	url, key, codes, err := NewOss(user.UserConfig.OSSType).UploadFile(fileHeader, file, user.UserConfig)
 	if err != nil {
 		return data, codes, err
 	}
-	xToken := c.Request.Header.Get("x-token")
-	j := utils.NewJWT()
-	claims, err := j.ParseToken(xToken)
-	data, ce, err = SaveFileData(fileHeader, url, key, claims.ID)
+	data, ce, err = SaveFileData(fileHeader, url, key, userID)
 	return data, ce, err
 }
 func (*FilesService) DeleteFileService(id string) (file file2.File, codeNumber int, err error) {

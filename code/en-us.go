@@ -50,4 +50,8 @@ var enUSText = map[int]string{
 	ErrorGetLedger:                     "get ledger failed",
 	HaloServerError:                    "Halo server error",
 	HaloTokenExpired:                   "Halo token expired",
+	ErrorFindUser:                      "find user failed",
+	ErrorUpYunPut:                      "upyun put failed",
+	ErrorSetUserConfig:                 "set user config failed",
+	ErrorFindUserConfig:                "find user config failed",
 }

@@ -10,13 +10,14 @@ import (
 	"mime/multipart"
 	"server/code"
 	"server/global"
+	"server/models/system"
 	"time"
 )
 
 type QiniuService struct{}
 
 // UploadFile 上传到七牛
-func (*QiniuService) UploadFile(file *multipart.FileHeader) (path string, key string, c int, err error) {
+func (*QiniuService) UploadFile(fileHeader *multipart.FileHeader, file multipart.File, config system.UserConfig) (path string, key string, c int, err error) {
 	putPolicy := storage.PutPolicy{
 		Scope: global.Config.Qiniu.Bucket,
 	}
@@ -30,13 +31,13 @@ func (*QiniuService) UploadFile(file *multipart.FileHeader) (path string, key st
 			"x:name": "github logo",
 		},
 	}
-	f, e := file.Open()
+	f, e := fileHeader.Open()
 	if e != nil {
 		fmt.Println(e)
 		return "", "", code.ErrorUploadQiNiu, e
 	}
-	dataLen := file.Size
-	fileKey := fmt.Sprintf("%d%s", time.Now().Unix(), file.Filename)
+	dataLen := fileHeader.Size
+	fileKey := fmt.Sprintf("%d%s", time.Now().Unix(), fileHeader.Filename)
 	err = formUploader.Put(context.Background(), &ret, upToken, fileKey, f, dataLen, &putExtra)
 	if err != nil {
 		return "", "", code.ErrorUploadQiNiu, err

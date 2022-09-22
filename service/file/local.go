@@ -8,6 +8,7 @@ import (
 	"path"
 	"server/code"
 	"server/global"
+	"server/models/system"
 	"server/utils"
 	"strings"
 	"time"
@@ -15,11 +16,11 @@ import (
 
 type LocalService struct{}
 
-func (*LocalService) UploadFile(file *multipart.FileHeader) (string, string, int, error) {
+func (*LocalService) UploadFile(fileHeader *multipart.FileHeader, file multipart.File, config system.UserConfig) (string, string, int, error) {
 	//	读取文件后缀
-	ext := path.Ext(file.Filename)
+	ext := path.Ext(fileHeader.Filename)
 	//拼接文件名
-	name := strings.TrimSuffix(file.Filename, ext)
+	name := strings.TrimSuffix(fileHeader.Filename, ext)
 	fileName := name + "_" + time.Now().Format("20060102150405") + ext
 	filePosition := global.Config.Local.Path
 	filePath := filePosition + "/" + fileName
@@ -28,7 +29,7 @@ func (*LocalService) UploadFile(file *multipart.FileHeader) (string, string, int
 	if err != nil {
 		return "", "", code.ErrorCreateDir, err
 	}
-	f, err := file.Open()
+	f, err := fileHeader.Open()
 	if err != nil {
 		return "", "", code.ErrorOpenFile, err
 	}

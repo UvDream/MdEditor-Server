@@ -2012,6 +2012,81 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/user_config": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "获取用户配置",
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.UserConfig,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "修改用户配置",
+                "parameters": [
+                    {
+                        "description": "用户配置",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.UserConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.UserConfig,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "设置用户配置",
+                "parameters": [
+                    {
+                        "description": "用户配置",
+                        "name": "config",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.UserConfig"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.UserConfig,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2744,7 +2819,60 @@ const docTemplate = `{
                 "update_time": {
                     "type": "string"
                 },
+                "user_config": {
+                    "$ref": "#/definitions/system.UserConfig"
+                },
+                "user_config_id": {
+                    "type": "string"
+                },
                 "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "system.UserConfig": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "oss_type": {
+                    "description": "存储位置",
+                    "type": "string"
+                },
+                "qi_niu_access_key": {
+                    "description": "七牛云",
+                    "type": "string"
+                },
+                "qi_niu_bucket": {
+                    "type": "string"
+                },
+                "qi_niu_domain": {
+                    "type": "string"
+                },
+                "qi_niu_secret_key": {
+                    "type": "string"
+                },
+                "up_yun_bucket": {
+                    "description": "又拍云",
+                    "type": "string"
+                },
+                "up_yun_domain": {
+                    "type": "string"
+                },
+                "up_yun_pass": {
+                    "type": "string"
+                },
+                "up_yun_user": {
+                    "type": "string"
+                },
+                "update_time": {
                     "type": "string"
                 }
             }
