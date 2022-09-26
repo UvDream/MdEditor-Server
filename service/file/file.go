@@ -27,7 +27,7 @@ func (*FilesService) UploadFileService(c *gin.Context) (data file2.File, ce int,
 	if err != nil {
 		return data, codes, err
 	}
-	data, ce, err = SaveFileData(fileHeader, url, key, userID)
+	data, ce, err = SaveFileData(fileHeader, url, key, userID, user.UserConfig.OSSType, user.UserConfig.IsHttps)
 	return data, ce, err
 }
 func (*FilesService) DeleteFileService(id string) (file file2.File, codeNumber int, err error) {
@@ -48,7 +48,7 @@ func (*FilesService) DeleteFileService(id string) (file file2.File, codeNumber i
 }
 
 // SaveFileData 保存数据到数据库
-func SaveFileData(fileHeader *multipart.FileHeader, url string, key string, authID string) (data file2.File, ce int, err error) {
+func SaveFileData(fileHeader *multipart.FileHeader, url string, key string, authID string, position string, IsHttps bool) (data file2.File, ce int, err error) {
 	db := global.DB
 	var file file2.File
 	ext := path.Ext(fileHeader.Filename)
@@ -56,9 +56,10 @@ func SaveFileData(fileHeader *multipart.FileHeader, url string, key string, auth
 	file.URL = url
 	file.Size = fileHeader.Size
 	file.Type = fileHeader.Header.Get("Content-Type")
-	file.Position = global.Config.System.OssType
+	file.Position = position
 	file.Key = key
 	file.AuthID = authID
+	file.IsHttps = IsHttps
 	if err := db.Create(&file).Error; err != nil {
 		return file, code.ErrorSaveFileData, err
 	}

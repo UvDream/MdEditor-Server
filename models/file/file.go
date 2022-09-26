@@ -13,4 +13,5 @@ type File struct {
 	Position string `json:"position" gorm:"type:varchar(255);"`
 	Key      string `json:"key" gorm:"type:varchar(255);"`
 	AuthID   string `json:"auth_id" gorm:"type:varchar(255);"`
+	IsHttps  bool   `json:"is_https" gorm:"comment:是否是https;"`
 }

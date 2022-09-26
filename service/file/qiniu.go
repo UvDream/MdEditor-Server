@@ -19,9 +19,9 @@ type QiniuService struct{}
 // UploadFile 上传到七牛
 func (*QiniuService) UploadFile(fileHeader *multipart.FileHeader, file multipart.File, config system.UserConfig) (path string, key string, c int, err error) {
 	putPolicy := storage.PutPolicy{
-		Scope: global.Config.Qiniu.Bucket,
+		Scope: config.QiNiuBucket,
 	}
-	mac := qbox.NewMac(global.Config.Qiniu.AccessKey, global.Config.Qiniu.SecretKey)
+	mac := qbox.NewMac(config.QiNiuAccessKey, config.QiNiuSecretKey)
 	upToken := putPolicy.UploadToken(mac)
 	cfg := GetQiniuConfig()
 	formUploader := storage.NewFormUploader(cfg)

@@ -2404,6 +2404,9 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "is_https": {
+                    "type": "boolean"
+                },
                 "key": {
                     "type": "string"
                 },
@@ -2842,6 +2845,10 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "is_https": {
+                    "description": "是否是https",
+                    "type": "boolean"
+                },
                 "oss_type": {
                     "description": "存储位置",
                     "type": "string"
@@ -2854,6 +2861,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "qi_niu_domain": {
+                    "type": "string"
+                },
+                "qi_niu_position": {
                     "type": "string"
                 },
                 "qi_niu_secret_key": {
