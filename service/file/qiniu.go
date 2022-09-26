@@ -42,7 +42,7 @@ func (*QiniuService) UploadFile(fileHeader *multipart.FileHeader, file multipart
 	if err != nil {
 		return "", "", code.ErrorUploadQiNiu, err
 	}
-	return global.Config.Qiniu.DomainName + "/" + ret.Key, ret.Key, code.ErrorUploadQiNiuSuccess, err
+	return config.QiNiuDomain + "/" + ret.Key, ret.Key, code.ErrorUploadQiNiuSuccess, err
 }
 
 // GetQiniuConfig 获取七牛配置
