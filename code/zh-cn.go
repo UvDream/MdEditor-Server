@@ -58,4 +58,5 @@ var zhCNText = map[int]string{
 	ErrorSkiUpload:                     "ski图床上传失败",
 	ErrorReadThirdPartyResponse:        "读取第三方响应失败",
 	ErrorSkiDelete:                     "ski图床删除失败",
+	ErrorToken:                         "token错误",
 }

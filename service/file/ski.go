@@ -15,6 +15,9 @@ import (
 type SkiService struct{}
 
 func (*SkiService) UploadFile(fileHeader *multipart.FileHeader, file multipart.File, config system.UserConfig) (string, string, int, error) {
+	if config.Token == "" {
+		return "", "", code2.ErrorToken, fmt.Errorf("平台token不能为空")
+	}
 	url := "https://img.ski/api/v1/upload"
 	method := "POST"
 	payload := &bytes.Buffer{}

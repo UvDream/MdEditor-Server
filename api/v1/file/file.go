@@ -15,6 +15,7 @@ type FilesApi struct{}
 // @Summary 文件上传
 // @Accept multipart/form-data
 // @Produce json
+// @Param    token   query     string  true  "携带的平台token参数"
 // @Param file formData file true "文件"
 // @Success 200 {string} string "{""code"":200,""message"":""上传成功""}"
 // @Failure 400 {string} string "{""code"":400,""message"":""上传失败""}"

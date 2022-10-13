@@ -46,6 +46,7 @@ const (
 	ErrorSkiUpload                 = 10027 //上传图片失败
 	ErrorReadThirdPartyResponse    = 10028 //读取第三方响应失败
 	ErrorSkiDelete                 = 10029 //删除图片失败
+	ErrorToken                     = 10030 //token错误
 )
 
 func Text(code int) string {

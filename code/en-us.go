@@ -58,4 +58,5 @@ var enUSText = map[int]string{
 	ErrorSkiUpload:                     "ski upload failed",
 	ErrorReadThirdPartyResponse:        "read third party response failed",
 	ErrorSkiDelete:                     "ski delete failed",
+	ErrorToken:                         "token error",
 }
