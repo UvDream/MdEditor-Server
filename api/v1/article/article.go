@@ -164,3 +164,27 @@ func (*ArticlesApi) GetArticleDetail(c *gin.Context) {
 	}
 	code.OkWithDetailed(articleContent, msg, c)
 }
+
+// ExportMd 文章导出md
+//@Summary 文章导出md
+//@Tags article
+//@Accept  json
+//@Produce  json
+//@Param        id   query     string  true  "参数"
+//@Success 200 {object} code.Response "{"code":200,"data":{},"msg":"操作成功"}"
+//@Router /article/export [get]
+func (*ArticlesApi) ExportMd(c *gin.Context) {
+	userID := utils.FindUserID(c)
+	articleID := c.Query("id")
+	if articleID == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	path, cd, err := articleService.ExportMd(userID, articleID)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(path, cd, c)
+
+}

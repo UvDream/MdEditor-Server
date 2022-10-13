@@ -49,7 +49,7 @@ func (i *FilesApi) Delete(c *gin.Context) {
 		code.FailResponse(code.ErrorMissingId, c)
 		return
 	}
-	data, ce, err := fileService.DeleteFileService(id)
+	data, ce, err := fileService.DeleteFileService(c, id)
 	if err != nil {
 		code.FailResponse(ce, c)
 		return

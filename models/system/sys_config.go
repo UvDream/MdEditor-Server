@@ -19,4 +19,5 @@ type UserConfig struct {
 	UpYunDomain string `json:"up_yun_domain" gorm:"comment:又拍云Domain"`
 	UpYunUser   string `json:"up_yun_user" gorm:"comment:又拍云User"`
 	UpYunPass   string `json:"up_yun_pass" gorm:"comment:又拍云Pass"`
+	Token       string `json:"token" gorm:"comment:token"`
 }

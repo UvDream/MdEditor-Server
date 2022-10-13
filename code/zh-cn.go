@@ -54,4 +54,8 @@ var zhCNText = map[int]string{
 	ErrorUpYunPut:                      "又拍云上传失败",
 	ErrorSetUserConfig:                 "设置用户配置失败",
 	ErrorFindUserConfig:                "查询用户配置失败",
+	ErrorExportArticle:                 "文章导出错误",
+	ErrorSkiUpload:                     "ski图床上传失败",
+	ErrorReadThirdPartyResponse:        "读取第三方响应失败",
+	ErrorSkiDelete:                     "ski图床删除失败",
 }

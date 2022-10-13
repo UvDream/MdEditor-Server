@@ -545,6 +545,8 @@ definitions:
         type: string
       qi_niu_secret_key:
         type: string
+      token:
+        type: string
       up_yun_bucket:
         description: 又拍云
         type: string
@@ -560,6 +562,9 @@ definitions:
   theme.Theme:
     properties:
       create_time:
+        type: string
+      dark_theme:
+        description: 额外主题
         type: string
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'
@@ -654,6 +659,26 @@ paths:
           schema:
             $ref: '#/definitions/code.Response'
       summary: 查询文章详情
+      tags:
+      - article
+  /article/export:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 参数
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"data":{},"msg":"操作成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 文章导出md
       tags:
       - article
   /article/history:

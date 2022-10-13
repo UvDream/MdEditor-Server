@@ -102,6 +102,37 @@
                 }
             }
         },
+        "/article/export": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "文章导出md",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "参数",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"data\":{},\"msg\":\"操作成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/article/history": {
             "get": {
                 "consumes": [
@@ -2860,6 +2891,9 @@
                 "qi_niu_secret_key": {
                     "type": "string"
                 },
+                "token": {
+                    "type": "string"
+                },
                 "up_yun_bucket": {
                     "description": "又拍云",
                     "type": "string"
@@ -2882,6 +2916,10 @@
             "type": "object",
             "properties": {
                 "create_time": {
+                    "type": "string"
+                },
+                "dark_theme": {
+                    "description": "额外主题",
                     "type": "string"
                 },
                 "delete_time": {

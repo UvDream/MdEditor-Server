@@ -23,6 +23,8 @@ func (*FilesService) UploadFileService(c *gin.Context) (data file2.File, ce int,
 	if err := global.DB.Preload("UserConfig").Where("id = ?", userID).First(&user).Error; err != nil {
 		return data, code.ErrorFindUser, err
 	}
+	token := c.Query("token")
+	user.UserConfig.Token = token
 	url, key, codes, err := NewOss(user.UserConfig.OSSType).UploadFile(fileHeader, file, user.UserConfig)
 	if err != nil {
 		return data, codes, err
@@ -30,13 +32,15 @@ func (*FilesService) UploadFileService(c *gin.Context) (data file2.File, ce int,
 	data, ce, err = SaveFileData(fileHeader, url, key, userID, user.UserConfig.OSSType, user.UserConfig.IsHttps)
 	return data, ce, err
 }
-func (*FilesService) DeleteFileService(id string) (file file2.File, codeNumber int, err error) {
+
+func (*FilesService) DeleteFileService(c *gin.Context, id string) (file file2.File, codeNumber int, err error) {
 	db := global.DB
 	if err := db.Where("id = ?", id).First(&file).Error; err != nil {
 		return file, code.ErrorFileNotFound, err
 	}
 	// 删除os 文件
-	err = DeleteOss(file.Position).DeleteFile(file.Key)
+	token := c.Query("token")
+	err = DeleteOss(file.Position).DeleteFile(file.Key, token)
 	if err != nil {
 		return file, code.ErrorDeleteFile, err
 	}

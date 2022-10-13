@@ -31,6 +31,6 @@ func (*YoupaiService) UploadFile(fileHeader *multipart.FileHeader, file multipar
 }
 
 // DeleteFile 删除又拍云文件
-func (*YoupaiService) DeleteFile(key string) error {
+func (*YoupaiService) DeleteFile(key string, token string) error {
 	return nil
 }

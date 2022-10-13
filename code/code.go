@@ -42,6 +42,10 @@ const (
 	ErrorSetUserConfigMissingParam = 10023 //缺少参数
 	ErrorSetUserConfig             = 10024 //设置用户配置失败
 	ErrorFindUserConfig            = 10025 //查询用户配置失败
+	ErrorExportArticle             = 10026 //导出文章失败
+	ErrorSkiUpload                 = 10027 //上传图片失败
+	ErrorReadThirdPartyResponse    = 10028 //读取第三方响应失败
+	ErrorSkiDelete                 = 10029 //删除图片失败
 )
 
 func Text(code int) string {

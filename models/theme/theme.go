@@ -18,6 +18,9 @@ type Theme struct {
 	//作者ID
 	UserID string `json:"user_id" gorm:"type:varchar(100);comment:作者的UUID"`
 	//作者
-	User  system.User `json:"user"`
-	Theme string      `json:"theme" gorm:"type:longblob" ` // 主题
+	User system.User `json:"user"`
+	// 主题
+	Theme string `json:"theme" gorm:"type:longblob" `
+	//额外主题
+	DarkTheme string `json:"dark_theme" gorm:"type:longblob"`
 }

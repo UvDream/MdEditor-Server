@@ -54,4 +54,8 @@ var enUSText = map[int]string{
 	ErrorUpYunPut:                      "upyun put failed",
 	ErrorSetUserConfig:                 "set user config failed",
 	ErrorFindUserConfig:                "find user config failed",
+	ErrorExportArticle:                 "export article failed",
+	ErrorSkiUpload:                     "ski upload failed",
+	ErrorReadThirdPartyResponse:        "read third party response failed",
+	ErrorSkiDelete:                     "ski delete failed",
 }

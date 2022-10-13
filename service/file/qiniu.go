@@ -74,7 +74,7 @@ func GetQiniuConfig() *storage.Config {
 }
 
 // DeleteFile 七牛云删除文件
-func (*QiniuService) DeleteFile(key string) error {
+func (*QiniuService) DeleteFile(key string, _ string) error {
 	mac := qbox.NewMac(global.Config.Qiniu.AccessKey, global.Config.Qiniu.SecretKey)
 	cfg := GetQiniuConfig()
 	bucketManager := storage.NewBucketManager(mac, cfg)

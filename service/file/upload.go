@@ -7,7 +7,7 @@ import (
 
 type OSS interface {
 	UploadFile(fileHeader *multipart.FileHeader, file multipart.File, config system.UserConfig) (string, string, int, error)
-	DeleteFile(key string) error
+	DeleteFile(key string, token string) error
 }
 
 func NewOss(ossType string) OSS {
@@ -18,6 +18,8 @@ func NewOss(ossType string) OSS {
 		return &QiniuService{}
 	case "youpai":
 		return &YoupaiService{}
+	case "ski":
+		return &SkiService{}
 	default:
 		return &LocalService{}
 	}
@@ -31,6 +33,8 @@ func DeleteOss(position string) OSS {
 		return &QiniuService{}
 	case "youpai":
 		return &YoupaiService{}
+	case "ski":
+		return &SkiService{}
 	default:
 		return &LocalService{}
 	}
