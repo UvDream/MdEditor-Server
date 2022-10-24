@@ -467,6 +467,19 @@ definitions:
     - password
     - user_name
     type: object
+  system.RetrievePasswordRequest:
+    properties:
+      email:
+        type: string
+      nick_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      user_name:
+        type: string
+    type: object
   system.SysRole:
     properties:
       children:
@@ -924,6 +937,11 @@ paths:
       consumes:
       - multipart/form-data
       parameters:
+      - description: 携带的平台token参数
+        in: query
+        name: token
+        required: true
+        type: string
       - description: 文件
         in: formData
         name: file
@@ -1557,26 +1575,6 @@ paths:
       summary: 图形验证码
       tags:
       - system
-  /public/base/detail:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: 参数
-        in: query
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: '{"code":200,"data":article.Article,"msg":"操作成功"}'
-          schema:
-            $ref: '#/definitions/code.Response'
-      summary: 查询文章详情
-      tags:
-      - article
   /public/base/init_data:
     get:
       consumes:
@@ -1671,6 +1669,36 @@ paths:
                   type: boolean
               type: object
       summary: 用户注册
+      tags:
+      - user
+  /public/base/retrieve_password:
+    post:
+      parameters:
+      - description: 用户名, 密码, 验证码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/system.RetrievePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/system.User'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 找回密码
       tags:
       - user
   /tag/create:

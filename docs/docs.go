@@ -534,6 +534,13 @@ const docTemplate = `{
                 "summary": "文件上传",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "携带的平台token参数",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
                         "type": "file",
                         "description": "文件",
                         "name": "file",
@@ -1573,37 +1580,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/public/base/detail": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "article"
-                ],
-                "summary": "查询文章详情",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "参数",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{\"code\":200,\"data\":article.Article,\"msg\":\"操作成功\"}",
-                        "schema": {
-                            "$ref": "#/definitions/code.Response"
-                        }
-                    }
-                }
-            }
-        },
         "/public/base/init_data": {
             "get": {
                 "description": "初始化数据",
@@ -1727,6 +1703,57 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/system.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/system.User"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/public/base/retrieve_password": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "找回密码",
+                "parameters": [
+                    {
+                        "description": "用户名, 密码, 验证码",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.RetrievePasswordRequest"
                         }
                     }
                 ],
@@ -2778,6 +2805,26 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "system.RetrievePasswordRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nick_name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
                     "type": "string"
                 },
                 "user_name": {

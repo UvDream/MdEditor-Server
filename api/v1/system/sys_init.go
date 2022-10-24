@@ -22,8 +22,8 @@ func (b *BaseApi) InitData(c *gin.Context) {
 			Password: "qwer1314520.",
 			NickName: "admin",
 			Avatar:   "www.pic.uvdream.cn",
-			Phone:    "17621998888",
-			Email:    "22222@163.com",
+			Phone:    "17621953630",
+			Email:    "uvdream@163.com",
 		},
 	}
 	global.DB.Create(&initializeUser)

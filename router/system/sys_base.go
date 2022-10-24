@@ -16,6 +16,8 @@ func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		baseRouter.GET("/init_data", baseApi.InitData)
 		baseRouter.POST("/captcha", baseApi.Captcha)
 		baseRouter.GET("/md", baseApi.GetArticleMd)
+		//找回密码
+		baseRouter.POST("/retrieve_password", baseApi.RetrievePassword)
 	}
 	return baseRouter
 }

@@ -62,24 +62,24 @@ func (b *BaseApi) Register(c *gin.Context) {
 	code.SuccessResponse(data, cd, c)
 }
 
-//GetArticleDetail 查询文章详情
-//@Summary 查询文章详情
-//@Tags article
-//@Accept  json
-//@Produce  json
-//@Param        id   query     string  true  "参数"
-//@Success 200 {object} code.Response "{"code":200,"data":article.Article,"msg":"操作成功"}"
-//@Router /public/base/detail [get]
-func (*BaseApi) GetArticleDetail(c *gin.Context) {
-	id := c.Query("id")
-	if id == "" {
-		code.FailWithMessage("id不能为空", c)
-		return
-	}
-	articleContent, msg, err := articleService.GetArticleDetailService(id)
+// RetrievePassword 找回密码
+// @Tags user
+// @Summary 找回密码
+// @Produce  application/json
+// @Param data body system.RetrievePasswordRequest true "用户名, 密码, 验证码"
+// @Success 200 {object} code.Response{data=system.User,code=int,msg=string,success=bool}
+// @Router  /public/base/retrieve_password [post]
+func (*BaseApi) RetrievePassword(c *gin.Context) {
+	var retrievePasswordRequest system.RetrievePasswordRequest
+	err := c.ShouldBindJSON(&retrievePasswordRequest)
 	if err != nil {
-		code.FailWithMessage(msg, c)
+		code.FailResponse(code.ErrorRegisterMissingParam, c)
 		return
 	}
-	code.OkWithDetailed(articleContent, msg, c)
+	cd, err := userService.RetrievePasswordService(retrievePasswordRequest)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse("修改成功", cd, c)
 }

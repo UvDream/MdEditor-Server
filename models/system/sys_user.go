@@ -28,6 +28,13 @@ type LoginRequest struct {
 	Captcha   string `json:"captcha" binding:"required"`
 	CaptchaId string `json:"captcha_id" binding:"required"`
 }
+type RetrievePasswordRequest struct {
+	UserName string `json:"user_name" gorm:"comment:用户名"`
+	NickName string `json:"nick_name" gorm:"comment:昵称"`
+	Password string `json:"password" gorm:"comment:密码"`
+	Phone    string `json:"phone" gorm:"comment:手机号"`
+	Email    string `json:"email" gorm:"comment:邮箱"`
+}
 
 // SysUserRequest 用户列表请求参数
 type SysUserRequest struct {
