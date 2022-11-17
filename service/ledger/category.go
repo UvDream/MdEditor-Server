@@ -1,6 +1,7 @@
 package ledger
 
 import (
+	"gorm.io/gorm/clause"
 	"server/code"
 	"server/global"
 	"server/models/ledger"
@@ -8,14 +9,13 @@ import (
 
 func (*LedgersService) GetLedgerCategoryList(id string, types string) ([]ledger.CategoryLedger, int, error) {
 	db := global.DB
-	//查询账本
-	var le ledger.Ledger
-	if err := db.Model(&ledger.Ledger{}).Preload("Categories", "type = (?)", types).Where("id = ?", id).First(&le).Error; err != nil {
+	var categories []ledger.CategoryLedger
+	if err := db.Model(&ledger.CategoryLedger{}).Preload(clause.Associations).Where("ledger_id = ?", id).Where("type = ?", types).Find(&categories).Error; err != nil {
 		return []ledger.CategoryLedger{}, code.ErrorGetLedger, err
 	}
 
 	//组装分类为树形结构
-	data := getCategoryTree(le.Categories)
+	data := getCategoryTree(categories)
 	return data, code.SUCCESS, nil
 }
 func getCategoryTree(data []ledger.CategoryLedger) []ledger.CategoryLedger {
@@ -24,7 +24,6 @@ func getCategoryTree(data []ledger.CategoryLedger) []ledger.CategoryLedger {
 		if v.ParentID == "" {
 			v.Children = getChildren(v.ID, data)
 			result = append(result, v)
-
 		}
 	}
 	return result
