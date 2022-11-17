@@ -2585,9 +2585,17 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "ledger": {
+                    "description": "账单所属账本",
+                    "$ref": "#/definitions/ledger.Ledger"
+                },
                 "ledger_category": {
                     "description": "账单分类",
                     "$ref": "#/definitions/ledger.LedgerCategory"
+                },
+                "ledger_id": {
+                    "description": "账本ID",
+                    "type": "string"
                 },
                 "name": {
                     "description": "账单名称",
@@ -2637,6 +2645,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "ledger_id": {
+                    "description": "账本ID",
                     "type": "string"
                 },
                 "name": {
@@ -2694,6 +2706,10 @@ const docTemplate = `{
                 },
                 "description": {
                     "description": "账本描述",
+                    "type": "string"
+                },
+                "icon": {
+                    "description": "图标",
                     "type": "string"
                 },
                 "id": {
@@ -2778,6 +2794,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "ledger_id": {
+                    "description": "账本ID",
                     "type": "string"
                 },
                 "name": {

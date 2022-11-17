@@ -1,6 +1,10 @@
 package ledger
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"server/code"
+	"server/models/ledger"
+)
 
 // CreateBill 创建账单
 // @Summary 创建账单
@@ -11,7 +15,12 @@ import "github.com/gin-gonic/gin"
 // @Success 200 {object} code.Response{data=ledger.Bill,code=int,msg=string,success=bool}
 // @Router /ledger/bill/create [post]
 func (*ApiLedger) CreateBill(c *gin.Context) {
-
+	var bill ledger.Bill
+	err := c.ShouldBindJSON(&bill)
+	if err != nil {
+		code.FailWithMessage(err.Error(), c)
+		return
+	}
 }
 
 // DeleteBill 删除账单

@@ -59,4 +59,5 @@ var zhCNText = map[int]string{
 	ErrorReadThirdPartyResponse:        "读取第三方响应失败",
 	ErrorSkiDelete:                     "ski图床删除失败",
 	ErrorToken:                         "token错误",
+	ErrorUpdatePasswordMissingParam:    "更新密码参数有误",
 }

@@ -16,6 +16,8 @@ type TagLedger struct {
 	User system.User `json:"creator"`
 	// 标签创建者ID
 	UserID string `json:"creator_id"`
+	//	账本ID
+	LedgerID string `json:"ledger_id"`
 }
 
 // LedgerTag

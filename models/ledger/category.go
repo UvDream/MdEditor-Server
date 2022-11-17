@@ -23,7 +23,9 @@ type CategoryLedger struct {
 	//父元素ID
 	ParentID string `json:"parent_id"`
 	//	类型  0 支出/ 1收入....
-	Type     string           `json:"type"`
+	Type string `json:"type"`
+	//账本ID
+	LedgerID string           `json:"ledger_id"`
 	Children []CategoryLedger `json:"children" gorm:"-"`
 }
 

@@ -48,7 +48,7 @@ func (*LedgersService) GetLedgerList(userID string) ([]ledger2.Ledger, int, erro
 	//查出自己创建的账本
 	var ledgers []ledger2.Ledger
 	db := global.DB
-	if err := db.Preload("Creator").Where("creator_id = ?", userID).Find(&ledgers).Error; err != nil {
+	if err := db.Preload("Creator").Preload("Categories").Where("creator_id = ?", userID).Find(&ledgers).Error; err != nil {
 		return ledgers, code.ErrGetLedgerList, err
 	}
 	//查出自己协作的账本
@@ -57,7 +57,35 @@ func (*LedgersService) GetLedgerList(userID string) ([]ledger2.Ledger, int, erro
 		return ledgers, code.ErrGetLedgerList, err
 	}
 	ledgers = append(ledgers, ledgerArr...)
+	//去重
+	ledgers = removeDuplicateLedger(ledgers)
+	//查询账本成员数量
+	for i, k := range ledgers {
+		ledgers[i].MemberCount = k.MemberCount + findMemberCount(k.ID)
+	}
+	//ledgers = append(ledgers, ledgerArr...)
 	return ledgers, code.SUCCESS, nil
+}
+
+//去重
+func removeDuplicateLedger(ledgers []ledger2.Ledger) []ledger2.Ledger {
+	result := make([]ledger2.Ledger, 0, len(ledgers))
+	temp := map[string]struct{}{}
+	for _, item := range ledgers {
+		l := len(temp)
+		temp[item.ID] = struct{}{}
+		if len(temp) != l {
+			result = append(result, item)
+		}
+	}
+	return result
+}
+func findMemberCount(id string) (count int64) {
+	db := global.DB
+	if err := db.Where("ledger_id = ?", id).Find(&ledger2.LedgerUser{}).Count(&count).Error; err != nil {
+		return 0
+	}
+	return count
 }
 
 func (*LedgersService) DeleteLedger(id string) (int, error) {

@@ -308,9 +308,15 @@ definitions:
         $ref: '#/definitions/gorm.DeletedAt'
       id:
         type: string
+      ledger:
+        $ref: '#/definitions/ledger.Ledger'
+        description: 账单所属账本
       ledger_category:
         $ref: '#/definitions/ledger.LedgerCategory'
         description: 账单分类
+      ledger_id:
+        description: 账本ID
+        type: string
       name:
         description: 账单名称
         type: string
@@ -345,6 +351,9 @@ definitions:
         description: 分类图标类型 1 图片/2 icon/3 文字
         type: string
       id:
+        type: string
+      ledger_id:
+        description: 账本ID
         type: string
       name:
         description: 分类名称
@@ -386,6 +395,9 @@ definitions:
         $ref: '#/definitions/gorm.DeletedAt'
       description:
         description: 账本描述
+        type: string
+      icon:
+        description: 图标
         type: string
       id:
         type: string
@@ -444,6 +456,9 @@ definitions:
         description: 标签描述
         type: string
       id:
+        type: string
+      ledger_id:
+        description: 账本ID
         type: string
       name:
         description: 标签名称

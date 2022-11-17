@@ -7,7 +7,7 @@ import (
 
 // Bill 账单
 type Bill struct {
-	models.Model `json:"models_._model"`
+	models.Model
 	//	账单名称
 	Name string `json:"name"`
 	//	账单金额
@@ -26,4 +26,8 @@ type Bill struct {
 	Category LedgerCategory `json:"ledger_category"`
 	//	账单标签
 	Tags []LedgerTag `json:"tags" gorm:"many2many:ledger_bill_tags;"`
+	// 账本ID
+	LedgerID string `json:"ledger_id"`
+	//	账单所属账本
+	Ledger Ledger `json:"ledger"`
 }

@@ -59,4 +59,5 @@ var enUSText = map[int]string{
 	ErrorReadThirdPartyResponse:        "read third party response failed",
 	ErrorSkiDelete:                     "ski delete failed",
 	ErrorToken:                         "token error",
+	ErrorUpdatePasswordMissingParam:    "update password missing param",
 }
