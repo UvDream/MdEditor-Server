@@ -13,7 +13,6 @@ func (*LedgersService) GetLedgerCategoryList(id string, types string) ([]ledger.
 	if err := db.Model(&ledger.Ledger{}).Preload("Categories", "type = (?)", types).Where("id = ?", id).First(&le).Error; err != nil {
 		return []ledger.CategoryLedger{}, code.ErrorGetLedger, err
 	}
-	//查询账本分类
 
 	//组装分类为树形结构
 	data := getCategoryTree(le.Categories)
