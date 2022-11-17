@@ -1272,6 +1272,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: 分类类型
+        in: query
+        name: types
+        required: true
+        type: string
       produces:
       - application/json
       responses:

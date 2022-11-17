@@ -1049,6 +1049,13 @@ const docTemplate = `{
                         "name": "id",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "分类类型",
+                        "name": "types",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {

@@ -47,15 +47,17 @@ func (*ApiLedger) UpdateLedgerCategory(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id query int true "账本分类ID"
+// @Param types query string true "分类类型"
 // @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.LedgerCategory}
 // @Router /ledger/category/list [get]
 func (*ApiLedger) GetLedgerCategoryList(c *gin.Context) {
 	id := c.Query("id")
+	types := c.Query("types")
 	if id == "" {
 		code.FailResponse(code.ErrorMissingId, c)
 		return
 	}
-	data, cd, err := ledgerService.GetLedgerCategoryList(id)
+	data, cd, err := ledgerService.GetLedgerCategoryList(id, types)
 	if err != nil {
 		code.FailResponse(cd, c)
 		return
