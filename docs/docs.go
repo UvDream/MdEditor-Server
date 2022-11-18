@@ -1030,6 +1030,58 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/category/detail": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账本分类详情",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "账本分类ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.LedgerCategory"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/category/list": {
             "get": {
                 "consumes": [
@@ -2650,14 +2702,14 @@ const docTemplate = `{
                     "description": "分类描述",
                     "type": "string"
                 },
-                "icon": {
-                    "type": "string"
-                },
                 "icon_type": {
                     "description": "分类图标类型 1 图片/2 icon",
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "img": {
                     "type": "string"
                 },
                 "ledger_id": {

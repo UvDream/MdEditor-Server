@@ -105,3 +105,25 @@ func (*ApiLedger) GetLedgerCategoryList(c *gin.Context) {
 	}
 	code.SuccessResponse(data, cd, c)
 }
+
+//GetLedgerCategoryDetail 获取账本分类详情
+// @Summary 获取账本分类详情
+// @Tags ledger
+// @Accept  json
+// @Produce  json
+// @Param id query string true "账本分类ID"
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.LedgerCategory}
+// @Router /ledger/category/detail [get]
+func (*ApiLedger) GetLedgerCategoryDetail(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	data, cd, err := ledgerService.GetLedgerCategoryDetail(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
+}

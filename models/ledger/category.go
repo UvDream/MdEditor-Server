@@ -13,8 +13,8 @@ type CategoryLedger struct {
 	// 分类缩略图
 	Thumbnail string `json:"thumbnail"`
 	// 分类图标类型 1 图片/2 icon
-	IconType  string `json:"icon_type"`
-	Icon      string `json:"icon"`
+	IconType  string `json:"icon_type" gorm:"default:'icon'"`
+	Img       string `json:"img"`
 	ClassName string `json:"class_name"`
 	// 分类描述
 	Description string `json:"description"`

@@ -19,4 +19,8 @@ const (
 	ErrorCategoryNotExist              = 11016 //	分类不存在
 	ErrorUpdateCategory                = 11017 //	更新分类失败
 	ErrorDeleteCategory                = 11018 //	删除分类失败
+	ErrCreateBill                      = 11019 //	创建账单失败
+	ErrorDeleteBill                    = 11020 //	删除账单失败
+	ErrorUpdateBill                    = 11021 //	更新账单失败
+	ErrorGetBill                       = 11022 //	查询账单失败
 )

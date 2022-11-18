@@ -349,12 +349,12 @@ definitions:
       description:
         description: 分类描述
         type: string
-      icon:
-        type: string
       icon_type:
         description: 分类图标类型 1 图片/2 icon
         type: string
       id:
+        type: string
+      img:
         type: string
       ledger_id:
         description: 账本ID
@@ -1264,6 +1264,37 @@ paths:
                   type: boolean
               type: object
       summary: 删除账本分类
+      tags:
+      - ledger
+  /ledger/category/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本分类ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.LedgerCategory'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取账本分类详情
       tags:
       - ledger
   /ledger/category/list:

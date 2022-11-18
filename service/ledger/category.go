@@ -79,3 +79,12 @@ func (*LedgersService) DeleteLedgerCategory(id string) (int, error) {
 	}
 	return code.SUCCESS, nil
 }
+func (*LedgersService) GetLedgerCategoryDetail(id string) (ledger.CategoryLedger, int, error) {
+	db := global.DB
+	//查询分类是否存在
+	var category ledger.CategoryLedger
+	if err := db.Model(&ledger.CategoryLedger{}).Where("id = ?", id).First(&category).Error; err != nil {
+		return ledger.CategoryLedger{}, code.ErrorCategoryNotExist, err
+	}
+	return category, code.SUCCESS, nil
+}

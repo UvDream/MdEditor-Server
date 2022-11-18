@@ -21,6 +21,7 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.DELETE("/category/delete", accountApi.DeleteLedgerCategory)
 		ledgerRouter.PUT("/category/update", accountApi.UpdateLedgerCategory)
 		ledgerRouter.GET("/category/list", accountApi.GetLedgerCategoryList)
+		ledgerRouter.GET("/category/detail", accountApi.GetLedgerCategoryDetail)
 		//标签
 		ledgerRouter.POST("/tag/create", accountApi.CreateLedgerTag)
 		ledgerRouter.DELETE("/tag/delete", accountApi.DeleteLedgerTag)
