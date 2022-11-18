@@ -312,7 +312,7 @@ definitions:
         $ref: '#/definitions/ledger.Ledger'
         description: 账单所属账本
       ledger_category:
-        $ref: '#/definitions/ledger.LedgerCategory'
+        $ref: '#/definitions/ledger.CategoryLedger'
         description: 账单分类
       ledger_id:
         description: 账本ID
@@ -326,7 +326,7 @@ definitions:
       tags:
         description: 账单标签
         items:
-          $ref: '#/definitions/ledger.LedgerTag'
+          $ref: '#/definitions/ledger.TagLedger'
         type: array
       type:
         description: 账单类型
@@ -429,20 +429,6 @@ definitions:
         items:
           $ref: '#/definitions/system.User'
         type: array
-    type: object
-  ledger.LedgerCategory:
-    properties:
-      category_ledger_id:
-        type: string
-      ledger_id:
-        type: string
-    type: object
-  ledger.LedgerTag:
-    properties:
-      ledger_id:
-        type: string
-      tag_id:
-        type: string
     type: object
   ledger.TagLedger:
     properties:
@@ -1150,6 +1136,31 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: 账单金额
+        in: query
+        name: amount
+        type: number
+      - description: 账单ID
+        in: query
+        name: ledger_id
+        type: string
+      - description: 账单名称
+        in: query
+        name: name
+        type: string
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -1228,7 +1239,7 @@ paths:
                 code:
                   type: integer
                 data:
-                  $ref: '#/definitions/ledger.LedgerCategory'
+                  $ref: '#/definitions/ledger.CategoryLedger'
                 msg:
                   type: string
                 success:
@@ -1288,7 +1299,7 @@ paths:
                 code:
                   type: integer
                 data:
-                  $ref: '#/definitions/ledger.LedgerCategory'
+                  $ref: '#/definitions/ledger.CategoryLedger'
                 msg:
                   type: string
                 success:
@@ -1325,7 +1336,7 @@ paths:
                   type: integer
                 data:
                   items:
-                    $ref: '#/definitions/ledger.LedgerCategory'
+                    $ref: '#/definitions/ledger.CategoryLedger'
                   type: array
                 msg:
                   type: string
@@ -1358,7 +1369,7 @@ paths:
                 code:
                   type: integer
                 data:
-                  $ref: '#/definitions/ledger.LedgerCategory'
+                  $ref: '#/definitions/ledger.CategoryLedger'
                 msg:
                   type: string
                 success:
@@ -1465,7 +1476,7 @@ paths:
         name: article
         required: true
         schema:
-          $ref: '#/definitions/ledger.LedgerTag'
+          $ref: '#/definitions/ledger.TagLedger'
       produces:
       - application/json
       responses:
@@ -1478,7 +1489,7 @@ paths:
                 code:
                   type: integer
                 data:
-                  $ref: '#/definitions/ledger.LedgerTag'
+                  $ref: '#/definitions/ledger.TagLedger'
                 msg:
                   type: string
                 success:
@@ -1533,7 +1544,7 @@ paths:
                   type: integer
                 data:
                   items:
-                    $ref: '#/definitions/ledger.LedgerTag'
+                    $ref: '#/definitions/ledger.TagLedger'
                   type: array
                 msg:
                   type: string
@@ -1553,7 +1564,7 @@ paths:
         name: article
         required: true
         schema:
-          $ref: '#/definitions/ledger.LedgerTag'
+          $ref: '#/definitions/ledger.TagLedger'
       produces:
       - application/json
       responses:
@@ -1566,7 +1577,7 @@ paths:
                 code:
                   type: integer
                 data:
-                  $ref: '#/definitions/ledger.LedgerTag'
+                  $ref: '#/definitions/ledger.TagLedger'
                 msg:
                   type: string
                 success:

@@ -20,8 +20,7 @@ type TagLedger struct {
 	LedgerID string `json:"ledger_id"`
 }
 
-// LedgerTag
-type LedgerTag struct {
-	LedgerID string `json:"ledger_id" gorm:"index;size:255;comment:账本ID"`
-	TagID    string `json:"tag_id" gorm:"index;size:255;comment:标签ID"`
+type BillTag struct {
+	BillID string `json:"bill_id" gorm:"index;size:255;comment:账单ID"`
+	TagID  string `json:"tag_id" gorm:"index;size:255;comment:标签ID"`
 }

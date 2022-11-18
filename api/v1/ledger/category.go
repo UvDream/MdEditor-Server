@@ -13,7 +13,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Param article body ledger.CategoryLedger true "创建账单分类"
-// @Success 200 {object} code.Response{data=ledger.LedgerCategory,code=int,msg=string,success=bool}
+// @Success 200 {object} code.Response{data=ledger.CategoryLedger,code=int,msg=string,success=bool}
 // @Router /ledger/category/create [post]
 func (*ApiLedger) CreateLedgerCategory(c *gin.Context) {
 	var category ledger.CategoryLedger
@@ -59,7 +59,7 @@ func (*ApiLedger) DeleteLedgerCategory(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param article body ledger.CategoryLedger true "更新账单分类"
-// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.LedgerCategory}
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.CategoryLedger}
 // @Router /ledger/category/update [put]
 func (*ApiLedger) UpdateLedgerCategory(c *gin.Context) {
 	var category ledger.CategoryLedger
@@ -89,7 +89,7 @@ func (*ApiLedger) UpdateLedgerCategory(c *gin.Context) {
 // @Produce  json
 // @Param id query string true "账本分类ID"
 // @Param types query string true "分类类型"
-// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.LedgerCategory}
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.CategoryLedger}
 // @Router /ledger/category/list [get]
 func (*ApiLedger) GetLedgerCategoryList(c *gin.Context) {
 	id := c.Query("id")
@@ -112,7 +112,7 @@ func (*ApiLedger) GetLedgerCategoryList(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param id query string true "账本分类ID"
-// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.LedgerCategory}
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.CategoryLedger}
 // @Router /ledger/category/detail [get]
 func (*ApiLedger) GetLedgerCategoryDetail(c *gin.Context) {
 	id := c.Query("id")

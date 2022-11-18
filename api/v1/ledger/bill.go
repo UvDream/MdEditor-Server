@@ -22,6 +22,10 @@ func (*ApiLedger) CreateBill(c *gin.Context) {
 		code.FailWithMessage(err.Error(), c)
 		return
 	}
+	if bill.LedgerID == "" {
+		code.FailResponse(code.ErrorMissingLedgerId, c)
+		return
+	}
 	userID := utils.FindUserID(c)
 	bill.CreatorID = userID
 	data, cd, err := ledgerService.AddBillService(bill)
@@ -62,26 +66,13 @@ func (*ApiLedger) DeleteBill(c *gin.Context) {
 func (*ApiLedger) UpdateBill(c *gin.Context) {
 	var bill ledger.Bill
 	err := c.ShouldBindJSON(&bill)
+
 	if err != nil {
 		code.FailWithMessage(err.Error(), c)
 		return
 	}
-
-}
-
-// GetBillList 获取账单列表
-// @Summary 获取账单列表
-// @Tags ledger
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.Bill}
-// @Router /ledger/bill/list [get]
-func (*ApiLedger) GetBillList(c *gin.Context) {
-	var bill ledger.Bill
-	err := c.ShouldBindJSON(&bill)
-
-	if err != nil {
-		code.FailWithMessage(err.Error(), c)
+	if bill.LedgerID == "" {
+		code.FailResponse(code.ErrorMissingLedgerId, c)
 		return
 	}
 	if bill.ID == "" {
@@ -94,4 +85,33 @@ func (*ApiLedger) GetBillList(c *gin.Context) {
 		return
 	}
 	code.SuccessResponse(data, cd, c)
+
+}
+
+// GetBillList 获取账单列表
+// @Summary 获取账单列表
+// @Tags ledger
+// @Accept  json
+// @Produce  json
+// @Param 	query query  ledger.BillRequest true "查询账单"
+// @Param  query  query    models.PaginationRequest  false  "参数"
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.Bill}
+// @Router /ledger/bill/list [get]
+func (*ApiLedger) GetBillList(c *gin.Context) {
+	var ledgerQuery ledger.BillRequest
+	err := c.ShouldBindQuery(&ledgerQuery)
+	if err != nil {
+		code.FailWithMessage(err.Error(), c)
+		return
+	}
+	userID := utils.FindUserID(c)
+	data, total, cd, err := ledgerService.GetBillListService(ledgerQuery, userID, c)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(gin.H{
+		"list":  data,
+		"total": total,
+	}, cd, c)
 }

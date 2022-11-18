@@ -839,6 +839,44 @@ const docTemplate = `{
                     "ledger"
                 ],
                 "summary": "获取账单列表",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "description": "账单金额",
+                        "name": "amount",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单ID",
+                        "name": "ledger_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "key_word",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -965,7 +1003,7 @@ const docTemplate = `{
                                             "type": "integer"
                                         },
                                         "data": {
-                                            "$ref": "#/definitions/ledger.LedgerCategory"
+                                            "$ref": "#/definitions/ledger.CategoryLedger"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -1066,7 +1104,7 @@ const docTemplate = `{
                                             "type": "integer"
                                         },
                                         "data": {
-                                            "$ref": "#/definitions/ledger.LedgerCategory"
+                                            "$ref": "#/definitions/ledger.CategoryLedger"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -1127,7 +1165,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/ledger.LedgerCategory"
+                                                "$ref": "#/definitions/ledger.CategoryLedger"
                                             }
                                         },
                                         "msg": {
@@ -1182,7 +1220,7 @@ const docTemplate = `{
                                             "type": "integer"
                                         },
                                         "data": {
-                                            "$ref": "#/definitions/ledger.LedgerCategory"
+                                            "$ref": "#/definitions/ledger.CategoryLedger"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -1366,7 +1404,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ledger.LedgerTag"
+                            "$ref": "#/definitions/ledger.TagLedger"
                         }
                     }
                 ],
@@ -1385,7 +1423,7 @@ const docTemplate = `{
                                             "type": "integer"
                                         },
                                         "data": {
-                                            "$ref": "#/definitions/ledger.LedgerTag"
+                                            "$ref": "#/definitions/ledger.TagLedger"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -1479,7 +1517,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/ledger.LedgerTag"
+                                                "$ref": "#/definitions/ledger.TagLedger"
                                             }
                                         },
                                         "msg": {
@@ -1515,7 +1553,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ledger.LedgerTag"
+                            "$ref": "#/definitions/ledger.TagLedger"
                         }
                     }
                 ],
@@ -1534,7 +1572,7 @@ const docTemplate = `{
                                             "type": "integer"
                                         },
                                         "data": {
-                                            "$ref": "#/definitions/ledger.LedgerTag"
+                                            "$ref": "#/definitions/ledger.TagLedger"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -2650,7 +2688,7 @@ const docTemplate = `{
                 },
                 "ledger_category": {
                     "description": "账单分类",
-                    "$ref": "#/definitions/ledger.LedgerCategory"
+                    "$ref": "#/definitions/ledger.CategoryLedger"
                 },
                 "ledger_id": {
                     "description": "账本ID",
@@ -2668,7 +2706,7 @@ const docTemplate = `{
                     "description": "账单标签",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ledger.LedgerTag"
+                        "$ref": "#/definitions/ledger.TagLedger"
                     }
                 },
                 "type": {
@@ -2812,28 +2850,6 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/system.User"
                     }
-                }
-            }
-        },
-        "ledger.LedgerCategory": {
-            "type": "object",
-            "properties": {
-                "category_ledger_id": {
-                    "type": "string"
-                },
-                "ledger_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "ledger.LedgerTag": {
-            "type": "object",
-            "properties": {
-                "ledger_id": {
-                    "type": "string"
-                },
-                "tag_id": {
-                    "type": "string"
                 }
             }
         },

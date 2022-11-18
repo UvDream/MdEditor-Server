@@ -56,8 +56,8 @@ func RegistrationTable(db *gorm.DB) {
 		theme.Theme{},
 		//	记账软件
 		ledger.Ledger{},
-		ledger.LedgerCategory{},
-		ledger.LedgerTag{},
+		ledger.Bill{},
+		ledger.BillTag{},
 		ledger.CategoryLedger{},
 		ledger.TagLedger{},
 	)

@@ -23,11 +23,19 @@ type Bill struct {
 	//	账单分类ID
 	CategoryID string `json:"category_id"`
 	//	账单分类
-	Category LedgerCategory `json:"ledger_category"`
+	Category CategoryLedger `json:"ledger_category"`
 	//	账单标签
-	Tags []LedgerTag `json:"tags" gorm:"many2many:ledger_bill_tags;"`
+	Tags []TagLedger `json:"tags" gorm:"many2many:bill_tags;"`
 	// 账本ID
 	LedgerID string `json:"ledger_id"`
 	//	账单所属账本
 	Ledger Ledger `json:"ledger"`
+}
+type BillRequest struct {
+	//	账单名称
+	Name string `json:"name"`
+	//	账单金额
+	Amount float64 `json:"amount" `
+	//	账单ID
+	LedgerID string `json:"ledger_id"`
 }

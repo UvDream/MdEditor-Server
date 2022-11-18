@@ -7,8 +7,8 @@ import "github.com/gin-gonic/gin"
 // @Tags ledger
 // @Accept  json
 // @Produce  json
-// @Param article body ledger.LedgerTag true "创建账单标签"
-// @Success 200 {object} code.Response{data=ledger.LedgerTag,code=int,msg=string,success=bool}
+// @Param article body ledger.TagLedger true "创建账单标签"
+// @Success 200 {object} code.Response{data=ledger.TagLedger,code=int,msg=string,success=bool}
 // @Router /ledger/tag/create [post]
 func (*ApiLedger) CreateLedgerTag(c *gin.Context) {
 }
@@ -30,8 +30,8 @@ func (*ApiLedger) DeleteLedgerTag(c *gin.Context) {
 // @Tags ledger
 // @Accept  json
 // @Produce  json
-// @Param article body ledger.LedgerTag true "更新账单标签"
-// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.LedgerTag}
+// @Param article body ledger.TagLedger true "更新账单标签"
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.TagLedger}
 // @Router /ledger/tag/update [put]
 func (*ApiLedger) UpdateLedgerTag(c *gin.Context) {
 
@@ -42,7 +42,7 @@ func (*ApiLedger) UpdateLedgerTag(c *gin.Context) {
 // @Tags ledger
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.LedgerTag}
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.TagLedger}
 // @Router /ledger/tag/list [get]
 func (*ApiLedger) GetLedgerTagList(c *gin.Context) {
 

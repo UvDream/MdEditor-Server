@@ -31,12 +31,6 @@ type CategoryLedger struct {
 	Children []CategoryLedger `json:"children" gorm:"-"`
 }
 
-// LedgerCategory 中间表
-type LedgerCategory struct {
-	LedgerID         string `json:"ledger_id" gorm:"index;size:255;comment:账本ID"`
-	CategoryLedgerID string `json:"category_ledger_id" gorm:"index;size:255;comment:分类ID"`
-}
-
 var InitLedgerCategory = []CategoryLedger{
 	// 支出
 	{
