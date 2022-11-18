@@ -946,7 +946,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ledger.LedgerCategory"
+                            "$ref": "#/definitions/ledger.CategoryLedger"
                         }
                     }
                 ],
@@ -1044,7 +1044,7 @@ const docTemplate = `{
                 "summary": "获取账本分类列表",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "账本分类ID",
                         "name": "id",
                         "in": "query",
@@ -1111,7 +1111,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ledger.LedgerCategory"
+                            "$ref": "#/definitions/ledger.CategoryLedger"
                         }
                     }
                 ],
@@ -2637,6 +2637,9 @@ const docTemplate = `{
                         "$ref": "#/definitions/ledger.CategoryLedger"
                     }
                 },
+                "class_name": {
+                    "type": "string"
+                },
                 "create_time": {
                     "type": "string"
                 },
@@ -2647,8 +2650,11 @@ const docTemplate = `{
                     "description": "分类描述",
                     "type": "string"
                 },
+                "icon": {
+                    "type": "string"
+                },
                 "icon_type": {
-                    "description": "分类图标类型 1 图片/2 icon/3 文字",
+                    "description": "分类图标类型 1 图片/2 icon",
                     "type": "string"
                 },
                 "id": {

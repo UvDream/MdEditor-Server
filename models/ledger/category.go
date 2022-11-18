@@ -12,8 +12,10 @@ type CategoryLedger struct {
 	Name string `json:"name"`
 	// 分类缩略图
 	Thumbnail string `json:"thumbnail"`
-	//分类图标类型 1 图片/2 icon/3 文字
-	IconType string `json:"icon_type"`
+	// 分类图标类型 1 图片/2 icon
+	IconType  string `json:"icon_type"`
+	Icon      string `json:"icon"`
+	ClassName string `json:"class_name"`
 	// 分类描述
 	Description string `json:"description"`
 	// 分类创建者

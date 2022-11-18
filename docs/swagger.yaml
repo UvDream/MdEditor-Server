@@ -340,6 +340,8 @@ definitions:
         items:
           $ref: '#/definitions/ledger.CategoryLedger'
         type: array
+      class_name:
+        type: string
       create_time:
         type: string
       delete_time:
@@ -347,8 +349,10 @@ definitions:
       description:
         description: 分类描述
         type: string
+      icon:
+        type: string
       icon_type:
-        description: 分类图标类型 1 图片/2 icon/3 文字
+        description: 分类图标类型 1 图片/2 icon
         type: string
       id:
         type: string
@@ -1211,7 +1215,7 @@ paths:
         name: article
         required: true
         schema:
-          $ref: '#/definitions/ledger.LedgerCategory'
+          $ref: '#/definitions/ledger.CategoryLedger'
       produces:
       - application/json
       responses:
@@ -1271,7 +1275,7 @@ paths:
         in: query
         name: id
         required: true
-        type: integer
+        type: string
       - description: 分类类型
         in: query
         name: types
@@ -1310,7 +1314,7 @@ paths:
         name: article
         required: true
         schema:
-          $ref: '#/definitions/ledger.LedgerCategory'
+          $ref: '#/definitions/ledger.CategoryLedger'
       produces:
       - application/json
       responses:

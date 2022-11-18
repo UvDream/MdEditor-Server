@@ -60,4 +60,9 @@ var zhCNText = map[int]string{
 	ErrorSkiDelete:                     "ski图床删除失败",
 	ErrorToken:                         "token错误",
 	ErrorUpdatePasswordMissingParam:    "更新密码参数有误",
+	ErrorCreateCategory:                "创建分类失败",
+	ErrCategoryExist:                   "分类已存在",
+	ErrorUpdateCategory:                "更新分类失败",
+	ErrorCategoryNotExist:              "分类不存在",
+	ErrorDeleteCategory:                "删除分类失败",
 }

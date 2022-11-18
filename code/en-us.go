@@ -60,4 +60,9 @@ var enUSText = map[int]string{
 	ErrorSkiDelete:                     "ski delete failed",
 	ErrorToken:                         "token error",
 	ErrorUpdatePasswordMissingParam:    "update password missing param",
+	ErrorCreateCategory:                "create category failed",
+	ErrCategoryExist:                   "category exist",
+	ErrorUpdateCategory:                "update category failed",
+	ErrorCategoryNotExist:              "category not exist",
+	ErrorDeleteCategory:                "delete category failed",
 }

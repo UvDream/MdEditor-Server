@@ -14,5 +14,9 @@ const (
 	ErrorDeleteLedgerCategory          = 11011 //	删除账本分类失败
 	ErrorUpdateLedger                  = 11012 //	更新账本失败
 	ErrorGetLedger                     = 11013 //	查询账本失败
-
+	ErrorCreateCategory                = 11014 //   创建分类失败
+	ErrCategoryExist                   = 11015 //	分类已存在
+	ErrorCategoryNotExist              = 11016 //	分类不存在
+	ErrorUpdateCategory                = 11017 //	更新分类失败
+	ErrorDeleteCategory                = 11018 //	删除分类失败
 )
