@@ -296,6 +296,8 @@ definitions:
       category_id:
         description: 账单分类ID
         type: string
+      class_name:
+        type: string
       create_time:
         type: string
       creator:
@@ -306,7 +308,11 @@ definitions:
         type: string
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'
+      icon_type:
+        type: string
       id:
+        type: string
+      img:
         type: string
       ledger:
         $ref: '#/definitions/ledger.Ledger'
@@ -317,8 +323,8 @@ definitions:
       ledger_id:
         description: 账本ID
         type: string
-      name:
-        description: 账单名称
+      remark:
+        description: 账单备注
         type: string
       status:
         description: 账单状态
@@ -1140,10 +1146,10 @@ paths:
       - description: 账单金额
         in: query
         name: amount
-        type: number
+        type: string
       - description: 账单ID
         in: query
-        name: ledger_id
+        name: ledgerID
         type: string
       - description: 账单名称
         in: query

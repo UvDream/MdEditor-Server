@@ -841,7 +841,7 @@ const docTemplate = `{
                 "summary": "获取账单列表",
                 "parameters": [
                     {
-                        "type": "number",
+                        "type": "string",
                         "description": "账单金额",
                         "name": "amount",
                         "in": "query"
@@ -849,7 +849,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "账单ID",
-                        "name": "ledger_id",
+                        "name": "ledgerID",
                         "in": "query"
                     },
                     {
@@ -2665,6 +2665,9 @@ const docTemplate = `{
                     "description": "账单分类ID",
                     "type": "string"
                 },
+                "class_name": {
+                    "type": "string"
+                },
                 "create_time": {
                     "type": "string"
                 },
@@ -2679,7 +2682,13 @@ const docTemplate = `{
                 "delete_time": {
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
+                "icon_type": {
+                    "type": "string"
+                },
                 "id": {
+                    "type": "string"
+                },
+                "img": {
                     "type": "string"
                 },
                 "ledger": {
@@ -2694,8 +2703,8 @@ const docTemplate = `{
                     "description": "账本ID",
                     "type": "string"
                 },
-                "name": {
-                    "description": "账单名称",
+                "remark": {
+                    "description": "账单备注",
                     "type": "string"
                 },
                 "status": {

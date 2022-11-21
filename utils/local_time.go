@@ -52,3 +52,7 @@ func (t LocalTime) Value() (driver.Value, error) {
 	value := time.Time(t)
 	return value, nil
 }
+
+func (t *LocalTime) Format(s string) string {
+	return time.Time(*t).Format(s)
+}

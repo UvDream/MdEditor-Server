@@ -93,19 +93,19 @@ func (*ApiLedger) UpdateBill(c *gin.Context) {
 // @Tags ledger
 // @Accept  json
 // @Produce  json
-// @Param 	query query  ledger.BillRequest true "查询账单"
-// @Param  query  query    models.PaginationRequest  false  "参数"
+// @Param  query  query    ledger.BillRequest  true  "参数"
+// @Param  query  query    models.PaginationRequest  true  "参数"
 // @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.Bill}
 // @Router /ledger/bill/list [get]
 func (*ApiLedger) GetBillList(c *gin.Context) {
-	var ledgerQuery ledger.BillRequest
-	err := c.ShouldBindQuery(&ledgerQuery)
+	var query ledger.BillRequest
+	err := c.ShouldBindQuery(&query)
 	if err != nil {
 		code.FailWithMessage(err.Error(), c)
 		return
 	}
 	userID := utils.FindUserID(c)
-	data, total, cd, err := ledgerService.GetBillListService(ledgerQuery, userID, c)
+	data, total, cd, err := ledgerService.GetBillListService(query, userID, c)
 	if err != nil {
 		code.FailResponse(cd, c)
 		return
