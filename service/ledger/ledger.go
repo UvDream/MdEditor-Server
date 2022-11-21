@@ -28,18 +28,6 @@ func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int,
 	if err := db.Create(&data).Error; err != nil {
 		return ledger, code.ErrCreateLedgerCategory, err
 	}
-	//关联账本和分类
-	//var ledgerCategories []ledger2.LedgerCategory
-	//for _, k := range data {
-	//	ledgerCategory := ledger2.LedgerCategory{
-	//		LedgerID:         ledger.ID,
-	//		CategoryLedgerID: k.ID,
-	//	}
-	//	ledgerCategories = append(ledgerCategories, ledgerCategory)
-	//}
-	//if err := db.Create(&ledgerCategories).Error; err != nil {
-	//	return ledger, code.ErrCreateLedgerCategoryRelation, err
-	//}
 	return ledger, code.SUCCESS, nil
 }
 
@@ -95,22 +83,10 @@ func (*LedgersService) DeleteLedger(id string) (int, error) {
 	if err := db.Where("id = ?", id).First(&ledger).Error; err != nil {
 		return code.ErrorLedgerNotExist, err
 	}
-	//先查出关联分类
-	//TODO 删除分类
-	//var ledgerCategories []ledger2.LedgerCategory
-	//if err := db.Where("ledger_id = ?", id).Find(&ledgerCategories).Error; err != nil {
-	//	return code.ErrorGetLedgerCategoryRelationList, err
-	//}
-	////删除对应的分类
-	//for _, k := range ledgerCategories {
-	//	if err := db.Where("id = ?", k.CategoryLedgerID).Unscoped().Delete(&ledger2.CategoryLedger{}).Error; err != nil {
-	//		return code.ErrorDeleteLedgerCategory, err
-	//	}
-	//}
-	////删除账本和分类的关联
-	//if err := db.Where("ledger_id = ?", id).Delete(&ledger2.LedgerCategory{}).Error; err != nil {
-	//	return code.ErrorDeleteLedgerCategoryRelation, err
-	//}
+	//根据账本id删除分类
+	if err := db.Where("ledger_id = ?", id).Delete(&ledger2.CategoryLedger{}).Error; err != nil {
+		return code.ErrorDeleteLedgerCategory, err
+	}
 	if err := db.Where("id = ?", id).Delete(&ledger2.Ledger{}).Error; err != nil {
 		return code.ErrorDeleteLedger, err
 	}
