@@ -23,6 +23,7 @@ func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int,
 	for _, k := range data {
 		k.UserID = ledger.CreatorID
 		k.IconType = "3"
+		k.LedgerID = ledger.ID
 	}
 	// 创建分类
 	if err := db.Create(&data).Error; err != nil {
