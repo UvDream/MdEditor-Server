@@ -1138,6 +1138,37 @@ paths:
       summary: 删除账单
       tags:
       - ledger
+  /ledger/bill/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账单ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.Bill'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取账单详情
+      tags:
+      - ledger
   /ledger/bill/list:
     get:
       consumes:
@@ -1149,7 +1180,7 @@ paths:
         type: string
       - description: 账单ID
         in: query
-        name: ledgerID
+        name: ledger_id
         type: string
       - description: 账单名称
         in: query
@@ -1179,9 +1210,11 @@ paths:
                 code:
                   type: integer
                 data:
-                  items:
-                    $ref: '#/definitions/ledger.Bill'
-                  type: array
+                  additionalProperties:
+                    items:
+                      $ref: '#/definitions/ledger.Bill'
+                    type: array
+                  type: object
                 msg:
                   type: string
                 success:

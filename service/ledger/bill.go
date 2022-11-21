@@ -69,3 +69,15 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	}
 	return data, total, code.SUCCESS, err
 }
+
+func (*LedgersService) GetBillDetailService(id string) (bill ledger.Bill, cd int, err error) {
+	db := global.DB
+	//查询是否存在
+	if err := db.Where("id = ?", id).First(&ledger.Bill{}).Error; err != nil {
+		return bill, code.ErrorGetBill, err
+	}
+	if err := db.Where("id = ?", id).Preload(clause.Associations).First(&bill).Error; err != nil {
+		return bill, code.ErrorGetBill, err
+	}
+	return bill, code.SUCCESS, nil
+}

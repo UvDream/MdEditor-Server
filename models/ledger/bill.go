@@ -36,9 +36,9 @@ type Bill struct {
 }
 type BillRequest struct {
 	//	账单名称
-	Name string `form:"name"`
+	Name string `form:"name" json:"name" `
 	//	账单金额
-	Amount string `form:"amount" `
+	Amount string `form:"amount" json:"amount"`
 	//	账单ID
-	LedgerID string `form:"ledger_id"`
+	LedgerID string `form:"ledger_id" json:"ledger_id"`
 }

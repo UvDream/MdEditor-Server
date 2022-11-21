@@ -827,6 +827,58 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/bill/detail": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账单详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账单ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.Bill"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/bill/list": {
             "get": {
                 "consumes": [
@@ -849,7 +901,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "账单ID",
-                        "name": "ledgerID",
+                        "name": "ledger_id",
                         "in": "query"
                     },
                     {
@@ -892,9 +944,12 @@ const docTemplate = `{
                                             "type": "integer"
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/ledger.Bill"
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/definitions/ledger.Bill"
+                                                }
                                             }
                                         },
                                         "msg": {

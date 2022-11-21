@@ -32,6 +32,7 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.DELETE("/bill/delete", accountApi.DeleteBill)
 		ledgerRouter.PUT("/bill/update", accountApi.UpdateBill)
 		ledgerRouter.GET("/bill/list", accountApi.GetBillList)
+		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
 	}
 	return ledgerRouter
 }
