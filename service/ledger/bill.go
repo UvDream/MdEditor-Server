@@ -68,7 +68,7 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	newData = make(map[string]ledger.BillChildren)
 	for _, v := range bill {
 		time := v.CreateTime.Format("2006-01-02")
-		if v.Type == "0" {
+		if v.Type == "1" {
 			newData[time] = ledger.BillChildren{
 				Income:      newData[time].Income + v.Amount,
 				Expenditure: newData[time].Expenditure,
