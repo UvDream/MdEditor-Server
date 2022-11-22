@@ -11,7 +11,7 @@ type Bill struct {
 	//	账单备注
 	Remark string `json:"remark" gorm:"type:varchar(255);comment:账单备注"`
 	//	账单金额
-	Amount float64 `json:"amount" gorm:"type:decimal(10,2);comment:账单金额"`
+	Amount float64 `json:"amount" gorm:"type:decimal(10,2);comment:账单金额;default:0.00"`
 	//	账单类型
 	Type string `json:"type" gorm:"type:varchar(255);comment:账单类型"`
 	//	账单状态
@@ -40,5 +40,18 @@ type BillRequest struct {
 	//	账单金额
 	Amount string `form:"amount" json:"amount"`
 	//	账单ID
-	LedgerID string `form:"ledger_id" json:"ledger_id"`
+	LedgerID  string `form:"ledger_id" json:"ledger_id"`
+	StartTime string `form:"start_time" json:"start_time"`
+	EndTime   string `form:"end_time" json:"end_time"`
+}
+
+type BillChildren struct {
+	// 	时间
+	Time string `json:"time"`
+	//	收入
+	Income float64 `json:"income"`
+	//	支出
+	Expenditure float64 `json:"expenditure"`
+	//	账单
+	Bill []Bill `json:"bill"`
 }

@@ -24,4 +24,5 @@ const (
 	ErrorUpdateBill                    = 11021 //	更新账单失败
 	ErrorGetBill                       = 11022 //	查询账单失败
 	ErrorMissingLedgerId               = 11023 //	缺少账本id
+
 )

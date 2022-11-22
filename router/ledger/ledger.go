@@ -16,6 +16,7 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.DELETE("/delete", accountApi.DeleteLedger)
 		ledgerRouter.PUT("/update", accountApi.UpdateLedger)
 		ledgerRouter.GET("/list", accountApi.GetLedgerList)
+		ledgerRouter.GET("/detail", accountApi.GetLedgerDetail)
 		//分类
 		ledgerRouter.POST("/category/create", accountApi.CreateLedgerCategory)
 		ledgerRouter.DELETE("/category/delete", accountApi.DeleteLedgerCategory)
@@ -33,6 +34,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.PUT("/bill/update", accountApi.UpdateBill)
 		ledgerRouter.GET("/bill/list", accountApi.GetBillList)
 		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
+		//	日历统计
+		ledgerRouter.GET("/statistics/calendar", accountApi.GetCalendar)
 	}
 	return ledgerRouter
 }

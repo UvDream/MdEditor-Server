@@ -340,6 +340,32 @@ definitions:
       update_time:
         type: string
     type: object
+  ledger.BillChildren:
+    properties:
+      bill:
+        description: 账单
+        items:
+          $ref: '#/definitions/ledger.Bill'
+        type: array
+      expenditure:
+        description: 支出
+        type: number
+      income:
+        description: 收入
+        type: number
+      time:
+        description: 时间
+        type: string
+    type: object
+  ledger.CalendarData:
+    properties:
+      day:
+        type: string
+      expenditure:
+        type: number
+      income:
+        type: number
+    type: object
   ledger.CategoryLedger:
     properties:
       children:
@@ -1178,6 +1204,9 @@ paths:
         in: query
         name: amount
         type: string
+      - in: query
+        name: end_time
+        type: string
       - description: 账单ID
         in: query
         name: ledger_id
@@ -1185,6 +1214,9 @@ paths:
       - description: 账单名称
         in: query
         name: name
+        type: string
+      - in: query
+        name: start_time
         type: string
       - description: 关键字
         in: query
@@ -1210,11 +1242,9 @@ paths:
                 code:
                   type: integer
                 data:
-                  additionalProperties:
-                    items:
-                      $ref: '#/definitions/ledger.Bill'
-                    type: array
-                  type: object
+                  items:
+                    $ref: '#/definitions/ledger.BillChildren'
+                  type: array
                 msg:
                   type: string
                 success:
@@ -1478,6 +1508,37 @@ paths:
       summary: 删除账本
       tags:
       - ledger
+  /ledger/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.Ledger'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取账本详情
+      tags:
+      - ledger
   /ledger/list:
     get:
       consumes:
@@ -1505,6 +1566,47 @@ paths:
       summary: 获取账本列表
       tags:
       - ledger
+  /ledger/statistics/calendar:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 年份
+        in: query
+        name: year
+        required: true
+        type: string
+      - description: 月份
+        in: query
+        name: month
+        required: true
+        type: string
+      - description: 账本id
+        in: query
+        name: ledger_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.CalendarData'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 账单控制器
+      tags:
+      - statistics
   /ledger/tag/create:
     post:
       consumes:

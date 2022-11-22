@@ -891,6 +891,11 @@
                     },
                     {
                         "type": "string",
+                        "name": "end_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "description": "账单ID",
                         "name": "ledger_id",
                         "in": "query"
@@ -899,6 +904,11 @@
                         "type": "string",
                         "description": "账单名称",
                         "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start_time",
                         "in": "query"
                     },
                     {
@@ -935,12 +945,9 @@
                                             "type": "integer"
                                         },
                                         "data": {
-                                            "type": "object",
-                                            "additionalProperties": {
-                                                "type": "array",
-                                                "items": {
-                                                    "$ref": "#/definitions/ledger.Bill"
-                                                }
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.BillChildren"
                                             }
                                         },
                                         "msg": {
@@ -1385,6 +1392,58 @@
                 }
             }
         },
+        "/ledger/detail": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账本详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.Ledger"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/list": {
             "get": {
                 "consumes": [
@@ -1416,6 +1475,72 @@
                                             "items": {
                                                 "$ref": "#/definitions/ledger.Ledger"
                                             }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/statistics/calendar": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "账单控制器",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "年份",
+                        "name": "year",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "月份",
+                        "name": "month",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "账本id",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.CalendarData"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -2770,6 +2895,44 @@
                 },
                 "update_time": {
                     "type": "string"
+                }
+            }
+        },
+        "ledger.BillChildren": {
+            "type": "object",
+            "properties": {
+                "bill": {
+                    "description": "账单",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ledger.Bill"
+                    }
+                },
+                "expenditure": {
+                    "description": "支出",
+                    "type": "number"
+                },
+                "income": {
+                    "description": "收入",
+                    "type": "number"
+                },
+                "time": {
+                    "description": "时间",
+                    "type": "string"
+                }
+            }
+        },
+        "ledger.CalendarData": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "string"
+                },
+                "expenditure": {
+                    "type": "number"
+                },
+                "income": {
+                    "type": "number"
                 }
             }
         },

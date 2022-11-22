@@ -65,4 +65,9 @@ var zhCNText = map[int]string{
 	ErrorUpdateCategory:                "更新分类失败",
 	ErrorCategoryNotExist:              "分类不存在",
 	ErrorDeleteCategory:                "删除分类失败",
+	ErrCreateBill:                      "创建账单失败",
+	ErrorDeleteBill:                    "删除账单失败",
+	ErrorUpdateBill:                    "更新账单失败",
+	ErrorGetBill:                       "查询账单失败",
+	ErrorMissingLedgerId:               "缺少账本id",
 }

@@ -95,7 +95,7 @@ func (*ApiLedger) UpdateBill(c *gin.Context) {
 // @Produce  json
 // @Param  query  query    ledger.BillRequest  true  "参数"
 // @Param  query  query    models.PaginationRequest  true  "参数"
-// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=map[string][]ledger.Bill}
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.BillChildren}
 // @Router /ledger/bill/list [get]
 func (*ApiLedger) GetBillList(c *gin.Context) {
 	var query ledger.BillRequest

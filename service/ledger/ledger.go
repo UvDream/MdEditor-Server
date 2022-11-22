@@ -93,3 +93,11 @@ func (*LedgersService) DeleteLedger(id string) (int, error) {
 	}
 	return code.SUCCESS, nil
 }
+
+func (*LedgersService) GetLedgerDetail(id string) (ledger ledger2.Ledger, cd int, err error) {
+	db := global.DB
+	if err := db.Preload("Creator").Preload("Categories").Where("id = ?", id).First(&ledger).Error; err != nil {
+		return ledger, code.ErrorLedgerNotExist, err
+	}
+	return ledger, code.SUCCESS, nil
+}

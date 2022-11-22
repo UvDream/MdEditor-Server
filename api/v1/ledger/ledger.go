@@ -100,3 +100,25 @@ func (*ApiLedger) GetLedgerList(c *gin.Context) {
 	}
 	code.SuccessResponse(data, cd, c)
 }
+
+// GetLedgerDetail 获取账本详情
+//@Summary 获取账本详情
+//@Tags ledger
+//@Accept  json
+//@Produce  json
+//@Param id query int true "账本ID"
+//@Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.Ledger}
+//@Router /ledger/detail [get]
+func (*ApiLedger) GetLedgerDetail(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	data, cd, err := ledgerService.GetLedgerDetail(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
+}
