@@ -412,6 +412,18 @@ definitions:
         description: 分类创建者ID
         type: string
     type: object
+  ledger.HomeStatisticsData:
+    properties:
+      budget:
+        description: 预算
+        type: number
+      expenditure:
+        description: 支出
+        type: number
+      income:
+        description: 收入
+        type: number
+    type: object
   ledger.Ledger:
     properties:
       categories:
@@ -1605,6 +1617,47 @@ paths:
                   type: boolean
               type: object
       summary: 账单控制器
+      tags:
+      - statistics
+  /ledger/statistics/home:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本id
+        in: query
+        name: ledger_id
+        required: true
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        required: true
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/ledger.HomeStatisticsData'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 首页统计
       tags:
       - statistics
   /ledger/tag/create:

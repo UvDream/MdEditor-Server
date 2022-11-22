@@ -36,6 +36,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
 		//	日历统计
 		ledgerRouter.GET("/statistics/calendar", accountApi.GetCalendar)
+		//	首页统计
+		ledgerRouter.GET("/statistics/home", accountApi.GetHomeStatistics)
 	}
 	return ledgerRouter
 }

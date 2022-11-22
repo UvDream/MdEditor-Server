@@ -38,3 +38,11 @@ type LedgerUser struct {
 	//	权限
 	Permission string `json:"permission" gorm:"size:255;comment:权限"` // 读写权限/只读权限
 }
+type HomeStatisticsData struct {
+	//	收入
+	Income float64 `json:"income"`
+	//	支出
+	Expenditure float64 `json:"expenditure"`
+	//	预算
+	Budget float64 `json:"budget"`
+}

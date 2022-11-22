@@ -34,10 +34,10 @@ func (*LedgersService) GetCalendarService(year string, month string, ledger_id s
 		//	查出当天的收入和支出的总和amount
 		income := 0.00
 		expenditure := 0.00
-		if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledger_id).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Pluck("amount", &income).Error; err != nil {
+		if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledger_id).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Pluck("sum(amount)", &income).Error; err != nil {
 			return nil, code.ErrorGetBill, err
 		}
-		if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledger_id).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Pluck("amount", &expenditure).Error; err != nil {
+		if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledger_id).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Pluck("sum(amount)", &expenditure).Error; err != nil {
 			return nil, code.ErrorGetBill, err
 		}
 		data = append(data, CalendarData{
@@ -80,4 +80,23 @@ func getYearMonthToDay(year int, month int) int {
 	}
 	// 得出2月的天数
 	return 28
+}
+
+func (*LedgersService) GetHomeStatisticsService(ledgerID string, startTime string, endTime string) (data ledger.HomeStatisticsData, cd int, err error) {
+	db := global.DB
+	//查询当月的收入/支出
+	//	查出当天的收入和支出的总和amount
+	income := 0.00
+	expenditure := 0.00
+	if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Pluck("sum(amount)", &income).Error; err != nil {
+		return data, code.ErrorGetBill, err
+	}
+	if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Pluck("sum(amount)", &expenditure).Error; err != nil {
+		return data, code.ErrorGetBill, err
+	}
+	data = ledger.HomeStatisticsData{
+		Income:      income,
+		Expenditure: expenditure,
+	}
+	return data, code.SUCCESS, nil
 }

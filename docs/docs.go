@@ -1565,6 +1565,72 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/statistics/home": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "首页统计",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "账本id",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "开始时间",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "结束时间",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.HomeStatisticsData"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/tag/create": {
             "post": {
                 "consumes": [
@@ -3007,6 +3073,23 @@ const docTemplate = `{
                 "user_id": {
                     "description": "分类创建者ID",
                     "type": "string"
+                }
+            }
+        },
+        "ledger.HomeStatisticsData": {
+            "type": "object",
+            "properties": {
+                "budget": {
+                    "description": "预算",
+                    "type": "number"
+                },
+                "expenditure": {
+                    "description": "支出",
+                    "type": "number"
+                },
+                "income": {
+                    "description": "收入",
+                    "type": "number"
                 }
             }
         },
