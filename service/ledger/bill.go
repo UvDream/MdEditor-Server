@@ -64,31 +64,45 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Where("ledger_id = ?", query.LedgerID).Order("create_time desc").Find(&bill).Error; err != nil {
 		return data, total, code.ErrorGetBill, err
 	}
-	var newData map[string]ledger.BillChildren
-	newData = make(map[string]ledger.BillChildren)
 	for _, v := range bill {
 		time := v.CreateTime.Format("2006-01-02")
-		if v.Type == "1" {
-			newData[time] = ledger.BillChildren{
-				Income:      newData[time].Income + v.Amount,
-				Expenditure: newData[time].Expenditure,
-				Bill:        append(newData[time].Bill, v),
+		exit, index := isExit(data, time)
+		if exit {
+			data[index].Bill = append(data[index].Bill, v)
+			if v.Type == "0" {
+				data[index].Expenditure += v.Amount
+			} else {
+				data[index].Income += v.Amount
 			}
 		} else {
-			newData[time] = ledger.BillChildren{
-				Income:      newData[time].Income,
-				Expenditure: newData[time].Expenditure + v.Amount,
-				Bill:        append(newData[time].Bill, v),
+			if v.Type == "0" {
+				data = append(data, ledger.BillChildren{
+					Time:        time,
+					Expenditure: v.Amount,
+					Bill:        []ledger.Bill{v},
+				})
+			} else {
+				data = append(data, ledger.BillChildren{
+					Time:   time,
+					Income: v.Amount,
+					Bill:   []ledger.Bill{v},
+				})
 			}
 		}
 	}
-	for k, v := range newData {
-		v.Time = k
-		data = append(data, v)
-	}
+
 	return data, total, code.SUCCESS, err
 }
 
+//判断是否存在数组对象中
+func isExit(arr []ledger.BillChildren, time string) (bool, int) {
+	for i, v := range arr {
+		if v.Time == time {
+			return true, i
+		}
+	}
+	return false, 9999
+}
 func (*LedgersService) GetBillDetailService(id string) (bill ledger.Bill, cd int, err error) {
 	db := global.DB
 	//查询是否存在
