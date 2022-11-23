@@ -14,7 +14,7 @@ import (
 // @Produce application/json
 // @Param budget body ledger.MoneyBudget true "预算信息"
 // @Success 200 {object} code.Response{data=ledger.MoneyBudget}
-// @Router /budget/create [post]
+// @Router  /ledger/budget/create [post]
 func (*ApiLedger) CreateBudget(c *gin.Context) {
 	var budget ledger.MoneyBudget
 	err := c.ShouldBindJSON(&budget)
@@ -39,7 +39,7 @@ func (*ApiLedger) CreateBudget(c *gin.Context) {
 // @Produce application/json
 // @Param id query int true "预算ID"
 // @Success 200 {object} code.Response{data=ledger.MoneyBudget}
-// @Router /budget/delete [delete]
+// @Router  /ledger/budget/delete [delete]
 func (*ApiLedger) DeleteBudget(c *gin.Context) {
 	id := c.Query("id")
 	if id == "" {
@@ -61,7 +61,7 @@ func (*ApiLedger) DeleteBudget(c *gin.Context) {
 // @Produce application/json
 // @Param budget body ledger.MoneyBudget true "预算信息"
 // @Success 200 {object} code.Response{data=ledger.MoneyBudget}
-// @Router /budget/update [put]
+// @Router  /ledger/budget/update [put]
 func (*ApiLedger) UpdateBudget(c *gin.Context) {
 	var budget ledger.MoneyBudget
 	err := c.ShouldBindJSON(&budget)
@@ -87,15 +87,17 @@ func (*ApiLedger) UpdateBudget(c *gin.Context) {
 // @accept application/json
 // @Produce application/json
 // @Param id query int true "账本ID"
+// @Param year query int true "年份"
 // @Success 200 {object} code.Response{data=ledger.MoneyBudget}
-// @Router /budget/get [get]
+// @Router  /ledger/budget/list [get]
 func (*ApiLedger) GetBudgetList(c *gin.Context) {
 	id := c.Query("id")
+	year := c.Query("year")
 	if id == "" {
 		code.FailResponse(code.ErrorMissingId, c)
 		return
 	}
-	data, cd, err := ledgerService.GetBudgetList(id)
+	data, cd, err := ledgerService.GetBudgetList(id, year)
 	if err != nil {
 		code.FailResponse(cd, c)
 		return

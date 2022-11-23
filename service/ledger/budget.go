@@ -1,9 +1,11 @@
 package ledger
 
 import (
+	"gorm.io/gorm/clause"
 	"server/code"
 	"server/global"
 	"server/models/ledger"
+	"strconv"
 )
 
 func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.MoneyBudget, cd int, err error) {
@@ -56,9 +58,29 @@ func (*LedgersService) UpdateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 	return data, code.SUCCESS, nil
 }
 
-func (*LedgersService) GetBudgetList(ledgerID string) (data []ledger.MoneyBudget, cd int, err error) {
-	if err := global.DB.Where("ledger_id = ?", ledgerID).Find(&data).Error; err != nil {
+func (*LedgersService) GetBudgetList(ledgerID string, year string) (data []ledger.MoneyBudget, cd int, err error) {
+	if err := global.DB.Where("ledger_id = ?", ledgerID).Where("year = ?", year).Preload(clause.Associations).Order("date").Find(&data).Error; err != nil {
 		return data, code.ErrGetBudget, err
+	}
+	//算出每个月支出
+	for i, k := range data {
+		//	时间
+		year := strconv.Itoa(k.Year)
+		month := strconv.Itoa(k.Date)
+		if k.Date < 10 {
+			month = "0" + month
+		}
+		currentMonth := year + "-" + month + "-01"
+		nextMonth := year + "-" + strconv.Itoa(k.Date+1) + "-01"
+		//	查询
+		d := &struct {
+			Expenditure float64 `json:"expenditure"`
+		}{}
+		if err := global.DB.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", currentMonth, nextMonth).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
+			return data, code.ErrGetBudget, err
+		}
+
+		data[i].Expenditure = d.Expenditure
 	}
 	return data, code.SUCCESS, nil
 }

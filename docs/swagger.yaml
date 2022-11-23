@@ -501,6 +501,9 @@ definitions:
         type: integer
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'
+      expenditure:
+        description: 支出
+        type: number
       id:
         type: string
       is_same_month:
@@ -511,6 +514,9 @@ definitions:
         type: string
       update_time:
         type: string
+      year:
+        description: 年份
+        type: integer
     type: object
   ledger.TagLedger:
     properties:
@@ -868,108 +874,6 @@ paths:
       summary: 修改文章
       tags:
       - article
-  /budget/create:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 预算信息
-        in: body
-        name: budget
-        required: true
-        schema:
-          $ref: '#/definitions/ledger.MoneyBudget'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/code.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/ledger.MoneyBudget'
-              type: object
-      summary: 创建预算
-      tags:
-      - budget
-  /budget/delete:
-    delete:
-      consumes:
-      - application/json
-      parameters:
-      - description: 预算ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/code.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/ledger.MoneyBudget'
-              type: object
-      summary: 删除预算
-      tags:
-      - budget
-  /budget/get:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: 账本ID
-        in: query
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/code.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/ledger.MoneyBudget'
-              type: object
-      summary: 获取预算
-      tags:
-      - budget
-  /budget/update:
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: 预算信息
-        in: body
-        name: budget
-        required: true
-        schema:
-          $ref: '#/definitions/ledger.MoneyBudget'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/code.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/ledger.MoneyBudget'
-              type: object
-      summary: 更新预算
-      tags:
-      - budget
   /category/create:
     post:
       consumes:
@@ -1437,6 +1341,113 @@ paths:
       summary: 更新账单
       tags:
       - ledger
+  /ledger/budget/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 预算信息
+        in: body
+        name: budget
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.MoneyBudget'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/ledger.MoneyBudget'
+              type: object
+      summary: 创建预算
+      tags:
+      - budget
+  /ledger/budget/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 预算ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/ledger.MoneyBudget'
+              type: object
+      summary: 删除预算
+      tags:
+      - budget
+  /ledger/budget/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账本ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: 年份
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/ledger.MoneyBudget'
+              type: object
+      summary: 获取预算
+      tags:
+      - budget
+  /ledger/budget/update:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 预算信息
+        in: body
+        name: budget
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.MoneyBudget'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/ledger.MoneyBudget'
+              type: object
+      summary: 更新预算
+      tags:
+      - budget
   /ledger/category/create:
     post:
       consumes:

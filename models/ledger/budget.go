@@ -17,12 +17,16 @@ type MoneyBudget struct {
 	BudgetEndTime string `json:"budget_end_time"`
 	//是否每个月都相同
 	IsSameMonth bool `json:"is_same_month"`
+	//年份
+	Year int `json:"year"`
 	//	日期
-	Date int `json:"date"` //月/年
+	Date int `json:"date"` //月
 	//	账本ID
 	LedgerID string `json:"ledger_id"`
 	//	账单创建者ID
 	CreatorID string `json:"creator_id" gorm:"type:varchar(255);comment:账单创建者ID;"`
 	//	账单创建者
 	Creator system.User `json:"creator" gorm:"foreignKey:CreatorID;references:ID"`
+	//	支出
+	Expenditure float64 `json:"expenditure" gorm:"-"`
 }
