@@ -26,10 +26,10 @@ func (*LedgersService) GetCalendarService(year string, month string, ledgerID st
 		return nil, code.ERROR, err
 	}
 	day := getYearMonthToDay(intYear, intMonth)
-	//查询当月的收入/支出
-	//第一天
-	//获取这个月第一天
-	firstDay, _ := time.Parse(time.RFC3339, fmt.Sprintf("%d-%d-01T00:00:00+08:00", intYear, intMonth))
+	if intMonth < 10 {
+		month = "0" + month
+	}
+	firstDay, _ := time.Parse("2006/01/02 15:04:05", year+"/"+month+"/01 00:00:00")
 	for i := 0; i < day; i++ {
 		toDay := firstDay.AddDate(0, 0, i)
 		fmt.Println(toDay)
