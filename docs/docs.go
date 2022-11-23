@@ -279,6 +279,182 @@ const docTemplate = `{
                 }
             }
         },
+        "/budget/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "budget"
+                ],
+                "summary": "创建预算",
+                "parameters": [
+                    {
+                        "description": "预算信息",
+                        "name": "budget",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.MoneyBudget"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.MoneyBudget"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/budget/delete": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "budget"
+                ],
+                "summary": "删除预算",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "预算ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.MoneyBudget"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/budget/get": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "budget"
+                ],
+                "summary": "获取预算",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.MoneyBudget"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/budget/update": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "budget"
+                ],
+                "summary": "更新预算",
+                "parameters": [
+                    {
+                        "description": "预算信息",
+                        "name": "budget",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.MoneyBudget"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.MoneyBudget"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/category/create": {
             "post": {
                 "description": "创建Category",
@@ -3160,6 +3336,59 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/system.User"
                     }
+                }
+            }
+        },
+        "ledger.MoneyBudget": {
+            "type": "object",
+            "properties": {
+                "budget": {
+                    "description": "预算",
+                    "type": "number"
+                },
+                "budget_end_time": {
+                    "description": "预算结束时间",
+                    "type": "string"
+                },
+                "budget_start_time": {
+                    "description": "预算开始时间",
+                    "type": "string"
+                },
+                "budget_type": {
+                    "description": "预算类型",
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "账单创建者",
+                    "$ref": "#/definitions/system.User"
+                },
+                "creator_id": {
+                    "description": "账单创建者ID",
+                    "type": "string"
+                },
+                "date": {
+                    "description": "日期",
+                    "type": "integer"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_same_month": {
+                    "description": "是否每个月都相同",
+                    "type": "boolean"
+                },
+                "ledger_id": {
+                    "description": "账本ID",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
                 }
             }
         },

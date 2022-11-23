@@ -38,6 +38,11 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.GET("/statistics/calendar", accountApi.GetCalendar)
 		//	首页统计
 		ledgerRouter.GET("/statistics/home", accountApi.GetHomeStatistics)
+		//	预算
+		ledgerRouter.POST("/budget/create", accountApi.CreateBudget)
+		ledgerRouter.DELETE("/budget/delete", accountApi.DeleteBudget)
+		ledgerRouter.PUT("/budget/update", accountApi.UpdateBudget)
+		ledgerRouter.GET("/budget/list", accountApi.GetBudgetList)
 	}
 	return ledgerRouter
 }

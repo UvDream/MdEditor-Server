@@ -24,5 +24,10 @@ const (
 	ErrorUpdateBill                    = 11021 //	更新账单失败
 	ErrorGetBill                       = 11022 //	查询账单失败
 	ErrorMissingLedgerId               = 11023 //	缺少账本id
-
+	ErrCreateBudget                    = 11024 //	预算添加失败
+	ErrDeleteBudget                    = 11025 //	预算删除失败
+	ErrGetBudget                       = 11026 //	预算查找失败
+	ErrUpdateBudget                    = 11027 //	预算更新失败
+	ErrBudgetNotExist                  = 11028 //	预算不存在
+	ErrBudgetExist                     = 11029 //	预算已存在
 )

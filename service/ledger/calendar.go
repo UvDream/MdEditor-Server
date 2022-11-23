@@ -1,6 +1,7 @@
 package ledger
 
 import (
+	"fmt"
 	"server/code"
 	"server/global"
 	"server/models/ledger"
@@ -14,7 +15,7 @@ type CalendarData struct {
 	Expenditure float64 `json:"expenditure"`
 }
 
-func (*LedgersService) GetCalendarService(year string, month string, ledger_id string) (data []CalendarData, cd int, err error) {
+func (*LedgersService) GetCalendarService(year string, month string, ledgerID string) (data []CalendarData, cd int, err error) {
 	db := global.DB
 	intYear, err := strconv.Atoi(year)
 	if err != nil {
@@ -27,23 +28,28 @@ func (*LedgersService) GetCalendarService(year string, month string, ledger_id s
 	day := getYearMonthToDay(intYear, intMonth)
 	//查询当月的收入/支出
 	//第一天
-	firstDay, _ := time.Parse("2006-01-02 15:04:05", year+"-"+month+"-01 00:00:00")
-
-	for i := 0; i <= day; i++ {
+	//获取这个月第一天
+	firstDay, _ := time.Parse(time.RFC3339, fmt.Sprintf("%d-%d-01T00:00:00+08:00", intYear, intMonth))
+	for i := 0; i < day; i++ {
 		toDay := firstDay.AddDate(0, 0, i)
+		fmt.Println(toDay)
 		//	查出当天的收入和支出的总和amount
-		income := 0.00
-		expenditure := 0.00
-		if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledger_id).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Pluck("sum(amount)", &income).Error; err != nil {
-			return nil, code.ErrorGetBill, err
+		type total struct {
+			Income      float64 `json:"income"`
+			Expenditure float64 `json:"expenditure"`
 		}
-		if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledger_id).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Pluck("sum(amount)", &expenditure).Error; err != nil {
-			return nil, code.ErrorGetBill, err
+		var d total
+		//算出支出
+		if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
+			return data, code.ErrorGetBill, err
+		}
+		if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Select("sum(amount) as income").Scan(&d).Error; err != nil {
+			return data, code.ErrorGetBill, err
 		}
 		data = append(data, CalendarData{
 			Day:         toDay.Format("2006-01-02"),
-			Income:      income,
-			Expenditure: expenditure,
+			Income:      d.Income,
+			Expenditure: d.Expenditure,
 		})
 	}
 	return data, code.SUCCESS, nil
@@ -84,19 +90,21 @@ func getYearMonthToDay(year int, month int) int {
 
 func (*LedgersService) GetHomeStatisticsService(ledgerID string, startTime string, endTime string) (data ledger.HomeStatisticsData, cd int, err error) {
 	db := global.DB
-	//查询当月的收入/支出
-	//	查出当天的收入和支出的总和amount
-	income := 0.00
-	expenditure := 0.00
-	if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Pluck("sum(amount)", &income).Error; err != nil {
+	//查询当月的收入/支出总和
+	d := &struct {
+		Income      float64 `json:"income"`
+		Expenditure float64 `json:"expenditure"`
+	}{}
+
+	if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Select("sum(amount) as income").Scan(d).Error; err != nil {
 		return data, code.ErrorGetBill, err
 	}
-	if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Pluck("sum(amount)", &expenditure).Error; err != nil {
+	if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
 		return data, code.ErrorGetBill, err
 	}
 	data = ledger.HomeStatisticsData{
-		Income:      income,
-		Expenditure: expenditure,
+		Income:      d.Income,
+		Expenditure: d.Expenditure,
 	}
 	return data, code.SUCCESS, nil
 }
