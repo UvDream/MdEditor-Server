@@ -1,7 +1,6 @@
 package ledger
 
 import (
-	"fmt"
 	"server/code"
 	"server/global"
 	"server/models/ledger"
@@ -29,28 +28,28 @@ func (*LedgersService) GetCalendarService(year string, month string, ledgerID st
 	if intMonth < 10 {
 		month = "0" + month
 	}
-	firstDay, _ := time.Parse("2006/01/02 15:04:05", year+"/"+month+"/01 00:00:00")
-	for i := 0; i < day; i++ {
-		toDay := firstDay.AddDate(0, 0, i)
-		fmt.Println(toDay)
-		//	查出当天的收入和支出的总和amount
-		type total struct {
-			Income      float64 `json:"income"`
-			Expenditure float64 `json:"expenditure"`
-		}
-		var d total
-		//算出支出
-		if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
-			return data, code.ErrorGetBill, err
-		}
-		if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", toDay, toDay.AddDate(0, 0, 1)).Select("sum(amount) as income").Scan(&d).Error; err != nil {
-			return data, code.ErrorGetBill, err
-		}
+	var bills []ledger.Bill
+	if err := db.Model(&ledger.Bill{}).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", year+"-"+month+"-01", year+"-"+month+"-"+strconv.Itoa(day)).Find(&bills).Error; err != nil {
+		return nil, code.ErrorGetBill, err
+	}
+	// 按照每天生成日历数据
+	firstDay, _ := time.Parse("2006-01-02", year+"-"+month+"-01")
+	for i := 1; i <= day; i++ {
 		data = append(data, CalendarData{
-			Day:         toDay.Format("2006-01-02"),
-			Income:      d.Income,
-			Expenditure: d.Expenditure,
+			Day: firstDay.AddDate(0, 0, i-1).Format("2006-01-02"),
 		})
+	}
+	// 遍历账单，将账单数据填充到日历数据中
+	for _, bill := range bills {
+		for i, v := range data {
+			if v.Day == bill.CreateTime.Format("2006-01-02") {
+				if bill.Type == "1" {
+					data[i].Income += bill.Amount
+				} else {
+					data[i].Expenditure += bill.Amount
+				}
+			}
+		}
 	}
 	return data, code.SUCCESS, nil
 }

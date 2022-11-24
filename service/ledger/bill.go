@@ -65,8 +65,9 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 		return data, total, code.ErrorGetBill, err
 	}
 	for _, v := range bill {
-		time := v.CreateTime.Format("2006-01-02")
-		exit, index := isExit(data, time)
+		date := v.CreateTime.Format("2006-01-02")
+
+		exit, index := isExit(data, date)
 		if exit {
 			data[index].Bill = append(data[index].Bill, v)
 			if v.Type == "0" {
@@ -77,13 +78,13 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 		} else {
 			if v.Type == "0" {
 				data = append(data, ledger.BillChildren{
-					Time:        time,
+					Time:        date,
 					Expenditure: v.Amount,
 					Bill:        []ledger.Bill{v},
 				})
 			} else {
 				data = append(data, ledger.BillChildren{
-					Time:   time,
+					Time:   date,
 					Income: v.Amount,
 					Bill:   []ledger.Bill{v},
 				})

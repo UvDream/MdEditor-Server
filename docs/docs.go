@@ -3098,6 +3098,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "create_time": {
+                    "description": "创建时间",
                     "type": "string"
                 },
                 "creator": {
@@ -3106,6 +3107,9 @@ const docTemplate = `{
                 },
                 "creator_id": {
                     "description": "账单创建者ID",
+                    "type": "string"
+                },
+                "date": {
                     "type": "string"
                 },
                 "delete_time": {

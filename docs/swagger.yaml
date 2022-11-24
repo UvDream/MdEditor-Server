@@ -299,12 +299,15 @@ definitions:
       class_name:
         type: string
       create_time:
+        description: 创建时间
         type: string
       creator:
         $ref: '#/definitions/system.User'
         description: 账单创建者
       creator_id:
         description: 账单创建者ID
+        type: string
+      date:
         type: string
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'

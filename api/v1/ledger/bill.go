@@ -5,6 +5,7 @@ import (
 	"server/code"
 	"server/models/ledger"
 	"server/utils"
+	"time"
 )
 
 // CreateBill 创建账单
@@ -18,10 +19,12 @@ import (
 func (*ApiLedger) CreateBill(c *gin.Context) {
 	var bill ledger.Bill
 	err := c.ShouldBindJSON(&bill)
+
 	if err != nil {
 		code.FailWithMessage(err.Error(), c)
 		return
 	}
+	bill.CreateTime, _ = time.Parse("2006-01-02 15:04:05", bill.Date)
 	if bill.LedgerID == "" {
 		code.FailResponse(code.ErrorMissingLedgerId, c)
 		return

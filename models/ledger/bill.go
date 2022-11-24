@@ -3,6 +3,7 @@ package ledger
 import (
 	"server/models"
 	"server/models/system"
+	"time"
 )
 
 // Bill 账单
@@ -10,6 +11,9 @@ type Bill struct {
 	models.Model
 	//	账单备注
 	Remark string `json:"remark" gorm:"type:varchar(255);comment:账单备注"`
+	//创建时间
+	CreateTime time.Time `json:"create_time" gorm:"type:datetime;comment:创建时间"`
+	Date       string    `json:"date" gorm:"-"`
 	//	账单金额
 	Amount float64 `json:"amount" gorm:"type:decimal(10,2);comment:账单金额;default:0.00"`
 	//	账单类型
@@ -54,4 +58,28 @@ type BillChildren struct {
 	Expenditure float64 `json:"expenditure"`
 	//	账单
 	Bill []Bill `json:"bill"`
+}
+
+const (
+	TimeFormat = "\"2006-01-02 15:04:05\""
+)
+
+type Time int64
+
+func (p *Time) UnmarshalJSON(b []byte) error {
+	parseTime, err := time.Parse(TimeFormat, string(b))
+	if err != nil {
+		return err
+	}
+	*p = Time(parseTime.Unix())
+	return nil
+}
+
+func (p Time) MarshalJSON() ([]byte, error) {
+	if p == Time(0) {
+		return nil, nil
+	}
+	unix := time.Unix(int64(p), 0)
+	format := unix.Format(TimeFormat)
+	return []byte(format), nil
 }
