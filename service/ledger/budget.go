@@ -12,6 +12,14 @@ func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 	db := global.DB
 	//	月预算
 	if budget.BudgetType == "0" {
+		//查询是否存在
+		var oldData []ledger.MoneyBudget
+		if err := db.Where("ledger_id = ?", budget.LedgerID).Where("year = ?", budget.Year).Where("date = ?", budget.Date).First(&oldData).Error; err != nil {
+			return data, code.ErrGetBudget, err
+		}
+		if len(oldData) > 0 {
+			return data, code.ErrBudgetExist, nil
+		}
 		if budget.IsSameMonth {
 			var budgets []ledger.MoneyBudget
 			//十二个月
@@ -30,6 +38,12 @@ func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 	}
 	//	年预算
 	if budget.BudgetType == "1" {
+		//查询是否存在
+		var oldData ledger.MoneyBudget
+		if err := db.Where("ledger_id = ?", budget.LedgerID).Where("year = ?", budget.Year).Where("budget_type = ?", 1).First(&oldData).Error; err == nil {
+			return data, code.ErrBudgetExist, err
+		}
+
 		if err := db.Create(&budget).Error; err != nil {
 			return data, code.ErrCreateBudget, err
 		}

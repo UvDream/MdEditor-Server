@@ -70,4 +70,10 @@ var zhCNText = map[int]string{
 	ErrorUpdateBill:                    "更新账单失败",
 	ErrorGetBill:                       "查询账单失败",
 	ErrorMissingLedgerId:               "缺少账本id",
+	ErrCreateBudget:                    "创建预算失败",
+	ErrDeleteBudget:                    "删除预算失败",
+	ErrGetBudget:                       "查询预算失败",
+	ErrUpdateBudget:                    "更新预算失败",
+	ErrBudgetNotExist:                  "预算不存在",
+	ErrBudgetExist:                     "预算已存在",
 }
