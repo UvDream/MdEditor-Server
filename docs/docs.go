@@ -1155,7 +1155,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ledger.MoneyBudget"
+                                            "$ref": "#/definitions/ledger.BudgetData"
                                         }
                                     }
                                 }
@@ -3181,6 +3181,20 @@ const docTemplate = `{
                 "time": {
                     "description": "时间",
                     "type": "string"
+                }
+            }
+        },
+        "ledger.BudgetData": {
+            "type": "object",
+            "properties": {
+                "month_budget": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ledger.MoneyBudget"
+                    }
+                },
+                "year_budget": {
+                    "$ref": "#/definitions/ledger.MoneyBudget"
                 }
             }
         },

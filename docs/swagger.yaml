@@ -360,6 +360,15 @@ definitions:
         description: 时间
         type: string
     type: object
+  ledger.BudgetData:
+    properties:
+      month_budget:
+        items:
+          $ref: '#/definitions/ledger.MoneyBudget'
+        type: array
+      year_budget:
+        $ref: '#/definitions/ledger.MoneyBudget'
+    type: object
   ledger.CalendarData:
     properties:
       day:
@@ -1420,7 +1429,7 @@ paths:
             - $ref: '#/definitions/code.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/ledger.MoneyBudget'
+                  $ref: '#/definitions/ledger.BudgetData'
               type: object
       summary: 获取预算
       tags:

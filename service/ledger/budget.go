@@ -10,21 +10,31 @@ import (
 
 func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.MoneyBudget, cd int, err error) {
 	db := global.DB
-	if budget.IsSameMonth {
-		var budgets []ledger.MoneyBudget
-		//十二个月
-		for i := 0; i < 12; i++ {
-			budget.Date = i + 1
-			budgets = append(budgets, budget)
+	//	月预算
+	if budget.BudgetType == "0" {
+		if budget.IsSameMonth {
+			var budgets []ledger.MoneyBudget
+			//十二个月
+			for i := 0; i < 12; i++ {
+				budget.Date = i + 1
+				budgets = append(budgets, budget)
+			}
+			if err = db.Create(&budgets).Error; err != nil {
+				return data, code.ErrCreateBudget, err
+			}
+		} else {
+			if err := db.Create(&budget).Error; err != nil {
+				return data, code.ErrCreateBudget, err
+			}
 		}
-		if err = db.Create(&budgets).Error; err != nil {
-			return data, code.ErrCreateBudget, err
-		}
-	} else {
+	}
+	//	年预算
+	if budget.BudgetType == "1" {
 		if err := db.Create(&budget).Error; err != nil {
 			return data, code.ErrCreateBudget, err
 		}
 	}
+
 	return data, code.SUCCESS, nil
 }
 func (*LedgersService) DeleteBudget(id string) (cd int, err error) {
@@ -59,7 +69,7 @@ func (*LedgersService) UpdateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 }
 
 func (*LedgersService) GetBudgetList(ledgerID string, year string) (data []ledger.MoneyBudget, cd int, err error) {
-	if err := global.DB.Where("ledger_id = ?", ledgerID).Where("year = ?", year).Preload(clause.Associations).Order("date").Find(&data).Error; err != nil {
+	if err := global.DB.Where("ledger_id = ?", ledgerID).Where("year = ?", year).Where("date > 0").Preload(clause.Associations).Order("date").Find(&data).Error; err != nil {
 		return data, code.ErrGetBudget, err
 	}
 	//算出每个月支出
@@ -82,5 +92,26 @@ func (*LedgersService) GetBudgetList(ledgerID string, year string) (data []ledge
 
 		data[i].Expenditure = d.Expenditure
 	}
+	return data, code.SUCCESS, nil
+}
+
+// GetYearBudget 获取年预算
+func (*LedgersService) GetYearBudget(ledgerID string, year string) (data ledger.MoneyBudget, cd int, err error) {
+	if err := global.DB.Where("ledger_id = ?", ledgerID).Where("year = ?", year).Where("budget_type = ?", 1).First(&data).Error; err != nil {
+		return data, code.ErrGetBudget, err
+	}
+	//算出每个月支出
+	//	时间
+	currentMonth := year + "-01-01"
+	nextMonth := year + "-12-01"
+	//	查询
+	d := &struct {
+		Expenditure float64 `json:"expenditure"`
+	}{}
+	if err := global.DB.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", currentMonth, nextMonth).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
+		return data, code.ErrGetBudget, err
+	}
+
+	data.Expenditure = d.Expenditure
 	return data, code.SUCCESS, nil
 }

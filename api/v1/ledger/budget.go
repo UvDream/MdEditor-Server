@@ -81,6 +81,11 @@ func (*ApiLedger) UpdateBudget(c *gin.Context) {
 	code.SuccessResponse(data, cd, c)
 }
 
+type BudgetData struct {
+	YearBudget  ledger.MoneyBudget   `json:"year_budget"`
+	MonthBudget []ledger.MoneyBudget `json:"month_budget"`
+}
+
 // GetBudgetList 获取预算
 // @Tags budget
 // @Summary 获取预算
@@ -88,7 +93,7 @@ func (*ApiLedger) UpdateBudget(c *gin.Context) {
 // @Produce application/json
 // @Param id query int true "账本ID"
 // @Param year query int true "年份"
-// @Success 200 {object} code.Response{data=ledger.MoneyBudget}
+// @Success 200 {object} code.Response{data=BudgetData}
 // @Router  /ledger/budget/list [get]
 func (*ApiLedger) GetBudgetList(c *gin.Context) {
 	id := c.Query("id")
@@ -98,9 +103,19 @@ func (*ApiLedger) GetBudgetList(c *gin.Context) {
 		return
 	}
 	data, cd, err := ledgerService.GetBudgetList(id, year)
+
 	if err != nil {
 		code.FailResponse(cd, c)
 		return
 	}
-	code.SuccessResponse(data, cd, c)
+	yearData, cd, err := ledgerService.GetYearBudget(id, year)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+
+	code.SuccessResponse(BudgetData{
+		YearBudget:  yearData,
+		MonthBudget: data,
+	}, cd, c)
 }
