@@ -74,6 +74,7 @@ func (*ApiLedger) UpdateBill(c *gin.Context) {
 		code.FailWithMessage(err.Error(), c)
 		return
 	}
+	bill.CreateTime, _ = time.Parse("2006-01-02 15:04:05", bill.Date)
 	if bill.LedgerID == "" {
 		code.FailResponse(code.ErrorMissingLedgerId, c)
 		return
