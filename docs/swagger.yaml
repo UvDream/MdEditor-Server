@@ -424,6 +424,21 @@ definitions:
         description: 分类创建者ID
         type: string
     type: object
+  ledger.CategoryStatisticsData:
+    properties:
+      amount:
+        description: 分类金额
+        type: number
+      category_id:
+        description: 分类ID
+        type: string
+      category_name:
+        description: 分类名称
+        type: string
+      ratio:
+        description: 账本总支出/收入占比
+        type: number
+    type: object
   ledger.HomeStatisticsData:
     properties:
       budget:
@@ -435,6 +450,13 @@ definitions:
       income:
         description: 收入
         type: number
+    type: object
+  ledger.IncomeExpenditureStatisticsData:
+    properties:
+      amount:
+        type: number
+      date:
+        type: string
     type: object
   ledger.Ledger:
     properties:
@@ -1782,6 +1804,55 @@ paths:
       summary: 账单控制器
       tags:
       - statistics
+  /ledger/statistics/category:
+    get:
+      consumes:
+      - application/json
+      description: 获取分类统计
+      parameters:
+      - description: 账本ID
+        in: query
+        name: ledger_id
+        required: true
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        required: true
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        required: true
+        type: string
+      - description: 类型
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.CategoryStatisticsData'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取分类统计
+      tags:
+      - statistics
   /ledger/statistics/home:
     get:
       consumes:
@@ -1821,6 +1892,60 @@ paths:
                   type: boolean
               type: object
       summary: 首页统计
+      tags:
+      - statistics
+  /ledger/statistics/income_expenditure:
+    get:
+      consumes:
+      - application/json
+      description: 获取收支统计
+      parameters:
+      - description: 账本ID
+        in: query
+        name: ledger_id
+        required: true
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        required: true
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        required: true
+        type: string
+      - description: 类型
+        in: query
+        name: type
+        required: true
+        type: string
+      - description: 是否按年统计
+        in: query
+        name: is_year
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.IncomeExpenditureStatisticsData'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取收支统计
       tags:
       - statistics
   /ledger/tag/create:

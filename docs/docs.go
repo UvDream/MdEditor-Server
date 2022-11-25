@@ -1748,6 +1748,83 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/statistics/category": {
+            "get": {
+                "description": "获取分类统计",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "获取分类统计",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "账本ID",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "开始时间",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "结束时间",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "类型",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.CategoryStatisticsData"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/statistics/home": {
             "get": {
                 "consumes": [
@@ -1799,6 +1876,90 @@ const docTemplate = `{
                                         },
                                         "data": {
                                             "$ref": "#/definitions/ledger.HomeStatisticsData"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/statistics/income_expenditure": {
+            "get": {
+                "description": "获取收支统计",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "获取收支统计",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "账本ID",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "开始时间",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "结束时间",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "类型",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "是否按年统计",
+                        "name": "is_year",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.IncomeExpenditureStatisticsData"
+                                            }
                                         },
                                         "msg": {
                                             "type": "string"
@@ -3277,6 +3438,27 @@ const docTemplate = `{
                 }
             }
         },
+        "ledger.CategoryStatisticsData": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "description": "分类金额",
+                    "type": "number"
+                },
+                "category_id": {
+                    "description": "分类ID",
+                    "type": "string"
+                },
+                "category_name": {
+                    "description": "分类名称",
+                    "type": "string"
+                },
+                "ratio": {
+                    "description": "账本总支出/收入占比",
+                    "type": "number"
+                }
+            }
+        },
         "ledger.HomeStatisticsData": {
             "type": "object",
             "properties": {
@@ -3291,6 +3473,17 @@ const docTemplate = `{
                 "income": {
                     "description": "收入",
                     "type": "number"
+                }
+            }
+        },
+        "ledger.IncomeExpenditureStatisticsData": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "date": {
+                    "type": "string"
                 }
             }
         },

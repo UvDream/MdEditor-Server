@@ -76,4 +76,6 @@ var zhCNText = map[int]string{
 	ErrUpdateBudget:                    "更新预算失败",
 	ErrBudgetNotExist:                  "预算不存在",
 	ErrBudgetExist:                     "预算已存在",
+	ErrorGetCategory:                   "查询分类失败",
+	ErrorGetCategoryStatistics:         "查询分类统计失败",
 }
