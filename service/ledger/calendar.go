@@ -101,9 +101,16 @@ func (*LedgersService) GetHomeStatisticsService(ledgerID string, startTime strin
 	if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
 		return data, code.ErrorGetBill, err
 	}
+	//查询预算
+	var budget ledger.MoneyBudget
+	date, _ := time.Parse("2006-01-02", startTime)
+	if err := db.Where("ledger_id = ?", ledgerID).Where("year = ?", date.Year()).Where("date = ?", date.Month()).First(&budget).Error; err != nil {
+		return data, code.ErrorGetBill, err
+	}
 	data = ledger.HomeStatisticsData{
 		Income:      d.Income,
 		Expenditure: d.Expenditure,
+		Budget:      budget.Budget,
 	}
 	return data, code.SUCCESS, nil
 }
