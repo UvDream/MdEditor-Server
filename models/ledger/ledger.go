@@ -12,7 +12,9 @@ type Ledger struct {
 	//	缩略图
 	Thumbnail string `json:"thumbnail"`
 	//  图标
-	Icon string `json:"icon"`
+	IconType  string `json:"icon_type" gorm:"type:varchar(255);comment:图标类型;default:'icon'"`
+	ClassName string `json:"class_name" gorm:"type:varchar(255);comment:图标class名称"`
+	Img       string `json:"img" gorm:"type:varchar(255);comment:图标图片"`
 	//	账本描述
 	Description string `json:"description"`
 	//	账本类型

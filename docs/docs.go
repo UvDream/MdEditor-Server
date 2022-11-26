@@ -3497,6 +3497,9 @@ const docTemplate = `{
                         "$ref": "#/definitions/ledger.CategoryLedger"
                     }
                 },
+                "class_name": {
+                    "type": "string"
+                },
                 "create_time": {
                     "type": "string"
                 },
@@ -3515,11 +3518,14 @@ const docTemplate = `{
                     "description": "账本描述",
                     "type": "string"
                 },
-                "icon": {
+                "icon_type": {
                     "description": "图标",
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "img": {
                     "type": "string"
                 },
                 "member_count": {

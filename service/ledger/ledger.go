@@ -37,7 +37,7 @@ func (*LedgersService) GetLedgerList(userID string) ([]ledger2.Ledger, int, erro
 	//查出自己创建的账本
 	var ledgers []ledger2.Ledger
 	db := global.DB
-	if err := db.Preload("Creator").Preload("Categories").Where("creator_id = ?", userID).Find(&ledgers).Error; err != nil {
+	if err := db.Preload("Creator").Preload("Categories").Preload("User").Where("creator_id = ?", userID).Find(&ledgers).Error; err != nil {
 		return ledgers, code.ErrGetLedgerList, err
 	}
 	//查出自己协作的账本
