@@ -11,16 +11,16 @@ import (
 
 type SysUserService struct{}
 
-func (*SysUserService) Login(username string, password string) (user *system.User, token string, msg string, err error) {
+func (*SysUserService) Login(username string, password string) (user system.User, token string, msg string, err error) {
 	//先判定数据库是否存在
 	if global.DB == nil {
-		return nil, "", "数据库不存在", fmt.Errorf("数据库未初始化")
+		return user, "", "数据库不存在", fmt.Errorf("数据库未初始化")
 	}
-	if err := global.DB.Where("user_name = ?", username).Preload("Roles").First(&user).Error; err != nil {
-		return nil, "", "查找用户信息错误", err
+	if err := global.DB.Where("user_name = ?", username).First(&user).Error; err != nil {
+		return user, "", "查找用户信息错误", err
 	} else {
 		if ok := utils.BcryptCheck(password, user.Password); !ok {
-			return nil, "", "密码错误", fmt.Errorf("密码错误")
+			return user, "", "密码错误", fmt.Errorf("密码错误")
 		} else {
 			//	颁发token
 			j := &utils.JWT{
@@ -34,7 +34,7 @@ func (*SysUserService) Login(username string, password string) (user *system.Use
 			token, err := j.CreateToken(claims)
 			if err != nil {
 				global.Log.Error("颁发token失败", zap.Error(err))
-				return nil, "", "token生成失败", err
+				return user, "", "token生成失败", err
 			} else {
 				return user, token, "登陆成功", nil
 			}

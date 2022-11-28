@@ -32,12 +32,12 @@ zap:
 
 #  mysql
 mysql:
-  path: '127.0.0.1'
+  path: '124.223.8.237'
   port: '3306'
   config: 'charset=utf8&parseTime=True&loc=Local'
   db-name: 'kyara'
   username: 'root'
-  password: '123456'
+  password: '11165wzj'
   max-idle-conns: 10
   max-open-conns: 100
   log-mode: false
