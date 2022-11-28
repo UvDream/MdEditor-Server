@@ -48,10 +48,18 @@ func (*LedgersService) GetCategoryStatisticsService(ledgerID string, startTime s
 		categoryStatisticsData.CategoryID = v.ID
 		if types == "0" {
 			categoryStatisticsData.Amount = d.Expenditure
-			categoryStatisticsData.Ratio = d.Expenditure / ledgerTotal.ExpendTotal
+			if d.Expenditure == 0 || ledgerTotal.ExpendTotal == 0 {
+				categoryStatisticsData.Ratio = 0
+			} else {
+				categoryStatisticsData.Ratio = d.Expenditure / ledgerTotal.ExpendTotal
+			}
 		} else {
 			categoryStatisticsData.Amount = d.Income
-			categoryStatisticsData.Ratio = d.Income / ledgerTotal.IncomeTotal
+			if d.Income == 0 || ledgerTotal.IncomeTotal == 0 {
+				categoryStatisticsData.Ratio = 0
+			} else {
+				categoryStatisticsData.Ratio = d.Income / ledgerTotal.IncomeTotal
+			}
 		}
 		data = append(data, categoryStatisticsData)
 	}
