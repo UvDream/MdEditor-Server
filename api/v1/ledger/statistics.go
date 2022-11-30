@@ -104,8 +104,8 @@ func (*ApiLedger) GetPersonalStatistics(c *gin.Context) {
 		code.FailResponse(code.ErrorGetPersonalStatistics, c)
 		return
 	}
-	//	记账天数
-	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Distinct("create_time").Count(&personalStatisticsData.AccountingDays).Error; err != nil {
+	//	算出记录天数
+	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Select("DATE_FORMAT(created_at,'%Y-%m-%d')").Distinct().Count(&personalStatisticsData.AccountingDays).Error; err != nil {
 		code.FailResponse(code.ErrorGetPersonalStatistics, c)
 		return
 	}

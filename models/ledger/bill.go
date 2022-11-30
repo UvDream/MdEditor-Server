@@ -12,7 +12,7 @@ type Bill struct {
 	//	账单备注
 	Remark string `json:"remark" gorm:"type:varchar(255);comment:账单备注"`
 	//创建时间
-	CreateTime time.Time `json:"create_time" gorm:"type:datetime;comment:创建时间"`
+	CreateTime time.Time `json:"create_time" gorm:"type:timestamp;comment:创建时间"`
 	Date       string    `json:"date" gorm:"-"`
 	//	账单金额
 	Amount float64 `json:"amount" gorm:"type:decimal(10,2);comment:账单金额;default:0.00"`
