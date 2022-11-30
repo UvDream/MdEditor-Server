@@ -25,10 +25,10 @@ func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int,
 	}
 	//创建账本完成后创建一些默认的分类
 	data := ledger2.InitLedgerCategory
-	for _, k := range data {
-		k.UserID = ledger.CreatorID
-		k.IconType = "3"
-		k.LedgerID = ledger.ID
+	for i, _ := range data {
+		data[i].UserID = ledger.CreatorID
+		data[i].IconType = "3"
+		data[i].LedgerID = ledger.ID
 	}
 	// 创建分类
 	if err := db.Create(&data).Error; err != nil {
