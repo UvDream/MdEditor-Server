@@ -2222,6 +2222,53 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/statistics/personal": {
+            "get": {
+                "description": "获取个人统计",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "获取个人统计",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.PersonalStatisticsData"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/tag/create": {
             "post": {
                 "consumes": [
@@ -3893,6 +3940,27 @@ const docTemplate = `{
                 },
                 "year": {
                     "description": "年份",
+                    "type": "integer"
+                }
+            }
+        },
+        "ledger.PersonalStatisticsData": {
+            "type": "object",
+            "properties": {
+                "accounting_days": {
+                    "description": "记账天数",
+                    "type": "integer"
+                },
+                "accounting_number": {
+                    "description": "记账数目",
+                    "type": "integer"
+                },
+                "accounting_total": {
+                    "description": "记账总额",
+                    "type": "number"
+                },
+                "attendance_days": {
+                    "description": "打卡天数",
                     "type": "integer"
                 }
             }

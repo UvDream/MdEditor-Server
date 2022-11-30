@@ -24,3 +24,14 @@ type MemberStatisticsData struct {
 	Amount float64 `json:"amount"`
 	Date   string  `json:"date"`
 }
+
+type PersonalStatisticsData struct {
+	//	打卡天数
+	AttendanceDays int64 `json:"attendance_days"`
+	//	记账天数
+	AccountingDays int64 `json:"accounting_days"`
+	//	记账数目
+	AccountingNumber int64 `json:"accounting_number"`
+	//记账总额
+	AccountingTotal float64 `json:"accounting_total"`
+}

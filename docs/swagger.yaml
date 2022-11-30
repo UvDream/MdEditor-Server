@@ -574,6 +574,21 @@ definitions:
         description: 年份
         type: integer
     type: object
+  ledger.PersonalStatisticsData:
+    properties:
+      accounting_days:
+        description: 记账天数
+        type: integer
+      accounting_number:
+        description: 记账数目
+        type: integer
+      accounting_total:
+        description: 记账总额
+        type: number
+      attendance_days:
+        description: 打卡天数
+        type: integer
+    type: object
   ledger.TagLedger:
     properties:
       create_time:
@@ -2120,6 +2135,34 @@ paths:
                   type: boolean
               type: object
       summary: 获取成员统计
+      tags:
+      - statistics
+  /ledger/statistics/personal:
+    get:
+      consumes:
+      - application/json
+      description: 获取个人统计
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.PersonalStatisticsData'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取个人统计
       tags:
       - statistics
   /ledger/tag/create:

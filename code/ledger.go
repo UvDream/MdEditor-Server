@@ -42,4 +42,5 @@ const (
 	ErrorUserAlreadyJoined                      = 11039 //	用户已加入账本
 	ErrorGetMemberStatistics                    = 11040 //	查询成员统计失败
 	ErrorGetIncomeExpenditureStatisticsByMember = 11041 //	查询成员收支统计失败
+	ErrorGetPersonalStatistics                  = 11042 //	查询个人统计失败
 )

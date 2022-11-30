@@ -40,6 +40,11 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.PUT("/bill/update", accountApi.UpdateBill)
 		ledgerRouter.GET("/bill/list", accountApi.GetBillList)
 		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
+		//	预算
+		ledgerRouter.POST("/budget/create", accountApi.CreateBudget)
+		ledgerRouter.DELETE("/budget/delete", accountApi.DeleteBudget)
+		ledgerRouter.PUT("/budget/update", accountApi.UpdateBudget)
+		ledgerRouter.GET("/budget/list", accountApi.GetBudgetList)
 		//	日历统计
 		ledgerRouter.GET("/statistics/calendar", accountApi.GetCalendar)
 		//	首页统计
@@ -50,11 +55,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.GET("/statistics/income_expenditure", accountApi.GetIncomeExpenditureStatistics)
 		//成员统计
 		ledgerRouter.GET("/statistics/member", accountApi.GetMemberStatistics)
-		//	预算
-		ledgerRouter.POST("/budget/create", accountApi.CreateBudget)
-		ledgerRouter.DELETE("/budget/delete", accountApi.DeleteBudget)
-		ledgerRouter.PUT("/budget/update", accountApi.UpdateBudget)
-		ledgerRouter.GET("/budget/list", accountApi.GetBudgetList)
+		ledgerRouter.GET("/statistics/personal", accountApi.GetPersonalStatistics)
+
 	}
 	return ledgerRouter
 }

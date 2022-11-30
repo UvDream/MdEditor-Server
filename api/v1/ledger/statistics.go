@@ -3,6 +3,9 @@ package ledger
 import (
 	"github.com/gin-gonic/gin"
 	"server/code"
+	"server/global"
+	"server/models/ledger"
+	"server/utils"
 )
 
 //GetCategoryStatistics 获取分类统计
@@ -82,4 +85,35 @@ func (*ApiLedger) GetMemberStatistics(c *gin.Context) {
 		return
 	}
 	code.SuccessResponse(data, cd, c)
+}
+
+//GetPersonalStatistics 获取个人统计
+// @Tags statistics
+// @Summary 获取个人统计
+// @Description 获取个人统计
+// @Accept  json
+// @Produce  json
+// @Success 200 {object}  code.Response{data=[]ledger.PersonalStatisticsData,code=int,msg=string,success=bool}
+// @Router /ledger/statistics/personal [get]
+func (*ApiLedger) GetPersonalStatistics(c *gin.Context) {
+	personalStatisticsData := &ledger.PersonalStatisticsData{}
+	db := global.DB
+	userID := utils.FindUserID(c)
+	//记账数目
+	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Count(&personalStatisticsData.AccountingNumber).Error; err != nil {
+		code.FailResponse(code.ErrorGetPersonalStatistics, c)
+		return
+	}
+	//	记账天数
+	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Distinct("create_time").Count(&personalStatisticsData.AccountingDays).Error; err != nil {
+		code.FailResponse(code.ErrorGetPersonalStatistics, c)
+		return
+	}
+
+	//	记账总金额
+	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Select("sum(amount) as income").Scan(&personalStatisticsData.AccountingTotal).Error; err != nil {
+		code.FailResponse(code.ErrorGetPersonalStatistics, c)
+		return
+	}
+	code.SuccessResponse(personalStatisticsData, code.SUCCESS, c)
 }
