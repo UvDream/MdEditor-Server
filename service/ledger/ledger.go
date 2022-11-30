@@ -1,9 +1,13 @@
 package ledger
 
 import (
+	"errors"
 	"server/code"
 	"server/global"
 	ledger2 "server/models/ledger"
+	"server/models/system"
+	"server/utils"
+	"time"
 )
 
 type LedgersService struct{}
@@ -15,6 +19,7 @@ func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int,
 	if err := db.Where("name = ?", ledger.Name).Where("creator_id = ?", ledger.CreatorID).First(&ledger2.Ledger{}).Error; err == nil {
 		return ledger, code.ErrLedgerExist, err
 	}
+	ledger.ShareCodeTime = time.Now()
 	if err := db.Create(&ledger).Error; err != nil {
 		return ledger, code.ErrCreateLedger, err
 	}
@@ -100,4 +105,82 @@ func (*LedgersService) GetLedgerDetail(id string) (ledger ledger2.Ledger, cd int
 		return ledger, code.ErrorLedgerNotExist, err
 	}
 	return ledger, code.SUCCESS, nil
+}
+
+func (*LedgersService) ShareLedger(id string, userID string) (string, int, error) {
+	db := global.DB
+	//判断账本是否存在
+	var ledger ledger2.Ledger
+	if err := db.Where("id = ?", id).First(&ledger).Error; err != nil {
+		return "", code.ErrorLedgerNotExist, err
+	}
+	//判断是否是账本创建者
+	if ledger.CreatorID != userID {
+		return "", code.ErrorNotLedgerCreator, errors.New("不是账本创建者")
+	}
+	//判断共享码是否超过7天
+	if ledger.ShareCode != "" && time.Now().Sub(ledger.ShareCodeTime) < 7*24*time.Hour {
+		return ledger.ShareCode, code.SUCCESS, nil
+	}
+	//生成分享码
+	shareCode := utils.RandString(6)
+	//更新账本分享码以及生成时间
+	if err := db.Model(&ledger).Where("id = ?", id).Update("share_code", shareCode).Update("share_code_time", time.Now()).Error; err != nil {
+		return "", code.ErrorUpdateLedger, err
+	}
+	return shareCode, code.SUCCESS, nil
+}
+
+func (*LedgersService) JoinLedger(shareCode string, userID string) (int, error) {
+	db := global.DB
+	//判断账本是否存在
+	var ledger ledger2.Ledger
+	if err := db.Where("share_code = ?", shareCode).First(&ledger).Error; err != nil {
+		return code.ErrorLedgerNotExist, err
+	}
+	//判断是否已经加入
+	var ledgerUser ledger2.LedgerUser
+	if err := db.Where("ledger_id = ? AND user_id = ?", ledger.ID, userID).First(&ledgerUser).Error; err != nil {
+		//没有加入则加入
+		ledgerUser.LedgerID = ledger.ID
+		ledgerUser.UserID = userID
+		ledgerUser.Permission = "0"
+		if err := db.Create(&ledgerUser).Error; err != nil {
+			return code.ErrorJoinLedger, err
+		}
+	}
+	return code.SUCCESS, nil
+}
+
+func (*LedgersService) InviteLedger(email string, ledgerID string, userID string) (int, error) {
+	db := global.DB
+	// 查找用户是否存在
+	var user system.User
+	if err := db.Where("email = ?", email).First(&user).Error; err != nil {
+		return code.ErrorUserNotExist, err
+	}
+	//判断是否已经加入
+	var ledgerUser ledger2.LedgerUser
+	if err := db.Where("ledger_id = ? AND user_id = ?", ledgerID, user.ID).First(&ledgerUser).Error; nil == err {
+		return code.ErrorUserAlreadyJoined, nil
+	}
+	//判断是否是账本创建者
+	var ledger ledger2.Ledger
+	if err := db.Where("id = ?", ledgerID).First(&ledger).Error; err != nil {
+		return code.ErrorLedgerNotExist, err
+	}
+	if ledger.CreatorID != userID {
+		return code.ErrorNotLedgerCreator, errors.New("不是账本创建者")
+	}
+	//发送邮件
+	//	if err := utils.SendEmail(email, "账本邀请", "您被邀请加入账本"); err != nil {
+	//		return code.ErrorSendEmail, err
+	//	}
+	//创建账本用户
+	ledgerUser.LedgerID = ledgerID
+	ledgerUser.UserID = user.ID
+	if err := db.Create(&ledgerUser).Error; err != nil {
+		return code.ErrorJoinLedger, err
+	}
+	return code.SUCCESS, nil
 }

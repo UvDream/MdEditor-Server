@@ -122,3 +122,74 @@ func (*ApiLedger) GetLedgerDetail(c *gin.Context) {
 	}
 	code.SuccessResponse(data, cd, c)
 }
+
+//ShareLedger 分享账本
+//@Summary 分享账本
+//@Tags ledger
+//@Accept  json
+//@Produce  json
+//@Param id query int true "账本ID"
+//@Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.Ledger}
+//@Router /ledger/share [post]
+func (*ApiLedger) ShareLedger(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	userID := utils.FindUserID(c)
+	data, cd, err := ledgerService.ShareLedger(id, userID)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
+}
+
+// JoinLedger 加入账本
+//@Summary 加入账本
+//@Tags ledger
+//@Accept  json
+//@Produce  json
+//@Param share_code query string true "分享码"
+//@Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.Ledger}
+//@Router /ledger/join [post]
+func (*ApiLedger) JoinLedger(c *gin.Context) {
+	shareCode := c.Query("share_code")
+	if shareCode == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	userID := utils.FindUserID(c)
+	cd, err := ledgerService.JoinLedger(shareCode, userID)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
+}
+
+// InviteLedger 邀请加入账本
+//@Summary 邀请加入账本
+//@Tags ledger
+//@Accept  json
+//@Produce  json
+//@Param email query string true "邮箱"
+//@Param ledger_id query string true "账本ID"
+//@Success 200 {object} code.Response{code=int,msg=string,success=bool,data=ledger.Ledger}
+//@Router /ledger/invite [post]
+func (*ApiLedger) InviteLedger(c *gin.Context) {
+	email := c.Query("email")
+	ledgerID := c.Query("ledger_id")
+	if email == "" {
+		code.FailResponse(code.ErrorMissingId, c)
+		return
+	}
+	userID := utils.FindUserID(c)
+	cd, err := ledgerService.InviteLedger(email, ledgerID, userID)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
+}

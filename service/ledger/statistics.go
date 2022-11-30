@@ -1,10 +1,12 @@
 package ledger
 
 import (
+	"fmt"
 	"server/code"
 	"server/global"
 	"server/models/ledger"
 	"server/utils"
+	"time"
 )
 
 func (*LedgersService) GetCategoryStatisticsService(ledgerID string, startTime string, endTime string, types string) (data []ledger.CategoryStatisticsData, cd int, err error) {
@@ -105,6 +107,74 @@ func (*LedgersService) GetIncomeExpenditureStatisticsService(ledgerID string, st
 			incomeExpenditureStatisticsData.Amount = d.Income
 		}
 		data = append(data, incomeExpenditureStatisticsData)
+	}
+	return data, code.SUCCESS, err
+}
+
+func (*LedgersService) GetMemberStatisticsService(ledgerID string, startTime string, endTime string, types string, isYear string) (data []ledger.MemberStatisticsData, cd int, err error) {
+	db := global.DB
+	dayList, _ := utils.GetDateList(startTime, endTime, isYear)
+	fmt.Println(dayList, db)
+	//先查出用户
+	var ledgerList ledger.Ledger
+	if err := db.Where("id = ?", ledgerID).Preload("User").First(&ledgerList).Error; err != nil {
+		return nil, code.ErrorGetMemberStatistics, err
+	}
+	for _, v := range ledgerList.User {
+		arr, cd, err := getAmount(ledgerID, dayList, types, isYear, v.ID, v.NickName)
+		if err != nil {
+			return nil, cd, err
+		}
+		fmt.Println(arr)
+		data = append(data, arr...)
+	}
+	return data, code.SUCCESS, err
+}
+
+type UserStatisticsData struct {
+	Income      float64 `json:"income"`
+	Expenditure float64 `json:"expenditure"`
+}
+
+func getAmount(ledgerID string, dateList []time.Time, types string, isYear string, userID string, nickName string) (data []ledger.MemberStatisticsData, cd int, err error) {
+	db := global.DB
+	for _, v := range dateList {
+		d := &struct {
+			Income      float64 `json:"income"`
+			Expenditure float64 `json:"expenditure"`
+		}{}
+		if types == "0" {
+			if isYear == "0" {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? and creator_id = ?", ledgerID, types, userID).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 0, 1)).Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
+					return nil, code.ErrorGetIncomeExpenditureStatistics, err
+				}
+			} else {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? and creator_id = ?", ledgerID, types, userID).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 1, 0)).Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
+					return nil, code.ErrorGetIncomeExpenditureStatistics, err
+				}
+			}
+		} else {
+			if isYear == "0" {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? and creator_id = ?", ledgerID, types, userID).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 0, 1)).Select("sum(amount) as income").Scan(d).Error; err != nil {
+					return nil, code.ErrorGetIncomeExpenditureStatistics, err
+				}
+			} else {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? and creator_id = ?", ledgerID, types, userID).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 1, 0)).Select("sum(amount) as income").Scan(d).Error; err != nil {
+					return nil, code.ErrorGetIncomeExpenditureStatistics, err
+				}
+			}
+
+		}
+		var memberStatisticsData ledger.MemberStatisticsData
+		memberStatisticsData.Date = v.Format("2006-01-02")
+		memberStatisticsData.Name = nickName
+		memberStatisticsData.MemberID = userID
+		if types == "0" {
+			memberStatisticsData.Amount = d.Expenditure
+		} else {
+			memberStatisticsData.Amount = d.Income
+		}
+		data = append(data, memberStatisticsData)
 	}
 	return data, code.SUCCESS, err
 }

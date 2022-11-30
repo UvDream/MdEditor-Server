@@ -15,3 +15,12 @@ type IncomeExpenditureStatisticsData struct {
 	Date   string  `json:"date"`
 	Amount float64 `json:"amount"`
 }
+type MemberStatisticsData struct {
+	//	成员名称
+	Name string `json:"name"`
+	//	成员ID
+	MemberID string `json:"member_id"`
+	//	成员金额
+	Amount float64 `json:"amount"`
+	Date   string  `json:"date"`
+}

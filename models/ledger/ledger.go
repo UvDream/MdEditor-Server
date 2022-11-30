@@ -3,6 +3,7 @@ package ledger
 import (
 	"server/models"
 	"server/models/system"
+	"time"
 )
 
 type Ledger struct {
@@ -30,7 +31,9 @@ type Ledger struct {
 	// 分类
 	Categories []CategoryLedger `json:"categories"`
 	//	标签
-	Tags []TagLedger `json:"tags"`
+	Tags          []TagLedger `json:"tags"`
+	ShareCode     string      `json:"share_code"`
+	ShareCodeTime time.Time   `json:"share_code_time"`
 }
 
 // LedgerUser 关联表
@@ -38,7 +41,7 @@ type LedgerUser struct {
 	LedgerID string `json:"ledger_id" gorm:"index;size:255;comment:账本ID"`
 	UserID   string `json:"user_id" gorm:"index;size:255;comment:用户ID"`
 	//	权限
-	Permission string `json:"permission" gorm:"size:255;comment:权限"` // 读写权限/只读权限
+	Permission string `json:"permission" gorm:"size:255;comment:权限"` // 0读写权限/1只读权限
 }
 type HomeStatisticsData struct {
 	//	收入

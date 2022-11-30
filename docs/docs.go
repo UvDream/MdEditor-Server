@@ -1636,6 +1636,117 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/invite": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "邀请加入账本",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "邮箱",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "账本ID",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.Ledger"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/join": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "加入账本",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "分享码",
+                        "name": "share_code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.Ledger"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/list": {
             "get": {
                 "consumes": [
@@ -1667,6 +1778,58 @@ const docTemplate = `{
                                             "items": {
                                                 "$ref": "#/definitions/ledger.Ledger"
                                             }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/share": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "分享账本",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账本ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.Ledger"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -1959,6 +2122,90 @@ const docTemplate = `{
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/definitions/ledger.IncomeExpenditureStatisticsData"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/statistics/member": {
+            "get": {
+                "description": "获取成员统计",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "获取成员统计",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "账本ID",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "开始时间",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "结束时间",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "类型",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "是否按年统计",
+                        "name": "is_year",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.MemberStatisticsData"
                                             }
                                         },
                                         "msg": {
@@ -3536,6 +3783,12 @@ const docTemplate = `{
                     "description": "账本名称",
                     "type": "string"
                 },
+                "share_code": {
+                    "type": "string"
+                },
+                "share_code_time": {
+                    "type": "string"
+                },
                 "tags": {
                     "description": "标签",
                     "type": "array",
@@ -3560,6 +3813,26 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/system.User"
                     }
+                }
+            }
+        },
+        "ledger.MemberStatisticsData": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "description": "成员金额",
+                    "type": "number"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "member_id": {
+                    "description": "成员ID",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "成员名称",
+                    "type": "string"
                 }
             }
         },

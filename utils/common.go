@@ -3,6 +3,7 @@ package utils
 import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"math/rand"
 	"strconv"
 )
 
@@ -38,4 +39,13 @@ func getParam(c *gin.Context, key string, defaultValue int) int {
 		}
 	}
 	return result
+}
+
+func RandString(n int) string {
+	var letter = []byte("123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	var result = make([]byte, n)
+	for i := range result {
+		result[i] = letter[rand.Intn(len(letter))]
+	}
+	return string(result)
 }
