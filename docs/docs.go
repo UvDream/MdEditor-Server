@@ -4110,6 +4110,10 @@ const docTemplate = `{
                         "$ref": "#/definitions/system.SysRole"
                     }
                 },
+                "source": {
+                    "description": "来源",
+                    "type": "string"
+                },
                 "update_time": {
                     "type": "string"
                 },

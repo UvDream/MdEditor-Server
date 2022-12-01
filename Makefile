@@ -3,9 +3,9 @@ all: build deploy  clean
 build:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server .
 deploy:
-	ssh -P 3322  root@$(server)  "systemctl stop server"
+	ssh -p 3322  root@$(server)  "systemctl stop server"
 	scp -P 3322 -r server root@$(server):/server
-	ssh -P 3322 root@$(server)  "systemctl start server"
+	ssh -p 3322 root@$(server)  "systemctl start server"
 #deploy_config:
 #	scp  config.yml root@124.223.8.237:/server
 clean:

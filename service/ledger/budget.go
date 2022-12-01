@@ -14,7 +14,7 @@ func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 	if budget.BudgetType == "0" {
 		//查询是否存在
 		var oldData []ledger.MoneyBudget
-		if err := db.Where("ledger_id = ?", budget.LedgerID).Where("year = ?", budget.Year).Where("date = ?", budget.Date).First(&oldData).Error; err != nil {
+		if err := db.Where("ledger_id = ?", budget.LedgerID).Where("year = ?", budget.Year).Where("date = ?", budget.Date).Find(&oldData).Error; err != nil {
 			return data, code.ErrGetBudget, err
 		}
 		if len(oldData) > 0 {

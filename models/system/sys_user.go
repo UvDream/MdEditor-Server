@@ -19,6 +19,8 @@ type User struct {
 	Roles        []SysRole  `json:"roles" gorm:"many2many:sys_user_role;"`
 	UserConfigID string     `json:"user_config_id" gorm:"comment:用户配置ID"`
 	UserConfig   UserConfig `json:"user_config" gorm:"foreignKey:UserConfigID"`
+	//	来源
+	Source string `json:"source" gorm:"comment:来源;default:'editor'"`
 }
 
 //LoginRequest 登陆请求参数

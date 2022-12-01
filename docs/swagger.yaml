@@ -688,6 +688,9 @@ definitions:
         items:
           $ref: '#/definitions/system.SysRole'
         type: array
+      source:
+        description: 来源
+        type: string
       update_time:
         type: string
       user_config:

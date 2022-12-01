@@ -105,12 +105,18 @@ func (*ApiLedger) GetBudgetList(c *gin.Context) {
 	data, cd, err := ledgerService.GetBudgetList(id, year)
 
 	if err != nil {
-		code.FailResponse(cd, c)
+		code.SuccessResponse(BudgetData{
+			YearBudget:  ledger.MoneyBudget{},
+			MonthBudget: []ledger.MoneyBudget{},
+		}, cd, c)
 		return
 	}
 	yearData, cd, err := ledgerService.GetYearBudget(id, year)
 	if err != nil {
-		code.FailResponse(cd, c)
+		code.SuccessResponse(BudgetData{
+			YearBudget:  ledger.MoneyBudget{},
+			MonthBudget: data,
+		}, cd, c)
 		return
 	}
 
