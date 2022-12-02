@@ -86,4 +86,5 @@ var zhCNText = map[int]string{
 	ErrorJoinLedger:                     "加入账本失败",
 	ErrorUserNotExist:                   "用户不存在",
 	ErrorUserAlreadyJoined:              "用户已加入",
+	ErrorGetBudget:                      "查询预算统计失败",
 }
