@@ -38,7 +38,7 @@ type Bill struct {
 	ClassName string `json:"class_name" gorm:"type:varchar(255);comment:图标class名称"`
 	Img       string `json:"img" gorm:"type:varchar(255);comment:图标图片"`
 	//	不计入预算
-	NotBudget string `json:"not_budget" gorm:"type:varchar(255);comment:不计入预算;default:'0'"`
+	NotBudget string `json:"not_budget" gorm:"type:varchar(255);comment:不计入预算;default:'0'"` //0 不计入 1 计入
 }
 type BillRequest struct {
 	//	账单名称

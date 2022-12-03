@@ -95,10 +95,10 @@ func (*LedgersService) GetHomeStatisticsService(ledgerID string, startTime strin
 		Expenditure float64 `json:"expenditure"`
 	}{}
 
-	if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Select("sum(amount) as income").Scan(d).Error; err != nil {
+	if err := db.Model(&ledger.Bill{}).Where("type = ?", 1).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Where("not_budget = 0").Select("sum(amount) as income").Scan(d).Error; err != nil {
 		return data, code.ErrorGetBill, err
 	}
-	if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
+	if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Where("not_budget = 0").Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
 		return data, code.ErrorGetBill, err
 	}
 	//查询预算
