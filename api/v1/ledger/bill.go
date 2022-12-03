@@ -24,7 +24,8 @@ func (*ApiLedger) CreateBill(c *gin.Context) {
 		code.FailWithMessage(err.Error(), c)
 		return
 	}
-	bill.CreateTime, _ = time.Parse("2006-01-02 15:04:05", bill.Date)
+	local, _ := time.LoadLocation("Local")
+	bill.CreateTime, _ = time.ParseInLocation("2006-01-02 15:04:05", bill.Date, local)
 	if bill.LedgerID == "" {
 		code.FailResponse(code.ErrorMissingLedgerId, c)
 		return

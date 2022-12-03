@@ -34,7 +34,7 @@ zap:
 mysql:
   path: '127.0.0.1'
   port: '3306'
-  config: 'charset=utf8&parseTime=True&loc=Local'
+  config: 'charset=utf8mb4,utf8&parseTime=True&loc=Local'
   db-name: 'kyara'
   username: 'root'
   password: '123456'
