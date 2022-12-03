@@ -3591,6 +3591,10 @@ const docTemplate = `{
                     "description": "账本ID",
                     "type": "string"
                 },
+                "not_budget": {
+                    "description": "不计入预算",
+                    "type": "string"
+                },
                 "remark": {
                     "description": "账单备注",
                     "type": "string"
