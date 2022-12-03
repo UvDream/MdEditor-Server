@@ -83,19 +83,24 @@ func (*LedgersService) UpdateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 }
 
 func (*LedgersService) GetBudgetList(ledgerID string, year string) (data []ledger.MoneyBudget, cd int, err error) {
-	if err := global.DB.Where("ledger_id = ?", ledgerID).Where("year = ?", year).Where("date > 0").Preload(clause.Associations).Order("date").Find(&data).Error; err != nil {
+	if err := global.DB.Where("ledger_id = ?", ledgerID).Where("year = ?", year).Where("date > 0").Where("budget_type = 0").Preload(clause.Associations).Order("date").Find(&data).Error; err != nil {
 		return data, code.ErrGetBudget, err
 	}
+	//month := strconv.Itoa(1)
 	//算出每个月支出
 	for i, k := range data {
-		//	时间
 		year := strconv.Itoa(k.Year)
 		month := strconv.Itoa(k.Date)
+		//	时间
 		if k.Date < 10 {
 			month = "0" + month
 		}
 		currentMonth := year + "-" + month + "-01"
 		nextMonth := year + "-" + strconv.Itoa(k.Date+1) + "-01"
+		if k.Date == 12 {
+			year = strconv.Itoa(k.Year + 1)
+			nextMonth = year + "-01-01"
+		}
 		//	查询
 		d := &struct {
 			Expenditure float64 `json:"expenditure"`
