@@ -105,7 +105,7 @@ func (*LedgersService) GetBudgetList(ledgerID string, year string) (data []ledge
 		d := &struct {
 			Expenditure float64 `json:"expenditure"`
 		}{}
-		if err := global.DB.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", currentMonth, nextMonth).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
+		if err := global.DB.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("not_budget = 0").Where("create_time BETWEEN ? AND ?", currentMonth, nextMonth).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
 			return data, code.ErrGetBudget, err
 		}
 
