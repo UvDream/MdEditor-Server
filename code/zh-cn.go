@@ -4,6 +4,7 @@ var zhCNText = map[int]string{
 	SUCCESS:                             "成功",
 	ERROR:                               "错误",
 	ErrorNotLogin:                       "未登录",
+	ErrorTokenGenerate:                  "token生成失败",
 	ErrorAuthorizationExpires:           "授权过期",
 	ErrorImageNotFound:                  "图片不存在",
 	UploadImageSuccess:                  "上传图片成功",

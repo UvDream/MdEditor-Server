@@ -49,6 +49,8 @@ const (
 	ErrorToken                      = 10030 //token错误
 	ErrorUpdatePasswordMissingParam = 10031 //缺少参数
 	ErrorUpdatePassword             = 10032 //更新密码失败
+	ErrorTokenGenerate              = 10033 //token生成错误
+	ErrorGetOpenID                  = 10034 //获取openID 失败
 )
 
 func Text(code int) string {

@@ -21,6 +21,8 @@ type User struct {
 	UserConfig   UserConfig `json:"user_config" gorm:"foreignKey:UserConfigID"`
 	//	来源
 	Source string `json:"source" gorm:"comment:来源;default:'editor'"`
+	//	微信用户唯一ID
+	OpenID string `json:"open_id" gorm:"comment:微信用户唯一ID"`
 }
 
 //LoginRequest 登陆请求参数
