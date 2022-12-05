@@ -2526,6 +2526,61 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/wx/get_token": {
+            "get": {
+                "description": "获取token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "WeChat"
+                ],
+                "summary": "获取token",
+                "parameters": [
+                    {
+                        "description": "js_code",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.WeChatUserInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/public/base/captcha": {
             "post": {
                 "description": "图形验证码",
@@ -4006,6 +4061,24 @@ const docTemplate = `{
                 }
             }
         },
+        "ledger.WeChatUserInfo": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "open_id": {
+                    "description": "UnionID",
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "system.LoginRequest": {
             "type": "object",
             "required": [
@@ -4099,6 +4172,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "nick_name": {
+                    "type": "string"
+                },
+                "open_id": {
+                    "description": "微信用户唯一ID",
                     "type": "string"
                 },
                 "password": {

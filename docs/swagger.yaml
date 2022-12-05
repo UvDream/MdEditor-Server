@@ -618,6 +618,18 @@ definitions:
       update_time:
         type: string
     type: object
+  ledger.WeChatUserInfo:
+    properties:
+      avatar:
+        type: string
+      name:
+        type: string
+      open_id:
+        description: UnionID
+        type: string
+      phone:
+        type: string
+    type: object
   system.LoginRequest:
     properties:
       captcha:
@@ -681,6 +693,9 @@ definitions:
       id:
         type: string
       nick_name:
+        type: string
+      open_id:
+        description: 微信用户唯一ID
         type: string
       password:
         type: string
@@ -2323,6 +2338,39 @@ paths:
       summary: 更新账本
       tags:
       - ledger
+  /ledger/wx/get_token:
+    get:
+      consumes:
+      - application/json
+      description: 获取token
+      parameters:
+      - description: js_code
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.WeChatUserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取token
+      tags:
+      - WeChat
   /public/base/captcha:
     post:
       consumes:

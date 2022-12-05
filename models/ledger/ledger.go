@@ -51,3 +51,11 @@ type HomeStatisticsData struct {
 	//	预算
 	Budget float64 `json:"budget"`
 }
+
+type WeChatUserInfo struct {
+	//UnionID
+	OpenID string `json:"open_id"`
+	Name   string `json:"name"`
+	Avatar string `json:"avatar"`
+	Phone  string `json:"phone"`
+}

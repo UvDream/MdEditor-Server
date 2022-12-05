@@ -4,21 +4,19 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"server/code"
+	"server/models/ledger"
 )
 
 func (*ApiLedger) GetOpenId(c *gin.Context) {
 	jsCode := c.Query("js_code")
 	fmt.Println(jsCode)
-	ledgerService.GetOpenIDService(jsCode)
+	data, cd, err := ledgerService.GetOpenIDService(jsCode)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
 
-}
-
-type WeChatUserInfo struct {
-	//UnionID
-	OpenID string `json:"open_id"`
-	Name   string `json:"name"`
-	Avatar string `json:"avatar"`
-	Phone  string `json:"phone"`
 }
 
 //GetToken 获取token
@@ -31,7 +29,7 @@ type WeChatUserInfo struct {
 // @Success 200 {object}  code.Response{data=string,code=int,msg=string,success=bool}
 // @Router /ledger/wx/get_token [get]
 func (*ApiLedger) GetToken(c *gin.Context) {
-	var query WeChatUserInfo
+	var query ledger.WeChatUserInfo
 	if err := c.ShouldBindJSON(&query); err != nil {
 		fmt.Println(err)
 	}
