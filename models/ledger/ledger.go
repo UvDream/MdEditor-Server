@@ -59,3 +59,10 @@ type WeChatUserInfo struct {
 	Avatar string `json:"avatar"`
 	Phone  string `json:"phone"`
 }
+
+type DataSummary struct {
+	//收入
+	Income float64 `json:"income"`
+	//支出
+	Expenditure float64 `json:"expenditure"`
+}

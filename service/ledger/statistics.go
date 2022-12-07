@@ -1,7 +1,6 @@
 package ledger
 
 import (
-	"fmt"
 	"server/code"
 	"server/global"
 	"server/models/ledger"
@@ -73,27 +72,26 @@ func (*LedgersService) GetIncomeExpenditureStatisticsService(ledgerID string, st
 	dayList, _ := utils.GetDateList(startTime, endTime, isYear)
 	//求出每天的收入/支出
 	for _, v := range dayList {
-		d := &struct {
-			Income      float64 `json:"income"`
-			Expenditure float64 `json:"expenditure"`
-		}{}
+		var d ledger.DataSummary
+		nextDay := v.AddDate(0, 0, 1)
+		nextMonth := v.AddDate(0, 1, 0)
 		if types == "0" {
 			if isYear == "0" {
-				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 0, 1)).Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >= ?", v).Where("create_time < ?", nextDay).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
 					return nil, code.ErrorGetIncomeExpenditureStatistics, err
 				}
 			} else {
-				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 1, 0)).Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >= ?", v).Where("create_time < ?", nextMonth).Select("sum(amount) as expenditure").Scan(&d).Error; err != nil {
 					return nil, code.ErrorGetIncomeExpenditureStatistics, err
 				}
 			}
 		} else {
 			if isYear == "0" {
-				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 0, 1)).Select("sum(amount) as income").Scan(d).Error; err != nil {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >= ?", v).Where("create_time < ?", nextDay).Select("sum(amount) as income").Scan(&d).Error; err != nil {
 					return nil, code.ErrorGetIncomeExpenditureStatistics, err
 				}
 			} else {
-				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >?", v).Where("create_time < ?", v.AddDate(0, 1, 0)).Select("sum(amount) as income").Scan(d).Error; err != nil {
+				if err := db.Model(&ledger.Bill{}).Where("ledger_id = ? and type = ? ", ledgerID, types).Where("create_time >= ?", v).Where("create_time < ?", nextMonth).Select("sum(amount) as income").Scan(&d).Error; err != nil {
 					return nil, code.ErrorGetIncomeExpenditureStatistics, err
 				}
 			}
@@ -114,18 +112,17 @@ func (*LedgersService) GetIncomeExpenditureStatisticsService(ledgerID string, st
 func (*LedgersService) GetMemberStatisticsService(ledgerID string, startTime string, endTime string, types string, isYear string) (data []ledger.MemberStatisticsData, cd int, err error) {
 	db := global.DB
 	dayList, _ := utils.GetDateList(startTime, endTime, isYear)
-	fmt.Println(dayList, db)
 	//先查出用户
 	var ledgerList ledger.Ledger
-	if err := db.Where("id = ?", ledgerID).Preload("User").First(&ledgerList).Error; err != nil {
+	if err := db.Where("id = ?", ledgerID).Preload("User").Preload("Creator").First(&ledgerList).Error; err != nil {
 		return nil, code.ErrorGetMemberStatistics, err
 	}
+	ledgerList.User = append(ledgerList.User, ledgerList.Creator)
 	for _, v := range ledgerList.User {
 		arr, cd, err := getAmount(ledgerID, dayList, types, isYear, v.ID, v.NickName)
 		if err != nil {
 			return nil, cd, err
 		}
-		fmt.Println(arr)
 		data = append(data, arr...)
 	}
 	return data, code.SUCCESS, err

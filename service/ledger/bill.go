@@ -35,7 +35,7 @@ func (*LedgersService) UpdateBillService(bill ledger.Bill) (ledger.Bill, int, er
 	if err := db.Where("id = ?", bill.ID).First(&ledger.Bill{}).Error; err != nil {
 		return bill, code.ErrorGetBill, err
 	}
-	if err := db.Model(&ledger.Bill{}).Where("id = ?", bill.ID).Updates(&bill).Error; err != nil {
+	if err := db.Model(&ledger.Bill{}).Where("id = ?", bill.ID).Omit("creator_id").Updates(&bill).Error; err != nil {
 		return bill, code.ErrorUpdateBill, err
 	}
 	return bill, 0, nil
