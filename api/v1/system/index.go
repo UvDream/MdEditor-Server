@@ -11,4 +11,5 @@ type ApiSystemGroup struct {
 var (
 	articleService = service.ServicesGroupApp.ArticleServiceGroup.ToArticleService
 	userService    = service.ServicesGroupApp.SystemServiceGroup.SysUserService
+	ledgerService  = service.ServicesGroupApp.LedgerServiceGroup
 )

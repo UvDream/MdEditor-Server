@@ -2526,61 +2526,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/ledger/wx/get_token": {
-            "get": {
-                "description": "获取token",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "WeChat"
-                ],
-                "summary": "获取token",
-                "parameters": [
-                    {
-                        "description": "js_code",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ledger.WeChatUserInfo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/code.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "code": {
-                                            "type": "integer"
-                                        },
-                                        "data": {
-                                            "type": "string"
-                                        },
-                                        "msg": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/public/base/captcha": {
             "post": {
                 "description": "图形验证码",
@@ -2809,6 +2754,114 @@ const docTemplate = `{
                                         },
                                         "data": {
                                             "$ref": "#/definitions/system.User"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/public/base/wx/get_openid": {
+            "get": {
+                "description": "获取openId",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "WeChat"
+                ],
+                "summary": "获取openId",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "js_code",
+                        "name": "js_code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/public/base/wx/get_token": {
+            "get": {
+                "description": "获取token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "WeChat"
+                ],
+                "summary": "获取token",
+                "parameters": [
+                    {
+                        "description": "js_code",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.WeChatUserInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "string"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -4102,6 +4155,35 @@ const docTemplate = `{
                 }
             }
         },
+        "system.Member": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "expire_time": {
+                    "description": "会员到期时间",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_member": {
+                    "description": "是否是会员",
+                    "type": "boolean"
+                },
+                "status": {
+                    "description": "会员状态",
+                    "type": "integer"
+                },
+                "update_time": {
+                    "type": "string"
+                }
+            }
+        },
         "system.RetrievePasswordRequest": {
             "type": "object",
             "properties": {
@@ -4169,6 +4251,21 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "invite_code": {
+                    "description": "邀请码",
+                    "type": "string"
+                },
+                "invited_code": {
+                    "description": "被邀请码",
+                    "type": "string"
+                },
+                "member": {
+                    "$ref": "#/definitions/system.Member"
+                },
+                "member_id": {
+                    "description": "会员信息",
                     "type": "string"
                 },
                 "nick_name": {

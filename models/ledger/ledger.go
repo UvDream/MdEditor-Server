@@ -57,6 +57,8 @@ type WeChatUserInfo struct {
 	OpenID string `json:"open_id"`
 	Name   string `json:"name"`
 	Avatar string `json:"avatar"`
+	//性别
+	Gender string `json:"gender"`
 	Phone  string `json:"phone"`
 }
 

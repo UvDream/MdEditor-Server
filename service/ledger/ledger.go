@@ -2,6 +2,7 @@ package ledger
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"server/code"
 	"server/global"
 	ledger2 "server/models/ledger"
@@ -12,10 +13,40 @@ import (
 
 type LedgersService struct{}
 
+func FindIsMember(userID string, db *gorm.DB) bool {
+	var user system.User
+	if err := db.Where("id = ?", userID).Preload("Member").First(&user).Error; err != nil {
+		return false
+	}
+	//查询会员日期是否过期
+	if user.Member.ExpireTime.Before(time.Now()) {
+		return false
+	}
+	if user.Member.IsMember {
+		return true
+	}
+	return false
+}
+
 //CreateLedger 创建账本
 func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int, error) {
-	//TODO 校验会员和非会员账本数量 会员可创建5个账本 非会员可创建1个账本
+	//校验会员和非会员账本数量 会员可创建5个账本 非会员可创建1个账本
 	db := global.DB
+	isMember := FindIsMember(ledger.CreatorID, db)
+	var count int64
+	if err := db.Where("creator_id = ?", ledger.CreatorID).Find(&ledger2.Ledger{}).Count(&count).Error; err != nil {
+		return ledger, code.ErrCreateLedger, err
+	}
+	//不是会员
+	if !isMember {
+		if count > 1 {
+			return ledger, code.ErrorCreateLedgerNotMember, errors.New("非会员只能创建一个账本")
+		}
+	}
+	//是会员
+	if count > 5 {
+		return ledger, code.ErrorCreateLedgerMember, errors.New("会员只能创建五个账本")
+	}
 	if err := db.Where("name = ?", ledger.Name).Where("creator_id = ?", ledger.CreatorID).First(&ledger2.Ledger{}).Error; err == nil {
 		return ledger, code.ErrLedgerExist, err
 	}

@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 	"server/models"
 	"server/utils"
+	"time"
 )
 
 // User 用户表
@@ -15,6 +16,8 @@ type User struct {
 	Phone    string `json:"phone" gorm:"comment:手机号"`
 	Email    string `json:"email" gorm:"comment:邮箱"`
 	Avatar   string `json:"avatar" gorm:"comment:头像"`
+	//性别
+	Gender string `json:"gender"`
 	//关联到角色表
 	Roles        []SysRole  `json:"roles" gorm:"many2many:sys_user_role;"`
 	UserConfigID string     `json:"user_config_id" gorm:"comment:用户配置ID"`
@@ -23,6 +26,24 @@ type User struct {
 	Source string `json:"source" gorm:"comment:来源;default:'editor'"`
 	//	微信用户唯一ID
 	OpenID string `json:"open_id" gorm:"comment:微信用户唯一ID"`
+	//	邀请码
+	InviteCode string `json:"invite_code" gorm:"comment:邀请码"`
+	//	会员信息
+	MemberID string `json:"member_id" gorm:"comment:会员信息"`
+	Member   Member `json:"member" gorm:"foreignKey:MemberID"`
+	// 被邀请码
+	InvitedCode string `json:"invited_code" gorm:"comment:被邀请码"`
+}
+
+// Member 会员信息
+type Member struct {
+	models.Model
+	//  是否是会员
+	IsMember bool `json:"is_member" gorm:"comment:是否是会员,default:false"`
+	//	会员到期时间
+	ExpireTime time.Time `json:"expire_time" gorm:"comment:会员到期时间"`
+	//	会员状态
+	Status int `json:"status" gorm:"comment:会员状态"`
 }
 
 //LoginRequest 登陆请求参数

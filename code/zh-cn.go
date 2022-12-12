@@ -88,4 +88,7 @@ var zhCNText = map[int]string{
 	ErrorUserNotExist:                   "用户不存在",
 	ErrorUserAlreadyJoined:              "用户已加入",
 	ErrorGetBudget:                      "查询预算统计失败",
+	ErrCreateLedgerNotMember:            "创建账本失败，不是账本成员",
+	ErrorCreateLedgerNotMember:          "非会员只能创建一个账本",
+	ErrorCreateLedgerMember:             "会员最大能创建五个账本",
 }

@@ -53,6 +53,7 @@ func (*LedgersService) GetTokenService(query ledger.WeChatUserInfo) (string, int
 			UserName: query.Name,
 			Avatar:   query.Avatar,
 			NickName: query.Name,
+			Gender:   query.Gender,
 		}
 		if err := db.Create(&user).Error; err != nil {
 			//创建token

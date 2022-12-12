@@ -28,3 +28,19 @@ func (*SysUserService) GetUserListService(query *system.SysUserRequest) (list in
 	}
 	return userList, total, "查询用户列表成功", nil
 }
+
+//func (*SysUserService) FindIsMember(userID string) bool {
+//	var user system.User
+//	db := global.DB
+//	if err := db.Where("id = ?", userID).Preload("Member").First(&user).Error; err != nil {
+//		return false
+//	}
+//	//查询会员日期是否过期
+//	if user.Member.ExpireTime.Before(time.Now()) {
+//		return false
+//	}
+//	if user.Member.IsMember {
+//		return true
+//	}
+//	return false
+//}

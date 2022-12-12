@@ -44,4 +44,7 @@ const (
 	ErrorGetIncomeExpenditureStatisticsByMember = 11041 //	查询成员收支统计失败
 	ErrorGetPersonalStatistics                  = 11042 //	查询个人统计失败
 	ErrorGetBudget                              = 11043 //	查询预算统计失败
+	ErrCreateLedgerNotMember                    = 11044 //不是会员
+	ErrorCreateLedgerNotMember                  = 11045 //	非会员只能创建一个账本
+	ErrorCreateLedgerMember                     = 11046 //	会员可以创建五个账本
 )

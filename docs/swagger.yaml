@@ -646,6 +646,26 @@ definitions:
     - password
     - user_name
     type: object
+  system.Member:
+    properties:
+      create_time:
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      expire_time:
+        description: 会员到期时间
+        type: string
+      id:
+        type: string
+      is_member:
+        description: 是否是会员
+        type: boolean
+      status:
+        description: 会员状态
+        type: integer
+      update_time:
+        type: string
+    type: object
   system.RetrievePasswordRequest:
     properties:
       email:
@@ -691,6 +711,17 @@ definitions:
       email:
         type: string
       id:
+        type: string
+      invite_code:
+        description: 邀请码
+        type: string
+      invited_code:
+        description: 被邀请码
+        type: string
+      member:
+        $ref: '#/definitions/system.Member'
+      member_id:
+        description: 会员信息
         type: string
       nick_name:
         type: string
@@ -2338,39 +2369,6 @@ paths:
       summary: 更新账本
       tags:
       - ledger
-  /ledger/wx/get_token:
-    get:
-      consumes:
-      - application/json
-      description: 获取token
-      parameters:
-      - description: js_code
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/ledger.WeChatUserInfo'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/code.Response'
-            - properties:
-                code:
-                  type: integer
-                data:
-                  type: string
-                msg:
-                  type: string
-                success:
-                  type: boolean
-              type: object
-      summary: 获取token
-      tags:
-      - WeChat
   /public/base/captcha:
     post:
       consumes:
@@ -2520,6 +2518,71 @@ paths:
       summary: 找回密码
       tags:
       - user
+  /public/base/wx/get_openid:
+    get:
+      consumes:
+      - application/json
+      description: 获取openId
+      parameters:
+      - description: js_code
+        in: query
+        name: js_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取openId
+      tags:
+      - WeChat
+  /public/base/wx/get_token:
+    get:
+      consumes:
+      - application/json
+      description: 获取token
+      parameters:
+      - description: js_code
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.WeChatUserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取token
+      tags:
+      - WeChat
   /tag/create:
     post:
       consumes:

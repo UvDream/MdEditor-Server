@@ -18,6 +18,10 @@ func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		baseRouter.GET("/md", baseApi.GetArticleMd)
 		//找回密码
 		baseRouter.POST("/retrieve_password", baseApi.RetrievePassword)
+		baseRouter.GET("/wx/get_openid", baseApi.GetOpenId)
+		////	利用用户信息生成token
+		baseRouter.GET("/wx/get_token", baseApi.GetToken)
+
 	}
 	return baseRouter
 }
