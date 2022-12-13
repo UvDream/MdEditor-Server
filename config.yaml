@@ -92,4 +92,13 @@ qiniu:
 
 #本地存储
 local:
-    path: './files'
+  path: './files'
+
+# 邮箱配置
+email:
+  host: 'smtp.163.com'
+  port: '465'
+  username: 'family_account_app@163.com'
+  password: 'HDNSBOQCMAQRXVBN'
+
+

@@ -41,6 +41,7 @@ func getParam(c *gin.Context, key string, defaultValue int) int {
 	return result
 }
 
+// RandString 生成随机字符串
 func RandString(n int) string {
 	var letter = []byte("123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	var result = make([]byte, n)
@@ -48,4 +49,18 @@ func RandString(n int) string {
 		result[i] = letter[rand.Intn(len(letter))]
 	}
 	return string(result)
+}
+
+// GenerateVerificationCode 生成随机验证码
+func GenerateVerificationCode() string {
+	var letter = []byte("123456789")
+	var result = make([]byte, 6)
+	for i := range result {
+		result[i] = letter[rand.Intn(len(letter))]
+	}
+	return string(result)
+}
+
+func GenerateUniqueVerificationCode() string {
+	return RandString(32)
 }

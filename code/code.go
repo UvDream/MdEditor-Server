@@ -51,6 +51,10 @@ const (
 	ErrorUpdatePassword             = 10032 //更新密码失败
 	ErrorTokenGenerate              = 10033 //token生成错误
 	ErrorGetOpenID                  = 10034 //获取openID 失败
+	ErrorEmailMissingParam          = 10035 //邮件验证码缺少参数
+	ErrorRedisSet                   = 10036 //redis set失败
+	ErrorSendEmail                  = 10037 //发送邮件失败
+	EmailHasSend                    = 10038 //邮件已发送
 )
 
 func Text(code int) string {

@@ -622,6 +622,9 @@ definitions:
     properties:
       avatar:
         type: string
+      gender:
+        description: 性别
+        type: string
       name:
         type: string
       open_id:
@@ -709,6 +712,9 @@ definitions:
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'
       email:
+        type: string
+      gender:
+        description: 性别
         type: string
       id:
         type: string
@@ -2516,6 +2522,35 @@ paths:
                   type: boolean
               type: object
       summary: 找回密码
+      tags:
+      - user
+  /public/base/send_email_code:
+    get:
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 发送邮箱验证码
       tags:
       - user
   /public/base/wx/get_openid:

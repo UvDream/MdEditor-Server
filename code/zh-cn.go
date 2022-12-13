@@ -91,4 +91,7 @@ var zhCNText = map[int]string{
 	ErrCreateLedgerNotMember:            "创建账本失败，不是账本成员",
 	ErrorCreateLedgerNotMember:          "非会员只能创建一个账本",
 	ErrorCreateLedgerMember:             "会员最大能创建五个账本",
+	ErrorEmailMissingParam:              "邮箱参数有误",
+	ErrorSendEmail:                      "发送邮件失败",
+	EmailHasSend:                        "邮件已发送,五分钟内只能发送一次",
 }

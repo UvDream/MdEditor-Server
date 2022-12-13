@@ -2769,6 +2769,55 @@ const docTemplate = `{
                 }
             }
         },
+        "/public/base/send_email_code": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "发送邮箱验证码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/public/base/wx/get_openid": {
             "get": {
                 "description": "获取openId",
@@ -4120,6 +4169,10 @@ const docTemplate = `{
                 "avatar": {
                     "type": "string"
                 },
+                "gender": {
+                    "description": "性别",
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -4248,6 +4301,10 @@ const docTemplate = `{
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
                 "email": {
+                    "type": "string"
+                },
+                "gender": {
+                    "description": "性别",
                     "type": "string"
                 },
                 "id": {

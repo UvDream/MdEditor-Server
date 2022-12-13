@@ -126,3 +126,24 @@ func (*BaseApi) GetToken(c *gin.Context) {
 	}
 	code.SuccessResponse(token, cd, c)
 }
+
+// SendEmailCode 发送邮箱验证码
+// @Tags user
+// @Summary 发送邮箱验证码
+// @Produce  application/json
+// @Param email  query string true "email"
+// @Success 200 {object} code.Response{data=string,code=int,msg=string,success=bool}
+// @Router  /public/base/send_email_code [get]
+func (*BaseApi) SendEmailCode(c *gin.Context) {
+	email := c.Query("email")
+	if email == "" {
+		code.FailResponse(code.ErrorEmailMissingParam, c)
+		return
+	}
+	uniqueVerificationCode, cd, err := userService.SendEmailCodeService(c, email)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(uniqueVerificationCode, cd, c)
+}

@@ -56,11 +56,6 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		//成员统计
 		ledgerRouter.GET("/statistics/member", accountApi.GetMemberStatistics)
 		ledgerRouter.GET("/statistics/personal", accountApi.GetPersonalStatistics)
-		////微信登陆相关
-		//////	获取openid
-		//ledgerRouter.GET("/wx/get_openid", accountApi.GetOpenId)
-		////	利用用户信息生成token
-		//ledgerRouter.GET("/wx/get_token", accountApi.GetToken)
 
 	}
 	return ledgerRouter

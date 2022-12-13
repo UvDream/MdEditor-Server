@@ -16,4 +16,6 @@ type Config struct {
 	Qiniu Qiniu `mapstructure:"qiniu" json:"qiniu" yaml:"qiniu"`
 	//	本地存储信息
 	Local Local `mapstructure:"local" json:"local" yaml:"local"`
+	//	邮件配置
+	Email Email `mapstructure:"email" json:"email" yaml:"email"`
 }
