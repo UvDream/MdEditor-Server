@@ -38,7 +38,6 @@ const (
 	ErrShareCodeExpired                         = 11035 //共享码过期
 	ErrShareCodeNotExist                        = 11036 //共享码不存在
 	ErrorJoinLedger                             = 11037 //	加入账本失败
-	ErrorUserNotExist                           = 11038 //	用户不存在
 	ErrorUserAlreadyJoined                      = 11039 //	用户已加入账本
 	ErrorGetMemberStatistics                    = 11040 //	查询成员统计失败
 	ErrorGetIncomeExpenditureStatisticsByMember = 11041 //	查询成员收支统计失败

@@ -6,6 +6,7 @@ import (
 	"server/code"
 	"server/models/ledger"
 	"server/models/system"
+	"server/utils"
 )
 
 type BaseApi struct{}
@@ -167,7 +168,7 @@ func (*BaseApi) VerifyEmailCode(c *gin.Context) {
 		code.FailResponse(code.ErrorEmailMissingParam, c)
 		return
 	}
-	cd, err := userService.VerifyEmailCodeService(c, verificationCode, uniqueVerificationCode, email)
+	cd, err := utils.VerifyEmailCodeService(c, verificationCode, uniqueVerificationCode, email)
 	if err != nil {
 		code.FailResponse(cd, c)
 		return

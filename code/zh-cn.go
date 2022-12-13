@@ -97,4 +97,6 @@ var zhCNText = map[int]string{
 	ErrorRedisGet:                       "redis获取失败",
 	ErrorVerificationCode:               "验证码错误",
 	EmailHasNotSend:                     "邮件未发送",
+	ErrorUpdateUser:                     "更新用户失败",
+	ErrorEmailExist:                     "邮箱已存在",
 }

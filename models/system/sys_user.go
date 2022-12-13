@@ -17,7 +17,7 @@ type User struct {
 	Email    string `json:"email" gorm:"comment:邮箱"`
 	Avatar   string `json:"avatar" gorm:"comment:头像"`
 	//性别
-	Gender string `json:"gender"`
+	Gender string `json:"gender" gorm:"comment:性别;default:'1'"`
 	//关联到角色表
 	Roles        []SysRole  `json:"roles" gorm:"many2many:sys_user_role;"`
 	UserConfigID string     `json:"user_config_id" gorm:"comment:用户配置ID"`
@@ -66,6 +66,13 @@ type SysUserRequest struct {
 	models.PaginationRequest
 	Username string `form:"username" json:"user_name"`
 	Nickname string `form:"nickname" json:"nick_name"`
+}
+type BindEmail struct {
+	Email string `json:"email" binding:"required"`
+	//	唯一ID
+	UniqueID string `json:"unique_id" binding:"required"`
+	//	验证码
+	Code string `json:"code" binding:"required"`
 }
 
 func (user *User) BeforeSave(tx *gorm.DB) (err error) {

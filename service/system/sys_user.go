@@ -1,8 +1,11 @@
 package system
 
 import (
+	"github.com/gin-gonic/gin"
+	"server/code"
 	"server/global"
 	"server/models/system"
+	"server/utils"
 )
 
 //GetUserListService 获取用户列表
@@ -44,3 +47,47 @@ func (*SysUserService) GetUserListService(query *system.SysUserRequest) (list in
 //	}
 //	return false
 //}
+
+func (*SysUserService) GetUserInfoService(userId string) (user system.User, cd int, err error) {
+	var u system.User
+	db := global.DB
+	if err := db.Where("id = ?", userId).Omit("Password").First(&u).Error; err != nil {
+		return u, code.ErrorUserNotExist, err
+	}
+	return u, code.SUCCESS, nil
+}
+
+func (*SysUserService) UnbindEmailService(userId string) (cd int, err error) {
+	var u system.User
+	db := global.DB
+	if err := db.Where("id = ?", userId).First(&u).Error; err != nil {
+		return code.ErrorUserNotExist, err
+	}
+	u.Email = ""
+	if err := db.Save(&u).Error; err != nil {
+		return code.ErrorUpdateUser, err
+	}
+	return code.SUCCESS, nil
+}
+
+func (*SysUserService) BindEmailService(c *gin.Context, userID string, bindEmail system.BindEmail) (cd int, err error) {
+	// 首先查询用户是否存在
+	var u system.User
+	db := global.DB
+	if err := db.Where("id = ?", userID).First(&u).Error; err != nil {
+		return code.ErrorUserNotExist, err
+	}
+	// 查询邮箱是否已经被绑定
+	if err := db.Where("email = ?", bindEmail.Email).First(&u).Error; err == nil {
+		return code.ErrorEmailExist, err
+	}
+	cd, err = utils.VerifyEmailCodeService(c, bindEmail.Code, bindEmail.UniqueID, bindEmail.Email)
+	if err != nil {
+		return cd, err
+	}
+	u.Email = bindEmail.Email
+	if err := db.Save(&u).Error; err != nil {
+		return code.ErrorUpdateUser, err
+	}
+	return code.SUCCESS, nil
+}

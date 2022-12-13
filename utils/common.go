@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"math/rand"
+	"server/code"
+	"server/global"
 	"strconv"
 )
 
@@ -63,4 +65,22 @@ func GenerateVerificationCode() string {
 
 func GenerateUniqueVerificationCode() string {
 	return RandString(32)
+}
+func VerifyEmailCodeService(c *gin.Context, verificationCode string, uniqueVerificationCode string, email string) (cd int, err error) {
+	redis := global.Redis
+	//先查询该邮箱是否已经发送过验证码
+	_, err = redis.Get(c, email).Result()
+	if err != nil {
+		return code.EmailHasNotSend, err
+	}
+	//从redis中获取验证码
+	msg, err := redis.Get(c, uniqueVerificationCode).Result()
+	if err != nil {
+		return code.ErrorVerificationCode, err
+	}
+	//判断验证码是否正确
+	if msg != verificationCode {
+		return code.ErrorVerificationCode, err
+	}
+	return code.SUCCESS, nil
 }

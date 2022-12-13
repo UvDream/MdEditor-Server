@@ -633,6 +633,21 @@ definitions:
       phone:
         type: string
     type: object
+  system.BindEmail:
+    properties:
+      code:
+        description: 验证码
+        type: string
+      email:
+        type: string
+      unique_id:
+        description: 唯一ID
+        type: string
+    required:
+    - code
+    - email
+    - unique_id
+    type: object
   system.LoginRequest:
     properties:
       captcha:
@@ -2841,6 +2856,84 @@ paths:
       summary: 主题更新
       tags:
       - theme
+  /user/bind_email:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建文章
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/system.BindEmail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 绑定邮箱
+      tags:
+      - user
+  /user/get_user_info:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/system.User'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取用户信息
+      tags:
+      - user
+  /user/unbind_email:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 解绑邮箱
+      tags:
+      - user
   /user/user_config:
     get:
       produces:
