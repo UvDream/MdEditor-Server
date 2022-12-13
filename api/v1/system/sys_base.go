@@ -147,3 +147,30 @@ func (*BaseApi) SendEmailCode(c *gin.Context) {
 	}
 	code.SuccessResponse(uniqueVerificationCode, cd, c)
 }
+
+// VerifyEmailCode 验证邮箱验证码
+// @Tags user
+// @Summary 验证邮箱验证码
+// @Produce  application/json
+// @Param email  query string true "email"
+// @Param uniqueVerification_code  query string true "uniqueVerification_code"
+// @Param verification_code  query string true "verification_code"
+// @Success 200 {object} code.Response{data=string,code=int,msg=string,success=bool}
+// @Router  /public/base/verify_email_code [get]
+func (*BaseApi) VerifyEmailCode(c *gin.Context) {
+	email := c.Query("email")
+	//唯一码
+	uniqueVerificationCode := c.Query("uniqueVerification_code")
+	//验证码
+	verificationCode := c.Query("verification_code")
+	if verificationCode == "" || uniqueVerificationCode == "" || email == "" {
+		code.FailResponse(code.ErrorEmailMissingParam, c)
+		return
+	}
+	cd, err := userService.VerifyEmailCodeService(c, verificationCode, uniqueVerificationCode, email)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse("验证成功", cd, c)
+}

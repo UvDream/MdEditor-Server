@@ -94,4 +94,7 @@ var zhCNText = map[int]string{
 	ErrorEmailMissingParam:              "邮箱参数有误",
 	ErrorSendEmail:                      "发送邮件失败",
 	EmailHasSend:                        "邮件已发送,五分钟内只能发送一次",
+	ErrorRedisGet:                       "redis获取失败",
+	ErrorVerificationCode:               "验证码错误",
+	EmailHasNotSend:                     "邮件未发送",
 }

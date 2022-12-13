@@ -23,6 +23,8 @@ func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		baseRouter.GET("/wx/get_token", baseApi.GetToken)
 		//	发送邮件验证码
 		baseRouter.GET("/send_email_code", baseApi.SendEmailCode)
+		//	验证邮件验证是否正确
+		baseRouter.GET("/verify_email_code", baseApi.VerifyEmailCode)
 
 	}
 	return baseRouter

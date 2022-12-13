@@ -55,6 +55,9 @@ const (
 	ErrorRedisSet                   = 10036 //redis set失败
 	ErrorSendEmail                  = 10037 //发送邮件失败
 	EmailHasSend                    = 10038 //邮件已发送
+	ErrorRedisGet                   = 10039 //redis get失败
+	ErrorVerificationCode           = 10040 //验证码错误
+	EmailHasNotSend                 = 10041 //邮件未发送
 )
 
 func Text(code int) string {

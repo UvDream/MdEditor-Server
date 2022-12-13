@@ -2553,6 +2553,45 @@ paths:
       summary: 发送邮箱验证码
       tags:
       - user
+  /public/base/verify_email_code:
+    get:
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: uniqueVerification_code
+        in: query
+        name: uniqueVerification_code
+        required: true
+        type: string
+      - description: verification_code
+        in: query
+        name: verification_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 验证邮箱验证码
+      tags:
+      - user
   /public/base/wx/get_openid:
     get:
       consumes:
