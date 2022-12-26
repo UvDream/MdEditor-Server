@@ -57,6 +57,10 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	if query.Name != "" {
 		db = db.Where("name LIKE ?", "%"+query.Name+"%")
 	}
+	//查询金额
+	if query.Amount != "" {
+		db = db.Where("amount = ?", query.Amount)
+	}
 	//查询总数
 	if err := db.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Count(&total).Error; err != nil {
 		return data, total, code.ErrorGetBill, err
