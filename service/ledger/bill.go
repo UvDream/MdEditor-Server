@@ -68,12 +68,21 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Where("ledger_id = ?", query.LedgerID).Order("create_time desc").Find(&bill).Error; err != nil {
 		return data, total, code.ErrorGetBill, err
 	}
-	for _, v := range bill {
+	for i, v := range bill {
 		date := v.CreateTime.Format("2006-01-02")
-
+		if v.Category.ParentID == "" {
+			bill[i].CategoryName = v.Category.Name
+		} else {
+			//	根据id查询父级
+			var parent ledger.CategoryLedger
+			if err := db.Where("id = ?", v.Category.ParentID).First(&parent).Error; err != nil {
+				return data, total, code.ErrorGetCategory, err
+			}
+			bill[i].CategoryName = parent.Name + "-" + v.Category.Name
+		}
 		exit, index := isExit(data, date)
 		if exit {
-			data[index].Bill = append(data[index].Bill, v)
+			data[index].Bill = append(data[index].Bill, bill[i])
 			if v.Type == "0" {
 				data[index].Expenditure += v.Amount
 			} else {
@@ -84,13 +93,13 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 				data = append(data, ledger.BillChildren{
 					Time:        date,
 					Expenditure: v.Amount,
-					Bill:        []ledger.Bill{v},
+					Bill:        []ledger.Bill{bill[i]},
 				})
 			} else {
 				data = append(data, ledger.BillChildren{
 					Time:   date,
 					Income: v.Amount,
-					Bill:   []ledger.Bill{v},
+					Bill:   []ledger.Bill{bill[i]},
 				})
 			}
 		}

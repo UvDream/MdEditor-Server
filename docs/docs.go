@@ -3903,6 +3903,10 @@ const docTemplate = `{
                     "description": "账单分类ID",
                     "type": "string"
                 },
+                "category_name": {
+                    "description": "分类",
+                    "type": "string"
+                },
                 "class_name": {
                     "type": "string"
                 },
