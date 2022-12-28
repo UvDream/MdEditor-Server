@@ -74,6 +74,9 @@ func (*LedgersService) GetTokenService(query ledger.WeChatUserInfo) (string, int
 		}
 	}
 	//用户存在
+	if user.ID == "" {
+		return "", code.ErrorUserNotExist, nil
+	}
 	//创建token
 	j := &utils.JWT{
 		SigningKey: []byte(global.Config.JWT.SigningKey),
