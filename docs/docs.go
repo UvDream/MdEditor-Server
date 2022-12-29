@@ -3326,6 +3326,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/fill_user_invite_code": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "填充用户邀请码",
+                "parameters": [
+                    {
+                        "description": "邀请码",
+                        "name": "invite_code",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.UserInviteCode,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/get_user_info": {
             "get": {
                 "produces": [
@@ -3474,6 +3504,61 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "success\":true,\"data\":system.UserConfig,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/user_invite_code": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "获取用户邀请码",
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.UserInviteCode,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "设置用户邀请码",
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.UserInviteCode,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/user_invite_code_list": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "获取用户邀请码列表",
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.UserInviteCode,\"msg\":\"设置成功\"}",
                         "schema": {
                             "type": "string"
                         }

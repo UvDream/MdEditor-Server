@@ -26,6 +26,14 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		userRouter.PUT("user_config", baseApi.EditUserConfig)
 		//查
 		userRouter.GET("user_config", baseApi.GetUserConfig)
+		//	生成用户邀请码
+		userRouter.POST("user_invite_code", baseApi.SetUserInviteCode)
+		//	获取用户邀请码
+		userRouter.GET("user_invite_code", baseApi.GetUserInviteCode)
+		//	获取用户邀请码列表
+		userRouter.GET("user_invite_code_list", baseApi.GetUserInviteCodeList)
+		//	填写邀请码
+		userRouter.POST("fill_user_invite_code", baseApi.FillUserInviteCode)
 	}
 	return userRouter
 }

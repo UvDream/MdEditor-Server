@@ -2891,6 +2891,25 @@ paths:
       summary: 绑定邮箱
       tags:
       - user
+  /user/fill_user_invite_code:
+    post:
+      parameters:
+      - description: 邀请码
+        in: body
+        name: invite_code
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success":true,"data":system.UserInviteCode,"msg":"设置成功"}
+          schema:
+            type: string
+      summary: 填充用户邀请码
+      tags:
+      - system
   /user/get_user_info:
     get:
       produces:
@@ -2983,6 +3002,41 @@ paths:
           schema:
             type: string
       summary: 修改用户配置
+      tags:
+      - system
+  /user/user_invite_code:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success":true,"data":system.UserInviteCode,"msg":"设置成功"}
+          schema:
+            type: string
+      summary: 获取用户邀请码
+      tags:
+      - system
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success":true,"data":system.UserInviteCode,"msg":"设置成功"}
+          schema:
+            type: string
+      summary: 设置用户邀请码
+      tags:
+      - system
+  /user/user_invite_code_list:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success":true,"data":system.UserInviteCode,"msg":"设置成功"}
+          schema:
+            type: string
+      summary: 获取用户邀请码列表
       tags:
       - system
 securityDefinitions:

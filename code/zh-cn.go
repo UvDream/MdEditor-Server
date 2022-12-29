@@ -99,4 +99,5 @@ var zhCNText = map[int]string{
 	EmailHasNotSend:                     "邮件未发送",
 	ErrorUpdateUser:                     "更新用户失败",
 	ErrorEmailExist:                     "邮箱已存在",
+	ErrorSetUserInviteCode:              "设置用户邀请码失败",
 }

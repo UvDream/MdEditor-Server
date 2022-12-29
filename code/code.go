@@ -61,6 +61,7 @@ const (
 	ErrorUserNotExist               = 10042 //用户不存在
 	ErrorUpdateUser                 = 10043 //更新用户失败
 	ErrorEmailExist                 = 10044 //邮箱已存在
+	ErrorSetUserInviteCode          = 10045 //设置用户邀请码失败
 )
 
 func Text(code int) string {
