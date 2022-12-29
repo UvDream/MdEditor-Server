@@ -20,7 +20,7 @@ func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		baseRouter.POST("/retrieve_password", baseApi.RetrievePassword)
 		baseRouter.GET("/wx/get_openid", baseApi.GetOpenId)
 		//	利用用户信息生成token
-		baseRouter.GET("/wx/get_token", baseApi.GetToken)
+		baseRouter.POST("/wx/get_token", baseApi.GetToken)
 		//	发送邮件验证码
 		baseRouter.GET("/send_email_code", baseApi.SendEmailCode)
 		//	验证邮件验证是否正确
