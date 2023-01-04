@@ -45,7 +45,11 @@ func (*LedgersService) GetTokenService(query ledger.WeChatUserInfo) (string, int
 	//首先查询用户是否存在
 	//根据openID查询用户
 	var user system.User
-	if err := db.Model(&user).Where("open_id = ?", query.OpenID).First(&system.User{}).Error; err != nil {
+	if err := db.Where("open_id = ?", query.OpenID).First(&user).Error; err != nil {
+		return "查询错误", code.ErrorCreateUser, err
+	}
+	//用户存在
+	if user.ID == "" {
 		//用户不存在
 		//创建用户
 		user := system.User{
@@ -72,10 +76,6 @@ func (*LedgersService) GetTokenService(query ledger.WeChatUserInfo) (string, int
 			}
 			return token, code.SUCCESS, nil
 		}
-	}
-	//用户存在
-	if user.ID == "" {
-		return "", code.ErrorUserNotExist, nil
 	}
 	//创建token
 	j := &utils.JWT{
