@@ -68,3 +68,29 @@ type DataSummary struct {
 	//支出
 	Expenditure float64 `json:"expenditure"`
 }
+
+//LoopAccount 循环记账
+type LoopAccount struct {
+	models.Model
+	//	类型
+	Class string `json:"class"` //day/week/month/year/working-day/statutory-holiday/statutory-working-day
+	//	状态
+	Status string `json:"status"`
+	//	分类ID
+	CategoryID string `json:"category_id"`
+	//	账本ID
+	LedgerID string `json:"ledger_id"`
+	Ledger   Ledger `json:"ledger"`
+	//	金额
+	Amount float64 `json:"amount" gorm:"type:decimal(10,2)"`
+	//日期
+	CreateTime time.Time `json:"create_time" gorm:"type:timestamp;comment:创建时间"`
+	//	账单类型
+	Type string `json:"type" gorm:"type:varchar(255)"`
+	//	不计入预算
+	NotBudget string `json:"not_budget" gorm:"type:varchar(255);comment:不计入预算;default:'0'"` //0 不计入 1 计入
+	//	作者ID
+	CreatorID string `json:"creator_id" gorm:"type:varchar(255);comment:账单创建者ID;"`
+	//	账单创建者
+	Creator system.User `json:"creator" gorm:"foreignKey:CreatorID;references:ID"`
+}

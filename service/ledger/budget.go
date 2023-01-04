@@ -1,11 +1,12 @@
 package ledger
 
 import (
-	"gorm.io/gorm/clause"
 	"server/code"
 	"server/global"
 	"server/models/ledger"
 	"strconv"
+
+	"gorm.io/gorm/clause"
 )
 
 func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.MoneyBudget, cd int, err error) {
@@ -14,7 +15,7 @@ func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 	if budget.BudgetType == "0" {
 		//查询是否存在
 		var oldData []ledger.MoneyBudget
-		if err := db.Where("ledger_id = ?", budget.LedgerID).Where("year = ?", budget.Year).Where("date = ?", budget.Date).Find(&oldData).Error; err != nil {
+		if err := db.Where("ledger_id = ?", budget.LedgerID).Where("year = ?", budget.Year).Where("budget_type = ?", 0).Find(&oldData).Error; err != nil {
 			return data, code.ErrGetBudget, err
 		}
 		if len(oldData) > 0 {
@@ -133,4 +134,12 @@ func (*LedgersService) GetYearBudget(ledgerID string, year string) (data ledger.
 
 	data.Expenditure = d.Expenditure
 	return data, code.SUCCESS, nil
+}
+
+func (*LedgersService) BatchDeletion(query ledger.BudgetDelete) (cd int, err error) {
+	db := global.DB
+	if err := db.Where("ledger_id = ?", query.LedgerID).Where("year = ?", query.Year).Where("budget_type = ?", query.BudgetType).Delete(&ledger.MoneyBudget{}).Error; err != nil {
+		return code.ErrDeleteBudget, err
+	}
+	return code.SUCCESS, nil
 }

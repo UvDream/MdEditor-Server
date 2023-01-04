@@ -1018,6 +1018,51 @@
                 }
             }
         },
+        "/ledger/budget/batch_deletion": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "budget"
+                ],
+                "summary": "批量删除预算",
+                "parameters": [
+                    {
+                        "description": "预算信息",
+                        "name": "budget",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.BudgetDelete"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/ledger.MoneyBudget"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/budget/create": {
             "post": {
                 "consumes": [
@@ -4088,6 +4133,21 @@
                 },
                 "year_budget": {
                     "$ref": "#/definitions/ledger.MoneyBudget"
+                }
+            }
+        },
+        "ledger.BudgetDelete": {
+            "type": "object",
+            "properties": {
+                "budget_type": {
+                    "type": "string"
+                },
+                "ledger_id": {
+                    "description": "账本ID",
+                    "type": "string"
+                },
+                "year": {
+                    "type": "string"
                 }
             }
         },

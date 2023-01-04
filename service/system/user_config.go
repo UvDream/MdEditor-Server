@@ -22,7 +22,6 @@ func (*SysUserService) SetUserConfig(userConfig system.UserConfig, userID string
 	}
 	return userConfig, code.SUCCESS, nil
 }
-
 func (*SysUserService) EditorUserConfig(userConfig system.UserConfig) (config system.UserConfig, cd int, err error) {
 	if err := global.DB.Save(&userConfig).Error; err != nil {
 		return userConfig, code.ErrorSetUserConfig, err

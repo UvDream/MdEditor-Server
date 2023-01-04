@@ -30,3 +30,10 @@ type MoneyBudget struct {
 	//	支出
 	Expenditure float64 `json:"expenditure" gorm:"-"`
 }
+
+type BudgetDelete struct {
+	Year       string `json:"year"`
+	BudgetType string `json:"budget_type"`
+	// 账本ID
+	LedgerID string `json:"ledger_id"`
+}

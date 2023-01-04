@@ -375,6 +375,16 @@ definitions:
       year_budget:
         $ref: '#/definitions/ledger.MoneyBudget'
     type: object
+  ledger.BudgetDelete:
+    properties:
+      budget_type:
+        type: string
+      ledger_id:
+        description: 账本ID
+        type: string
+      year:
+        type: string
+    type: object
   ledger.CalendarData:
     properties:
       day:
@@ -1488,6 +1498,32 @@ paths:
       summary: 更新账单
       tags:
       - ledger
+  /ledger/budget/batch_deletion:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 预算信息
+        in: body
+        name: budget
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.BudgetDelete'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/ledger.MoneyBudget'
+              type: object
+      summary: 批量删除预算
+      tags:
+      - budget
   /ledger/budget/create:
     post:
       consumes:

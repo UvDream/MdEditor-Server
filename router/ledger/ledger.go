@@ -45,6 +45,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.DELETE("/budget/delete", accountApi.DeleteBudget)
 		ledgerRouter.PUT("/budget/update", accountApi.UpdateBudget)
 		ledgerRouter.GET("/budget/list", accountApi.GetBudgetList)
+		//删除预算
+		ledgerRouter.DELETE("/budget/batch_deletion", accountApi.BatchDeletion)
 		//	日历统计
 		ledgerRouter.GET("/statistics/calendar", accountApi.GetCalendar)
 		//	首页统计

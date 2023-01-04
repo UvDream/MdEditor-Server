@@ -1,10 +1,11 @@
 package ledger
 
 import (
-	"github.com/gin-gonic/gin"
 	"server/code"
 	"server/models/ledger"
 	"server/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 // CreateBudget 创建预算
@@ -124,4 +125,27 @@ func (*ApiLedger) GetBudgetList(c *gin.Context) {
 		YearBudget:  yearData,
 		MonthBudget: data,
 	}, cd, c)
+}
+
+// BatchDeletion 批量删除
+// @Tags budget
+// @Summary 批量删除预算
+// @accept application/json
+// @Produce application/json
+// @Param budget body ledger.BudgetDelete true "预算信息"
+// @Success 200 {object} code.Response{data=ledger.MoneyBudget}
+// @Router  /ledger/budget/batch_deletion [delete]
+func (*ApiLedger) BatchDeletion(c *gin.Context) {
+	var query ledger.BudgetDelete
+	err := c.ShouldBindJSON(&query)
+	if err != nil {
+		code.FailWithMessage(err.Error(), c)
+		return
+	}
+	cd, err := ledgerService.BatchDeletion(query)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse("删除成功", cd, c)
 }
