@@ -45,7 +45,19 @@ func (*LedgersService) GetCategoryStatisticsService(ledgerID string, startTime s
 			}
 		}
 		var categoryStatisticsData ledger.CategoryStatisticsData
-		categoryStatisticsData.CategoryName = v.Name
+		//查询是否有ParentID不等于空
+		var parentCategory ledger.CategoryLedger
+
+		if v.ParentID != "" {
+			//	查询父级分类
+			if err := db.Where("id = ?", v.ParentID).Find(&parentCategory).Error; err != nil {
+				return nil, code.ErrorGetCategoryStatistics, err
+			}
+			categoryStatisticsData.CategoryName = parentCategory.Name + "-" + v.Name
+		} else {
+			categoryStatisticsData.CategoryName = v.Name
+		}
+
 		categoryStatisticsData.CategoryID = v.ID
 		if types == "0" {
 			categoryStatisticsData.Amount = d.Expenditure

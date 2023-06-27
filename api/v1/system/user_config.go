@@ -7,7 +7,7 @@ import (
 	"server/utils"
 )
 
-//SetUserConfig 设置用户配置
+// SetUserConfig 设置用户配置
 // @Tags system
 // @Summary 设置用户配置
 // @Produce  json
@@ -29,7 +29,7 @@ func (*UserApi) SetUserConfig(c *gin.Context) {
 	code.SuccessResponse(data, cd, c)
 }
 
-//EditUserConfig 设置用户配置
+// EditUserConfig 设置用户配置
 // @Tags system
 // @Summary 修改用户配置
 // @Produce  json
@@ -58,7 +58,7 @@ func (*UserApi) EditUserConfig(c *gin.Context) {
 // @Tags system
 // @Summary 获取用户配置
 // @Produce  json
-// @Success 200 {object} code.Response {"success":true,"data":system.UserConfig,"msg":"设置成功"}
+// @Success 200 {string} code.Response {"success":true,"data":system.UserConfig,"msg":"设置成功"}
 // @Router /user/user_config [get]
 func (*UserApi) GetUserConfig(c *gin.Context) {
 	userID := utils.FindUserID(c)

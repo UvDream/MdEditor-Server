@@ -70,7 +70,8 @@ definitions:
           type: integer
         type: array
       theme:
-        $ref: '#/definitions/theme.Theme'
+        allOf:
+        - $ref: '#/definitions/theme.Theme'
         description: 主题
       theme_id:
         description: 主题ID
@@ -84,7 +85,8 @@ definitions:
       update_time:
         type: string
       user:
-        $ref: '#/definitions/system.User'
+        allOf:
+        - $ref: '#/definitions/system.User'
         description: 作者
       user_id:
         description: 用户id
@@ -189,7 +191,8 @@ definitions:
   config.Captcha:
     properties:
       bg-color:
-        $ref: '#/definitions/color.RGBA'
+        allOf:
+        - $ref: '#/definitions/color.RGBA'
         description: 验证码背景颜色
       height:
         description: 验证码高度
@@ -305,7 +308,8 @@ definitions:
         description: 创建时间
         type: string
       creator:
-        $ref: '#/definitions/system.User'
+        allOf:
+        - $ref: '#/definitions/system.User'
         description: 账单创建者
       creator_id:
         description: 账单创建者ID
@@ -321,10 +325,12 @@ definitions:
       img:
         type: string
       ledger:
-        $ref: '#/definitions/ledger.Ledger'
+        allOf:
+        - $ref: '#/definitions/ledger.Ledger'
         description: 账单所属账本
       ledger_category:
-        $ref: '#/definitions/ledger.CategoryLedger'
+        allOf:
+        - $ref: '#/definitions/ledger.CategoryLedger'
         description: 账单分类
       ledger_id:
         description: 账本ID
@@ -434,7 +440,8 @@ definitions:
       update_time:
         type: string
       user:
-        $ref: '#/definitions/system.User'
+        allOf:
+        - $ref: '#/definitions/system.User'
         description: 分类创建者
       user_id:
         description: 分类创建者ID
@@ -486,7 +493,8 @@ definitions:
       create_time:
         type: string
       creator:
-        $ref: '#/definitions/system.User'
+        allOf:
+        - $ref: '#/definitions/system.User'
         description: 账本创建者
       creator_id:
         description: 账本创建者ID
@@ -563,7 +571,8 @@ definitions:
       create_time:
         type: string
       creator:
-        $ref: '#/definitions/system.User'
+        allOf:
+        - $ref: '#/definitions/system.User'
         description: 账单创建者
       creator_id:
         description: 账单创建者ID
@@ -610,7 +619,8 @@ definitions:
       create_time:
         type: string
       creator:
-        $ref: '#/definitions/system.User'
+        allOf:
+        - $ref: '#/definitions/system.User'
         description: 标签创建者
       creator_id:
         description: 标签创建者ID
@@ -851,7 +861,8 @@ definitions:
       update_time:
         type: string
       user:
-        $ref: '#/definitions/system.User'
+        allOf:
+        - $ref: '#/definitions/system.User'
         description: 作者
       user_id:
         description: 作者ID
@@ -3000,7 +3011,7 @@ paths:
         "200":
           description: success":true,"data":system.UserConfig,"msg":"设置成功"}
           schema:
-            $ref: '#/definitions/code.Response'
+            type: string
       summary: 获取用户配置
       tags:
       - system

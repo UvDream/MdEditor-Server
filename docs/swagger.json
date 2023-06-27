@@ -3485,7 +3485,7 @@
                     "200": {
                         "description": "success\":true,\"data\":system.UserConfig,\"msg\":\"设置成功\"}",
                         "schema": {
-                            "$ref": "#/definitions/code.Response"
+                            "type": "string"
                         }
                     }
                 }
@@ -3706,7 +3706,11 @@
                 },
                 "theme": {
                     "description": "主题",
-                    "$ref": "#/definitions/theme.Theme"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/theme.Theme"
+                        }
+                    ]
                 },
                 "theme_id": {
                     "description": "主题ID",
@@ -3725,7 +3729,11 @@
                 },
                 "user": {
                     "description": "作者",
-                    "$ref": "#/definitions/system.User"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
                 },
                 "user_id": {
                     "description": "用户id",
@@ -3871,7 +3879,11 @@
             "properties": {
                 "bg-color": {
                     "description": "验证码背景颜色",
-                    "$ref": "#/definitions/color.RGBA"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/color.RGBA"
+                        }
+                    ]
                 },
                 "height": {
                     "description": "验证码高度",
@@ -4037,7 +4049,11 @@
                 },
                 "creator": {
                     "description": "账单创建者",
-                    "$ref": "#/definitions/system.User"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
                 },
                 "creator_id": {
                     "description": "账单创建者ID",
@@ -4060,11 +4076,19 @@
                 },
                 "ledger": {
                     "description": "账单所属账本",
-                    "$ref": "#/definitions/ledger.Ledger"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ledger.Ledger"
+                        }
+                    ]
                 },
                 "ledger_category": {
                     "description": "账单分类",
-                    "$ref": "#/definitions/ledger.CategoryLedger"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ledger.CategoryLedger"
+                        }
+                    ]
                 },
                 "ledger_id": {
                     "description": "账本ID",
@@ -4222,7 +4246,11 @@
                 },
                 "user": {
                     "description": "分类创建者",
-                    "$ref": "#/definitions/system.User"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
                 },
                 "user_id": {
                     "description": "分类创建者ID",
@@ -4297,7 +4325,11 @@
                 },
                 "creator": {
                     "description": "账本创建者",
-                    "$ref": "#/definitions/system.User"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
                 },
                 "creator_id": {
                     "description": "账本创建者ID",
@@ -4405,7 +4437,11 @@
                 },
                 "creator": {
                     "description": "账单创建者",
-                    "$ref": "#/definitions/system.User"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
                 },
                 "creator_id": {
                     "description": "账单创建者ID",
@@ -4471,7 +4507,11 @@
                 },
                 "creator": {
                     "description": "标签创建者",
-                    "$ref": "#/definitions/system.User"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
                 },
                 "creator_id": {
                     "description": "标签创建者ID",
@@ -4819,7 +4859,11 @@
                 },
                 "user": {
                     "description": "作者",
-                    "$ref": "#/definitions/system.User"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
                 },
                 "user_id": {
                     "description": "作者ID",
