@@ -38,7 +38,6 @@ func (*ApiLedger) CreateBill(c *gin.Context) {
 		return
 	}
 	code.SuccessResponse(data, cd, c)
-
 }
 
 // DeleteBill 删除账单

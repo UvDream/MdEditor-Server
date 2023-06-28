@@ -14,7 +14,7 @@ func (*LedgersService) AddBillService(bill ledger.Bill) (ledger.Bill, int, error
 	if err := db.Create(&bill).Error; err != nil {
 		return bill, code.ErrCreateBill, err
 	}
-	return bill, 0, nil
+	return bill, code.SUCCESS, nil
 }
 
 func (*LedgersService) DeleteBillService(id string) (int, error) {
@@ -108,7 +108,7 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	return data, total, code.SUCCESS, err
 }
 
-//判断是否存在数组对象中
+// 判断是否存在数组对象中
 func isExit(arr []ledger.BillChildren, time string) (bool, int) {
 	for i, v := range arr {
 		if v.Time == time {
