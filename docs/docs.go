@@ -2033,6 +2033,97 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/statistics/category_detail": {
+            "get": {
+                "description": "获取分类细致统计",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "获取分类细致统计",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "账本ID",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "开始时间",
+                        "name": "start_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "结束时间",
+                        "name": "end_time",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "类型",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "分类ID",
+                        "name": "category_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "是否按年统计",
+                        "name": "is_year",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ledger.CategoryDetailStatisticsData"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/statistics/home": {
             "get": {
                 "consumes": [
@@ -4195,6 +4286,33 @@ const docTemplate = `{
                 },
                 "income": {
                     "type": "number"
+                }
+            }
+        },
+        "ledger.CategoryDetailStatisticsData": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "description": "分类ID",
+                    "type": "string"
+                },
+                "end_time": {
+                    "type": "string"
+                },
+                "is_year": {
+                    "description": "是否按照年统计",
+                    "type": "string"
+                },
+                "ledger_id": {
+                    "description": "账本ID",
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "收入支出",
+                    "type": "string"
                 }
             }
         },

@@ -8,7 +8,7 @@ import (
 	"server/utils"
 )
 
-//GetCategoryStatistics 获取分类统计
+// GetCategoryStatistics 获取分类统计
 // @Tags statistics
 // @Summary 获取分类统计
 // @Description 获取分类统计
@@ -33,7 +33,7 @@ func (*ApiLedger) GetCategoryStatistics(c *gin.Context) {
 	code.SuccessResponse(data, cd, c)
 }
 
-//GetIncomeExpenditureStatistics 获取收支统计
+// GetIncomeExpenditureStatistics 获取收支统计
 // @Tags statistics
 // @Summary 获取收支统计
 // @Description 获取收支统计
@@ -87,7 +87,7 @@ func (*ApiLedger) GetMemberStatistics(c *gin.Context) {
 	code.SuccessResponse(data, cd, c)
 }
 
-//GetPersonalStatistics 获取个人统计
+// GetPersonalStatistics 获取个人统计
 // @Tags statistics
 // @Summary 获取个人统计
 // @Description 获取个人统计
@@ -116,4 +116,34 @@ func (*ApiLedger) GetPersonalStatistics(c *gin.Context) {
 		return
 	}
 	code.SuccessResponse(personalStatisticsData, code.SUCCESS, c)
+}
+
+// GetCategoryDetailStatistics 获取分类细致统计
+// @Tags statistics
+// @Summary 获取分类细致统计
+// @Description 获取分类细致统计
+// @Accept  json
+// @Produce  json
+// @Param ledger_id query string true "账本ID"
+// @Param start_time query string true "开始时间"
+// @Param end_time query string true "结束时间"
+// @Param type query string true "类型"
+// @Param category_id query string true "分类ID"
+// @Param is_year query string true "是否按年统计"
+// @Success 200 {object}  code.Response{data=[]ledger.CategoryDetailStatisticsData,code=int,msg=string,success=bool}
+// @Router /ledger/statistics/category_detail [get]
+func (*ApiLedger) GetCategoryDetailStatistics(c *gin.Context) {
+	filterData := ledger.CategoryDetailStatisticsData{}
+	filterData.LedgerID = c.Query("ledger_id")
+	filterData.StartTime = c.Query("start_time")
+	filterData.EndTime = c.Query("end_time")
+	filterData.Type = c.Query("type")
+	filterData.IsYear = c.Query("is_year")
+	filterData.CategoryID = c.Query("category_id")
+	data, cd, err := ledgerService.GetCategoryStatisticsDetailService(filterData)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
 }

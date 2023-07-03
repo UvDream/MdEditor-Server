@@ -38,7 +38,7 @@ func (*LedgersService) UpdateBillService(bill ledger.Bill) (ledger.Bill, int, er
 	if err := db.Model(&ledger.Bill{}).Where("id = ?", bill.ID).Omit("creator_id").Updates(&bill).Error; err != nil {
 		return bill, code.ErrorUpdateBill, err
 	}
-	return bill, 0, nil
+	return bill, code.SUCCESS, nil
 }
 
 func (*LedgersService) GetBillListService(query ledger.BillRequest, userID string, c *gin.Context) (data []ledger.BillChildren, total int64, cd int, err error) {
@@ -73,9 +73,10 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 		if v.Category.ParentID == "" {
 			bill[i].CategoryName = v.Category.Name
 		} else {
+			dp := global.DB
 			//	根据id查询父级
 			var parent ledger.CategoryLedger
-			if err := db.Where("id = ?", v.Category.ParentID).First(&parent).Error; err != nil {
+			if err := dp.Where("id = ?", v.Category.ParentID).First(&parent).Error; err != nil {
 				return data, total, code.ErrorGetCategory, err
 			}
 			bill[i].CategoryName = parent.Name + "-" + v.Category.Name

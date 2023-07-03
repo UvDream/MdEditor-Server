@@ -100,4 +100,5 @@ var zhCNText = map[int]string{
 	ErrorUpdateUser:                     "更新用户失败",
 	ErrorEmailExist:                     "邮箱已存在",
 	ErrorSetUserInviteCode:              "设置用户邀请码失败",
+	ErrorGetCategoryStatisticsDetail:    "查询分类统计详情失败",
 }

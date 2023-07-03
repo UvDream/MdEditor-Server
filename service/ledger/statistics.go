@@ -187,3 +187,82 @@ func getAmount(ledgerID string, dateList []time.Time, types string, isYear strin
 	}
 	return data, code.SUCCESS, err
 }
+
+// GetCategoryStatisticsDetailService 获取分类详细统计
+func (*LedgersService) GetCategoryStatisticsDetailService(filter ledger.CategoryDetailStatisticsData) (data []ledger.CategoryStatisticsData, cd int, err error) {
+	db := global.DB
+	var categoryList []ledger.CategoryLedger
+	if filter.CategoryID == "" {
+		//	查询大类
+		if err := db.Where("ledger_id = ? and parent_id = ?", filter.LedgerID, "").Find(&categoryList).Error; err != nil {
+			return nil, code.ErrorGetCategoryStatisticsDetail, err
+		}
+		for _, v := range categoryList {
+			var itemData ledger.CategoryStatisticsData
+			itemData.CategoryID = v.ID
+			itemData.CategoryName = v.Name
+			//	查询小类
+			arr, cd, err := getCategoryList(v.ID, filter.LedgerID)
+			if err != nil {
+				return nil, cd, err
+			}
+
+			for _, b := range arr {
+				//	查询小类账单总额
+				amount, cd, err := getCategoryAmount(b.ID, filter.LedgerID, filter.StartTime, filter.EndTime, filter.Type)
+				if err != nil {
+					return nil, cd, err
+				}
+				itemData.Amount += amount
+			}
+			data = append(data, itemData)
+		}
+	} else {
+		//	存在大类ID
+		//	查询所有的小类
+		arr, cd, err := getCategoryList(filter.CategoryID, filter.LedgerID)
+		if err != nil {
+			return nil, cd, err
+		}
+		for _, b := range arr {
+			//	查询小类账单总额
+			amount, cd, err := getCategoryAmount(b.ID, filter.LedgerID, filter.StartTime, filter.EndTime, filter.Type)
+			if err != nil {
+				return nil, cd, err
+			}
+			var itemData ledger.CategoryStatisticsData
+			itemData.CategoryID = b.ID
+			itemData.CategoryName = b.Name
+			itemData.Amount = amount
+			data = append(data, itemData)
+		}
+	}
+
+	return data, code.SUCCESS, err
+}
+
+// 根据大类ID查询小类数据
+func getCategoryList(categoryID string, ledgerID string) (data []ledger.CategoryLedger, cd int, err error) {
+	db := global.DB
+	if err := db.Where("ledger_id = ? and parent_id = ?", ledgerID, categoryID).Find(&data).Error; err != nil {
+		return nil, code.ErrorGetCategoryStatisticsDetail, err
+	}
+	return data, code.SUCCESS, err
+}
+
+// 根据小类查询该小类账单总额
+func getCategoryAmount(categoryID string, ledgerID string, startTime string, endTime string, types string) (data float64, cd int, err error) {
+	db := global.DB
+	db = db.Model(&ledger.Bill{})
+	if startTime != "" {
+		db = db.Where("create_time >?", startTime)
+	}
+	if endTime != "" {
+		db = db.Where("create_time < ?", endTime)
+	}
+
+	if err := db.Where("ledger_id = ? and category_id = ? and type = ?", ledgerID, categoryID, types).Select("COALESCE(sum(amount),0) as amount").Scan(&data).Error; err != nil {
+		return 0, code.ErrorGetCategoryStatisticsDetail, err
+	}
+	return data, code.SUCCESS, err
+}

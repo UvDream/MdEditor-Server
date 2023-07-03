@@ -400,6 +400,25 @@ definitions:
       income:
         type: number
     type: object
+  ledger.CategoryDetailStatisticsData:
+    properties:
+      category_id:
+        description: 分类ID
+        type: string
+      end_time:
+        type: string
+      is_year:
+        description: 是否按照年统计
+        type: string
+      ledger_id:
+        description: 账本ID
+        type: string
+      start_time:
+        type: string
+      type:
+        description: 收入支出
+        type: string
+    type: object
   ledger.CategoryLedger:
     properties:
       children:
@@ -2109,6 +2128,65 @@ paths:
                   type: boolean
               type: object
       summary: 获取分类统计
+      tags:
+      - statistics
+  /ledger/statistics/category_detail:
+    get:
+      consumes:
+      - application/json
+      description: 获取分类细致统计
+      parameters:
+      - description: 账本ID
+        in: query
+        name: ledger_id
+        required: true
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        required: true
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        required: true
+        type: string
+      - description: 类型
+        in: query
+        name: type
+        required: true
+        type: string
+      - description: 分类ID
+        in: query
+        name: category_id
+        required: true
+        type: string
+      - description: 是否按年统计
+        in: query
+        name: is_year
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.CategoryDetailStatisticsData'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取分类细致统计
       tags:
       - statistics
   /ledger/statistics/home:

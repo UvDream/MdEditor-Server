@@ -58,6 +58,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		//成员统计
 		ledgerRouter.GET("/statistics/member", accountApi.GetMemberStatistics)
 		ledgerRouter.GET("/statistics/personal", accountApi.GetPersonalStatistics)
+		//	分类详细统计
+		ledgerRouter.GET("/statistics/category_detail", accountApi.GetCategoryDetailStatistics)
 
 	}
 	return ledgerRouter
