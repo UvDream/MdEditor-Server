@@ -66,4 +66,5 @@ var enUSText = map[int]string{
 	ErrorCategoryNotExist:              "category not exist",
 	ErrorDeleteCategory:                "delete category failed",
 	ErrorGetCategoryStatisticsDetail:   "get category statistics detail failed",
+	ErrorGetTotalAmount:                "get total amount failed",
 }

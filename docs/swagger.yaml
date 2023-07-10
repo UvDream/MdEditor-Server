@@ -2040,6 +2040,42 @@ paths:
       summary: 分享账本
       tags:
       - ledger
+  /ledger/statistics/amount:
+    get:
+      consumes:
+      - application/json
+      description: 获取金额统计
+      parameters:
+      - description: 账本ID
+        in: query
+        name: ledger_id
+        required: true
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        required: true
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        required: true
+        type: string
+      - description: 类型
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取金额统计
+      tags:
+      - statistics
   /ledger/statistics/calendar:
     get:
       consumes:

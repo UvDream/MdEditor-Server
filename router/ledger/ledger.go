@@ -40,26 +40,29 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.PUT("/bill/update", accountApi.UpdateBill)
 		ledgerRouter.GET("/bill/list", accountApi.GetBillList)
 		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
-		//	预算
+		//预算
 		ledgerRouter.POST("/budget/create", accountApi.CreateBudget)
 		ledgerRouter.DELETE("/budget/delete", accountApi.DeleteBudget)
 		ledgerRouter.PUT("/budget/update", accountApi.UpdateBudget)
 		ledgerRouter.GET("/budget/list", accountApi.GetBudgetList)
 		//删除预算
 		ledgerRouter.DELETE("/budget/batch_deletion", accountApi.BatchDeletion)
-		//	日历统计
+		//日历统计
 		ledgerRouter.GET("/statistics/calendar", accountApi.GetCalendar)
-		//	首页统计
+		//首页统计
 		ledgerRouter.GET("/statistics/home", accountApi.GetHomeStatistics)
-		//	分类统计
+		//分类统计
 		ledgerRouter.GET("/statistics/category", accountApi.GetCategoryStatistics)
 		//支出/收入统计
 		ledgerRouter.GET("/statistics/income_expenditure", accountApi.GetIncomeExpenditureStatistics)
 		//成员统计
 		ledgerRouter.GET("/statistics/member", accountApi.GetMemberStatistics)
 		ledgerRouter.GET("/statistics/personal", accountApi.GetPersonalStatistics)
-		//	分类详细统计
+		//分类详细统计
 		ledgerRouter.GET("/statistics/category_detail", accountApi.GetCategoryDetailStatistics)
+		//金额统计
+		ledgerRouter.GET("/statistics/amount", accountApi.GetAmountStatistics)
+		//	App相关
 
 	}
 	return ledgerRouter

@@ -121,6 +121,7 @@ func (*LedgersService) GetIncomeExpenditureStatisticsService(ledgerID string, st
 	return data, code.SUCCESS, err
 }
 
+// GetMemberStatisticsService  获取成员统计
 func (*LedgersService) GetMemberStatisticsService(ledgerID string, startTime string, endTime string, types string, isYear string) (data []ledger.MemberStatisticsData, cd int, err error) {
 	db := global.DB
 	dayList, _ := utils.GetDateList(startTime, endTime, isYear)
@@ -263,6 +264,22 @@ func getCategoryAmount(categoryID string, ledgerID string, startTime string, end
 
 	if err := db.Where("ledger_id = ? and category_id = ? and type = ?", ledgerID, categoryID, types).Select("COALESCE(sum(amount),0) as amount").Scan(&data).Error; err != nil {
 		return 0, code.ErrorGetCategoryStatisticsDetail, err
+	}
+	return data, code.SUCCESS, err
+}
+
+// GetTotalAmountService 获取总金额
+func (*LedgersService) GetTotalAmountService(filter ledger.CategoryDetailStatisticsData) (data float64, cd int, err error) {
+	db := global.DB
+	db = db.Model(&ledger.Bill{})
+	if filter.StartTime != "" {
+		db = db.Where("create_time >?", filter.StartTime)
+	}
+	if filter.EndTime != "" {
+		db = db.Where("create_time < ?", filter.EndTime)
+	}
+	if err := db.Where("ledger_id = ? and type = ?", filter.LedgerID, filter.Type).Select("COALESCE(sum(amount),0) as amount").Scan(&data).Error; err != nil {
+		return 0, code.ErrorGetTotalAmount, err
 	}
 	return data, code.SUCCESS, err
 }

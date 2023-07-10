@@ -147,3 +147,29 @@ func (*ApiLedger) GetCategoryDetailStatistics(c *gin.Context) {
 	}
 	code.SuccessResponse(data, cd, c)
 }
+
+// GetAmountStatistics 获取金额统计
+// @Tags statistics
+// @Summary 获取金额统计
+// @Description 获取金额统计
+// @Accept  json
+// @Produce  json
+// @Param ledger_id query string true "账本ID"
+// @Param start_time query string true "开始时间"
+// @Param end_time query string true "结束时间"
+// @Param type query string true "类型"
+// @Success 200 {object}  code.Response{}
+// @Router /ledger/statistics/amount [get]
+func (*ApiLedger) GetAmountStatistics(c *gin.Context) {
+	filterData := ledger.CategoryDetailStatisticsData{}
+	filterData.LedgerID = c.Query("ledger_id")
+	filterData.StartTime = c.Query("start_time")
+	filterData.EndTime = c.Query("end_time")
+	filterData.Type = c.Query("type")
+	data, cd, err := ledgerService.GetTotalAmountService(filterData)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
+}
