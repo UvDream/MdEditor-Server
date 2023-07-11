@@ -40,6 +40,7 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.PUT("/bill/update", accountApi.UpdateBill)
 		ledgerRouter.GET("/bill/list", accountApi.GetBillList)
 		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
+		ledgerRouter.GET("/bill/normal/list", accountApi.GetBillNormalList)
 		//预算
 		ledgerRouter.POST("/budget/create", accountApi.CreateBudget)
 		ledgerRouter.DELETE("/budget/delete", accountApi.DeleteBudget)

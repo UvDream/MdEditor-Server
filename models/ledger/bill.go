@@ -43,14 +43,16 @@ type Bill struct {
 	CategoryName string `json:"category_name" gorm:"-"`
 }
 type BillRequest struct {
-	//	账单名称
-	Name string `form:"name" json:"name" `
+	//	账单备注
+	Remark string `form:"remark" json:"remark" `
 	//	账单金额
 	Amount string `form:"amount" json:"amount"`
 	//	账单ID
 	LedgerID  string `form:"ledger_id" json:"ledger_id"`
 	StartTime string `form:"start_time" json:"start_time"`
 	EndTime   string `form:"end_time" json:"end_time"`
+	//	排序
+	Sort string `form:"sort" json:"sort"`
 }
 
 type BillChildren struct {

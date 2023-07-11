@@ -138,3 +138,27 @@ func (*ApiLedger) GetBillDetail(c *gin.Context) {
 	}
 	code.SuccessResponse(data, cd, c)
 }
+
+// GetBillNormalList 获取账单正常列表
+// @Summary 获取账单正常列表
+// @Tags ledger
+// @Accept  json
+// @Produce  json
+// @Param  query  query    ledger.BillRequest  true  "参数"
+// @Param  query  query    models.PaginationRequest  true  "参数"
+// @Success 200 {object} code.Response
+// @Router /ledger/bill/normal/list [get]
+func (*ApiLedger) GetBillNormalList(c *gin.Context) {
+	var query ledger.BillRequest
+	err := c.ShouldBindQuery(&query)
+	userID := utils.FindUserID(c)
+	data, total, cd, err := ledgerService.GetBillNormalListService(query, userID, c)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(gin.H{
+		"list":  data,
+		"total": total,
+	}, cd, c)
+}

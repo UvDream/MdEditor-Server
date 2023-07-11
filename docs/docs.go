@@ -911,8 +911,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "账单名称",
-                        "name": "name",
+                        "description": "账单备注",
+                        "name": "remark",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序",
+                        "name": "sort",
                         "in": "query"
                     },
                     {
@@ -968,6 +974,82 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/bill/normal/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ledger"
+                ],
+                "summary": "获取账单正常列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "账单金额",
+                        "name": "amount",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单ID",
+                        "name": "ledger_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单备注",
+                        "name": "remark",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "key_word",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
                         }
                     }
                 }

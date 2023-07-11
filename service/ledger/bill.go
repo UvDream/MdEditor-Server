@@ -53,9 +53,9 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	if query.StartTime != "" && query.EndTime != "" {
 		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
 	}
-	//查询账单
-	if query.Name != "" {
-		db = db.Where("name LIKE ?", "%"+query.Name+"%")
+	//查询备注
+	if query.Remark != "" {
+		db = db.Where("remark LIKE ?", "%"+query.Remark+"%")
 	}
 	//查询金额
 	if query.Amount != "" {
@@ -65,7 +65,12 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	if err := db.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Count(&total).Error; err != nil {
 		return data, total, code.ErrorGetBill, err
 	}
-	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Where("ledger_id = ?", query.LedgerID).Order("create_time desc").Find(&bill).Error; err != nil {
+	if query.Sort == "" {
+		//	如果为空就根据创建时间排序
+		query.Sort = "create_time"
+	}
+	//查询
+	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Where("ledger_id = ?", query.LedgerID).Order(query.Sort + " desc").Find(&bill).Error; err != nil {
 		return data, total, code.ErrorGetBill, err
 	}
 	for i, v := range bill {
@@ -128,4 +133,60 @@ func (*LedgersService) GetBillDetailService(id string) (bill ledger.Bill, cd int
 		return bill, code.ErrorGetBill, err
 	}
 	return bill, code.SUCCESS, nil
+}
+
+// GetBillNormalListService 获取常用账单列表
+func (*LedgersService) GetBillNormalListService(query ledger.BillRequest, userID string, c *gin.Context) (data []ledger.Bill, total int64, cd int, err error) {
+	db := global.DB
+	//var bill []ledger.Bill
+	if err := db.Where("id = ?", query.LedgerID).First(&ledger.Ledger{}).Error; err != nil {
+		return data, total, code.ErrorGetLedger, err
+	}
+	//时间
+	if query.StartTime != "" && query.EndTime != "" {
+		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
+	}
+	keyWord := c.Query("key_word")
+	if keyWord != "" {
+		db = db.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
+	}
+	//查询总数
+	if err := db.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Count(&total).Error; err != nil {
+		return data, total, code.ErrorGetBill, err
+	}
+	//排序
+	if query.Sort == "" {
+		query.Sort = "create_time"
+	}
+	//查询
+	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Where("ledger_id = ?", query.LedgerID).Order(query.Sort + " desc").Find(&data).Error; err != nil {
+		return data, total, code.ErrorGetBill, err
+	}
+	for i, v := range data {
+		data[i].CategoryName, err = getCategoryName(v.CategoryID)
+		if err != nil {
+			return data, total, code.ErrorGetCategory, err
+		}
+	}
+	return data, total, code.SUCCESS, err
+}
+
+// 根据分类ID获取分类下的名称
+func getCategoryName(id string) (name string, err error) {
+	db := global.DB
+	var category ledger.CategoryLedger
+	//首先差是否有parentID
+	if err := db.Where("id = ?", id).First(&category).Error; err != nil {
+		return name, err
+	}
+	if category.ParentID == "" {
+		return category.Name, nil
+	}
+	//	根据id查询父级
+	var parent ledger.CategoryLedger
+	if err := db.Where("id = ?", category.ParentID).First(&parent).Error; err != nil {
+		return name, err
+	}
+	//	返回父级名称+子级名称
+	return parent.Name + "-" + category.Name, nil
 }
