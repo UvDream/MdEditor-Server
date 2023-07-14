@@ -136,39 +136,59 @@ func (*LedgersService) GetBillDetailService(id string) (bill ledger.Bill, cd int
 }
 
 // GetBillNormalListService 获取常用账单列表
-func (*LedgersService) GetBillNormalListService(query ledger.BillRequest, userID string, c *gin.Context) (data []ledger.Bill, total int64, cd int, err error) {
+func (*LedgersService) GetBillNormalListService(query ledger.BillRequest, userID string, c *gin.Context) (data []ledger.Bill, total int64, cd int, income float64, expenditure float64, err error) {
 	db := global.DB
-	//var bill []ledger.Bill
-	if err := db.Where("id = ?", query.LedgerID).First(&ledger.Ledger{}).Error; err != nil {
-		return data, total, code.ErrorGetLedger, err
+	dp := global.DB
+	di := global.DB
+	de := global.DB
+	if err := dp.Where("id = ?", query.LedgerID).First(&ledger.Ledger{}).Error; err != nil {
+		return data, total, code.ErrorGetLedger, income, expenditure, err
 	}
 	//时间
 	if query.StartTime != "" && query.EndTime != "" {
 		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
+		di = di.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
+		de = de.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
 	}
 	keyWord := c.Query("key_word")
 	if keyWord != "" {
 		db = db.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
+		di = di.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
+		de = de.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
 	}
-	//查询总数
-	if err := db.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Count(&total).Error; err != nil {
-		return data, total, code.ErrorGetBill, err
-	}
+	ledgerTotal := &struct {
+		IncomeTotal float64 `json:"income_total"`
+		ExpendTotal float64 `json:"expend_total"`
+	}{}
+
 	//排序
 	if query.Sort == "" {
 		query.Sort = "create_time"
 	}
 	//查询
 	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Where("ledger_id = ?", query.LedgerID).Order(query.Sort + " desc").Find(&data).Error; err != nil {
-		return data, total, code.ErrorGetBill, err
+		return data, total, code.ErrorGetBill, income, expenditure, err
 	}
 	for i, v := range data {
 		data[i].CategoryName, err = getCategoryName(v.CategoryID)
 		if err != nil {
-			return data, total, code.ErrorGetCategory, err
+			return data, total, code.ErrorGetCategory, income, expenditure, err
 		}
 	}
-	return data, total, code.SUCCESS, err
+
+	//查询总收入
+	if err := di.Model(&ledger.Bill{}).Where("type = ?", "1").Select("sum(amount) as income_total").Scan(&ledgerTotal).Error; err != nil {
+		return data, total, code.ErrorGetBill, ledgerTotal.IncomeTotal, ledgerTotal.ExpendTotal, err
+	}
+	//查询总支出
+	if err := de.Model(&ledger.Bill{}).Where("type = ?", "0").Select("sum(amount) as expend_total").Scan(&ledgerTotal).Error; err != nil {
+		return data, total, code.ErrorGetBill, ledgerTotal.IncomeTotal, ledgerTotal.ExpendTotal, err
+	}
+	//查询总数
+	if err := db.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Count(&total).Error; err != nil {
+		return data, total, code.ErrorGetBill, income, expenditure, err
+	}
+	return data, total, code.SUCCESS, ledgerTotal.IncomeTotal, ledgerTotal.ExpendTotal, err
 }
 
 // 根据分类ID获取分类下的名称

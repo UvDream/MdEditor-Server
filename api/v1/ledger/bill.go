@@ -152,13 +152,15 @@ func (*ApiLedger) GetBillNormalList(c *gin.Context) {
 	var query ledger.BillRequest
 	err := c.ShouldBindQuery(&query)
 	userID := utils.FindUserID(c)
-	data, total, cd, err := ledgerService.GetBillNormalListService(query, userID, c)
+	data, total, cd, income, expenditure, err := ledgerService.GetBillNormalListService(query, userID, c)
 	if err != nil {
 		code.FailResponse(cd, c)
 		return
 	}
 	code.SuccessResponse(gin.H{
-		"list":  data,
-		"total": total,
+		"list":        data,
+		"total":       total,
+		"income":      income,
+		"expenditure": expenditure,
 	}, cd, c)
 }
