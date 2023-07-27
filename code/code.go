@@ -62,6 +62,8 @@ const (
 	ErrorUpdateUser                 = 10043 //更新用户失败
 	ErrorEmailExist                 = 10044 //邮箱已存在
 	ErrorSetUserInviteCode          = 10045 //设置用户邀请码失败
+	ErrorFeedback                   = 10046 //反馈保存失败
+	ErrorFeedbackList               = 10047 //反馈列表获取失败
 )
 
 func Text(code int) string {

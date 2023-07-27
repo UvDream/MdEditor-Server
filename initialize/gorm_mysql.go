@@ -64,6 +64,9 @@ func RegistrationTable(db *gorm.DB) {
 		ledger.MoneyBudget{},
 		ledger.LedgerUser{},
 		ledger.LoopAccount{},
+		//	反馈
+		system.Feedback{},
+		system.Attachment{},
 	)
 	if err != nil {
 		global.Log.Error("注册数据表失败", zap.Error(err))

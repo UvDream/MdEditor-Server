@@ -102,4 +102,6 @@ var zhCNText = map[int]string{
 	ErrorSetUserInviteCode:              "设置用户邀请码失败",
 	ErrorGetCategoryStatisticsDetail:    "查询分类统计详情失败",
 	ErrorGetTotalAmount:                 "查询总金额失败",
+	ErrorFeedback:                       "反馈失败",
+	ErrorFeedbackList:                   "查询反馈列表失败",
 }

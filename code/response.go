@@ -29,6 +29,12 @@ func Result(code int, data interface{}, msg string, c *gin.Context, success bool
 func SuccessResponse(data interface{}, code int, c *gin.Context) {
 	Result(code, data, Text(code), c, true)
 }
+func SuccessResponseList(data interface{}, total int64, code int, c *gin.Context) {
+	Result(code, PaginatedData{
+		List:  data,
+		Total: total,
+	}, Text(code), c, true)
+}
 
 // FailResponse 失败返回
 func FailResponse(code int, c *gin.Context) {

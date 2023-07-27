@@ -681,6 +681,27 @@ definitions:
       phone:
         type: string
     type: object
+  system.Attachment:
+    properties:
+      create_time:
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      feedback:
+        allOf:
+        - $ref: '#/definitions/system.Feedback'
+        description: 反馈
+      feedback_id:
+        description: 反馈ID
+        type: string
+      id:
+        type: string
+      update_time:
+        type: string
+      url:
+        description: 附件地址
+        type: string
+    type: object
   system.BindEmail:
     properties:
       code:
@@ -695,6 +716,47 @@ definitions:
     - code
     - email
     - unique_id
+    type: object
+  system.Feedback:
+    properties:
+      accept_team:
+        description: 接受团队联系
+        type: string
+      attachments:
+        description: 多图片附件
+        items:
+          $ref: '#/definitions/system.Attachment'
+        type: array
+      content:
+        description: 内容
+        type: string
+      create_time:
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        description: 邮箱联系方式
+        type: string
+      id:
+        type: string
+      qq:
+        description: QQ联系方式
+        type: string
+      status:
+        description: 处理状态
+        type: string
+      type:
+        description: 类型
+        type: string
+      update_time:
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/system.User'
+        description: 用户
+      user_id:
+        description: 用户ID
+        type: string
     type: object
   system.LoginRequest:
     properties:
@@ -3130,6 +3192,50 @@ paths:
       summary: 绑定邮箱
       tags:
       - user
+  /user/feedback:
+    post:
+      parameters:
+      - description: 建议反馈
+        in: body
+        name: feedback
+        required: true
+        schema:
+          $ref: '#/definitions/system.Feedback'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success":true,"data":string,"msg":"设置成功"}
+          schema:
+            type: string
+      summary: 建议反馈
+      tags:
+      - system
+  /user/feedback_list:
+    get:
+      parameters:
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success":true,"data":system.Feedback,"msg":"设置成功"}
+          schema:
+            type: string
+      summary: 建议反馈列表
+      tags:
+      - system
   /user/fill_user_invite_code:
     post:
       parameters:

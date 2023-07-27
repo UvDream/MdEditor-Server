@@ -67,4 +67,6 @@ var enUSText = map[int]string{
 	ErrorDeleteCategory:                "delete category failed",
 	ErrorGetCategoryStatisticsDetail:   "get category statistics detail failed",
 	ErrorGetTotalAmount:                "get total amount failed",
+	ErrorFeedback:                      "feedback failed",
+	ErrorFeedbackList:                  "feedback list failed",
 }

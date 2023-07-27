@@ -3612,6 +3612,75 @@
                 }
             }
         },
+        "/user/feedback": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "建议反馈",
+                "parameters": [
+                    {
+                        "description": "建议反馈",
+                        "name": "feedback",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.Feedback"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":string,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/feedback_list": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "建议反馈列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "key_word",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success\":true,\"data\":system.Feedback,\"msg\":\"设置成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/fill_user_invite_code": {
             "post": {
                 "produces": [
@@ -4847,6 +4916,39 @@
                 }
             }
         },
+        "system.Attachment": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "feedback": {
+                    "description": "反馈",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.Feedback"
+                        }
+                    ]
+                },
+                "feedback_id": {
+                    "description": "反馈ID",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "url": {
+                    "description": "附件地址",
+                    "type": "string"
+                }
+            }
+        },
         "system.BindEmail": {
             "type": "object",
             "required": [
@@ -4864,6 +4966,66 @@
                 },
                 "unique_id": {
                     "description": "唯一ID",
+                    "type": "string"
+                }
+            }
+        },
+        "system.Feedback": {
+            "type": "object",
+            "properties": {
+                "accept_team": {
+                    "description": "接受团队联系",
+                    "type": "string"
+                },
+                "attachments": {
+                    "description": "多图片附件",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/system.Attachment"
+                    }
+                },
+                "content": {
+                    "description": "内容",
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "email": {
+                    "description": "邮箱联系方式",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "qq": {
+                    "description": "QQ联系方式",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "处理状态",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "user": {
+                    "description": "用户",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "用户ID",
                     "type": "string"
                 }
             }
