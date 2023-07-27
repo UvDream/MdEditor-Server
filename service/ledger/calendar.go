@@ -99,13 +99,13 @@ func (*LedgersService) GetHomeStatisticsService(ledgerID string, startTime strin
 		return data, code.ErrorGetBill, err
 	}
 	if err := db.Model(&ledger.Bill{}).Where("type = ?", 0).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).Where("not_budget = 0").Select("sum(amount) as expenditure").Scan(d).Error; err != nil {
-		return data, code.ErrorGetBill, err
+		return data, code.ErrorGetBudget, err
 	}
 	//查询预算
 	//查询是否存在预算
 	var budget ledger.MoneyBudget
-	if err := db.Model(&ledger.MoneyBudget{}).Where("ledger_id = ?", ledgerID).Where("create_time BETWEEN ? AND ?", startTime, endTime).First(&ledger.MoneyBudget{}).Error; err == nil {
-		date, _ := time.Parse("2006-01-02", startTime)
+	if err := db.Model(&ledger.MoneyBudget{}).Where("ledger_id = ?", ledgerID).First(&ledger.MoneyBudget{}).Error; err == nil {
+		date, _ := time.Parse("2006-01-02 15:04:05", startTime)
 		if err := db.Where("ledger_id = ?", ledgerID).Where("year = ?", date.Year()).Where("date = ?", date.Month()).First(&budget).Error; err != nil {
 			return data, code.ErrorGetBill, err
 		}

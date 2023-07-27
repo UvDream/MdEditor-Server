@@ -29,6 +29,10 @@ type CategoryLedger struct {
 	//账本ID
 	LedgerID string           `json:"ledger_id"`
 	Children []CategoryLedger `json:"children" gorm:"-"`
+	//	颜色
+	Color string `json:"color"`
+	//	背景色
+	BackgroundColor string `json:"background_color"`
 }
 
 var InitLedgerCategory = []CategoryLedger{

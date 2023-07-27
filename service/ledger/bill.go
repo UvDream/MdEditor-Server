@@ -44,6 +44,7 @@ func (*LedgersService) UpdateBillService(bill ledger.Bill) (ledger.Bill, int, er
 func (*LedgersService) GetBillListService(query ledger.BillRequest, userID string, c *gin.Context) (data []ledger.BillChildren, total int64, cd int, err error) {
 	db := global.DB
 	var bill []ledger.Bill
+	keyWord := c.Query("key_word")
 	//TODO 查询是否有权限获取
 	//先查询账本是否存在
 	if err := db.Where("id = ?", query.LedgerID).First(&ledger.Ledger{}).Error; err != nil {
@@ -60,6 +61,10 @@ func (*LedgersService) GetBillListService(query ledger.BillRequest, userID strin
 	//查询金额
 	if query.Amount != "" {
 		db = db.Where("amount = ?", query.Amount)
+	}
+	if keyWord != "" {
+		//	查询备注或者金额
+		db = db.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
 	}
 	//查询总数
 	if err := db.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Count(&total).Error; err != nil {
@@ -155,6 +160,14 @@ func (*LedgersService) GetBillNormalListService(query ledger.BillRequest, userID
 		db = db.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
 		di = di.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
 		de = de.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
+	}
+	//是否计入收支
+	if query.NotBudget != "" {
+		db = db.Where("budget_id = ?", query.NotBudget)
+	}
+	//支出/收入
+	if query.Type != "" {
+		db = db.Where("type = ?", query.Type)
 	}
 	ledgerTotal := &struct {
 		IncomeTotal float64 `json:"income_total"`

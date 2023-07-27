@@ -421,11 +421,17 @@ definitions:
     type: object
   ledger.CategoryLedger:
     properties:
+      background_color:
+        description: 背景色
+        type: string
       children:
         items:
           $ref: '#/definitions/ledger.CategoryLedger'
         type: array
       class_name:
+        type: string
+      color:
+        description: 颜色
         type: string
       create_time:
         type: string
@@ -768,6 +774,9 @@ definitions:
         type: string
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'
+      desc:
+        description: 个人描述
+        type: string
       email:
         type: string
       gender:
@@ -1454,6 +1463,10 @@ paths:
         in: query
         name: ledger_id
         type: string
+      - description: 计入收支
+        in: query
+        name: not_budget
+        type: string
       - description: 账单备注
         in: query
         name: remark
@@ -1464,6 +1477,10 @@ paths:
         type: string
       - in: query
         name: start_time
+        type: string
+      - description: 账单类型
+        in: query
+        name: type
         type: string
       - description: 关键字
         in: query
@@ -1516,6 +1533,10 @@ paths:
         in: query
         name: ledger_id
         type: string
+      - description: 计入收支
+        in: query
+        name: not_budget
+        type: string
       - description: 账单备注
         in: query
         name: remark
@@ -1526,6 +1547,10 @@ paths:
         type: string
       - in: query
         name: start_time
+        type: string
+      - description: 账单类型
+        in: query
+        name: type
         type: string
       - description: 关键字
         in: query

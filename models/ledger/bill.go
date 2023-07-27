@@ -53,6 +53,10 @@ type BillRequest struct {
 	EndTime   string `form:"end_time" json:"end_time"`
 	//	排序
 	Sort string `form:"sort" json:"sort"`
+	//	账单类型
+	Type string `form:"type" json:"type"`
+	//	计入收支
+	NotBudget string `form:"not_budget" json:"not_budget"`
 }
 
 type BillChildren struct {

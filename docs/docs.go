@@ -911,6 +911,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "description": "计入收支",
+                        "name": "not_budget",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "description": "账单备注",
                         "name": "remark",
                         "in": "query"
@@ -924,6 +930,12 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "start_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单类型",
+                        "name": "type",
                         "in": "query"
                     },
                     {
@@ -1011,6 +1023,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "description": "计入收支",
+                        "name": "not_budget",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "description": "账单备注",
                         "name": "remark",
                         "in": "query"
@@ -1024,6 +1042,12 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "start_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单类型",
+                        "name": "type",
                         "in": "query"
                     },
                     {
@@ -4454,6 +4478,10 @@ const docTemplate = `{
         "ledger.CategoryLedger": {
             "type": "object",
             "properties": {
+                "background_color": {
+                    "description": "背景色",
+                    "type": "string"
+                },
                 "children": {
                     "type": "array",
                     "items": {
@@ -4461,6 +4489,10 @@ const docTemplate = `{
                     }
                 },
                 "class_name": {
+                    "type": "string"
+                },
+                "color": {
+                    "description": "颜色",
                     "type": "string"
                 },
                 "create_time": {
@@ -4959,6 +4991,10 @@ const docTemplate = `{
                 },
                 "delete_time": {
                     "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "desc": {
+                    "description": "个人描述",
+                    "type": "string"
                 },
                 "email": {
                     "type": "string"

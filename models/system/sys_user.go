@@ -13,11 +13,13 @@ type User struct {
 	UserName string `json:"user_name" gorm:"comment:用户名"`
 	NickName string `json:"nick_name" gorm:"comment:昵称"`
 	Password string `json:"password" gorm:"comment:密码"`
-	Phone    string `json:"phone" gorm:"comment:手机号"`
-	Email    string `json:"email" gorm:"comment:邮箱"`
-	Avatar   string `json:"avatar" gorm:"comment:头像"`
+	// 个人描述
+	Desc   string `json:"desc" gorm:"comment:个人描述"`
+	Phone  string `json:"phone" gorm:"comment:手机号"`
+	Email  string `json:"email" gorm:"comment:邮箱"`
+	Avatar string `json:"avatar" gorm:"comment:头像",default:"https://pic.imgdb.cn/item/64c0cc451ddac507ccd49532.png"`
 	//性别
-	Gender string `json:"gender" gorm:"comment:性别;default:'1'"`
+	Gender string `json:"gender" gorm:"comment:性别;default:'1'"` //1 男 2 女 3 保密
 	//关联到角色表
 	Roles        []SysRole  `json:"roles" gorm:"many2many:sys_user_role;"`
 	UserConfigID string     `json:"user_config_id" gorm:"comment:用户配置ID"`
@@ -46,7 +48,7 @@ type Member struct {
 	Status int `json:"status" gorm:"comment:会员状态"`
 }
 
-//LoginRequest 登陆请求参数
+// LoginRequest 登陆请求参数
 type LoginRequest struct {
 	Username  string `json:"user_name" binding:"required"`
 	Password  string `json:"password" binding:"required"`
@@ -76,7 +78,7 @@ type BindEmail struct {
 }
 
 func (user *User) BeforeSave(tx *gorm.DB) (err error) {
-	if user.Password != "" {
+	if user.Password == "" {
 		user.Password = utils.BcryptHash(user.Password)
 	}
 	return

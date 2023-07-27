@@ -48,4 +48,5 @@ const (
 	ErrorCreateLedgerMember                     = 11046 //	会员可以创建五个账本
 	ErrorGetCategoryStatisticsDetail            = 11047 //	查询分类详情统计失败
 	ErrorGetTotalAmount                         = 11048 //	查询总金额失败
+
 )
