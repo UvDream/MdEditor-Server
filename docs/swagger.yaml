@@ -555,6 +555,7 @@ definitions:
         description: 缩略图
         type: string
       type:
+        default: "0"
         description: 账本类型
         type: string
       update_time:
@@ -807,23 +808,21 @@ definitions:
       user_name:
         type: string
     type: object
-  system.SysRole:
+  system.Role:
     properties:
-      children:
-        items:
-          $ref: '#/definitions/system.SysRole'
-        type: array
       create_time:
         type: string
       delete_time:
         $ref: '#/definitions/gorm.DeletedAt'
       id:
         type: string
-      parent_id:
-        description: 父角色ID
+      is_default:
+        type: string
+      remark:
+        type: string
+      role_key:
         type: string
       role_name:
-        description: 角色名
         type: string
       update_time:
         type: string
@@ -869,7 +868,7 @@ definitions:
       roles:
         description: 关联到角色表
         items:
-          $ref: '#/definitions/system.SysRole'
+          $ref: '#/definitions/system.Role'
         type: array
       source:
         description: 来源
@@ -964,6 +963,187 @@ info:
   title: Swagger Example API
   version: 0.0.1
 paths:
+  /admin/ledger/list:
+    get:
+      description: 获取账本列表admin
+      parameters:
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 描述
+        in: query
+        name: description
+        type: string
+      - description: 结束时间
+        in: query
+        name: end_time
+        type: string
+      - description: 账本名称
+        in: query
+        name: name
+        type: string
+      - description: 开始时间
+        in: query
+        name: start_time
+        type: string
+      - description: 账本类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.Ledger'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 获取账本列表admin
+      tags:
+      - admin
+  /admin/user/add/role:
+    post:
+      consumes:
+      - application/json
+      description: 新增角色
+      parameters:
+      - description: 角色
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/system.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  type: string
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 新增角色
+      tags:
+      - admin
+  /admin/user/list:
+    get:
+      consumes:
+      - application/json
+      description: 获取用户列表
+      parameters:
+      - in: query
+        name: email
+        type: string
+      - in: query
+        name: gender
+        type: string
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: nick_name
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
+      - in: query
+        name: phone
+        type: string
+      - in: query
+        name: user_name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/system.User'
+                msg:
+                  type: string
+                success:
+                  type: boolean
+                total:
+                  type: integer
+              type: object
+      summary: 获取用户列表
+      tags:
+      - admin
+  /admin/user/role/list:
+    get:
+      consumes:
+      - application/json
+      description: 角色列表
+      parameters:
+      - description: 角色名称
+        in: query
+        name: query
+        required: true
+        type: string
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 角色列表
+      tags:
+      - admin
   /article/create:
     post:
       consumes:
@@ -1417,6 +1597,68 @@ paths:
       summary: 获取token
       tags:
       - halo
+  /ledger/bill/category/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账单金额
+        in: query
+        name: amount
+        type: string
+      - description: 账单分类ID
+        in: query
+        name: category_id
+        type: string
+      - in: query
+        name: end_time
+        type: string
+      - description: 账单ID
+        in: query
+        name: ledger_id
+        type: string
+      - description: 计入收支
+        in: query
+        name: not_budget
+        type: string
+      - description: 账单备注
+        in: query
+        name: remark
+        type: string
+      - description: 排序
+        in: query
+        name: sort
+        type: string
+      - in: query
+        name: start_time
+        type: string
+      - description: 账单类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/ledger.Bill'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 根据分类ID获取账单列表
+      tags:
+      - ledger
   /ledger/bill/create:
     post:
       consumes:
@@ -1518,6 +1760,10 @@ paths:
         in: query
         name: amount
         type: string
+      - description: 账单分类ID
+        in: query
+        name: category_id
+        type: string
       - in: query
         name: end_time
         type: string
@@ -1587,6 +1833,10 @@ paths:
       - description: 账单金额
         in: query
         name: amount
+        type: string
+      - description: 账单分类ID
+        in: query
+        name: category_id
         type: string
       - in: query
         name: end_time
@@ -3213,6 +3463,8 @@ paths:
       - system
   /user/feedback_list:
     get:
+      consumes:
+      - application/json
       parameters:
       - description: 关键字
         in: query
@@ -3226,13 +3478,63 @@ paths:
         name: page_size
         required: true
         type: integer
+      - description: 接受团队联系
+        in: query
+        name: accept_team
+        type: string
+      - description: 内容
+        in: query
+        name: content
+        type: string
+      - in: query
+        name: create_time
+        type: string
+      - description: 邮箱联系方式
+        in: query
+        name: email
+        type: string
+      - in: query
+        name: id
+        type: string
+      - description: QQ联系方式
+        in: query
+        name: qq
+        type: string
+      - description: 处理状态
+        in: query
+        name: status
+        type: string
+      - description: 类型
+        in: query
+        name: type
+        type: string
+      - in: query
+        name: update_time
+        type: string
+      - description: 用户ID
+        in: query
+        name: user_id
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: success":true,"data":system.Feedback,"msg":"设置成功"}
+          description: OK
           schema:
-            type: string
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  items:
+                    $ref: '#/definitions/system.Feedback'
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
       summary: 建议反馈列表
       tags:
       - system

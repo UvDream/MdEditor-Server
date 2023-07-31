@@ -11,11 +11,11 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 	userRouter := Router.Group("user")
 	baseApi := v1.ApiGroupApp.SystemApiGroup.UserApi
 	{
-		//获取用户信息
+		//	获取用户信息
 		userRouter.GET("get_user_info", baseApi.GetUserInfo)
-		//解绑邮箱
+		//	解绑邮箱
 		userRouter.POST("unbind_email", baseApi.UnbindEmail)
-		//绑定邮箱
+		//	绑定邮箱
 		userRouter.POST("bind_email", baseApi.BindEmail)
 		userRouter.POST("user_list", baseApi.UserList)
 		//	配置

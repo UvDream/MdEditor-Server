@@ -164,3 +164,27 @@ func (*ApiLedger) GetBillNormalList(c *gin.Context) {
 		"expenditure": expenditure,
 	}, cd, c)
 }
+
+// GetBillListByCategoryId 根据分类ID获取账单列表
+// @Summary 根据分类ID获取账单列表
+// @Tags ledger
+// @Accept  json
+// @Produce  json
+// @Param  query  query    ledger.BillRequest  true  "参数"
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]ledger.Bill}
+// @Router /ledger/bill/category/list [get]
+func (*ApiLedger) GetBillListByCategoryId(c *gin.Context) {
+	var query ledger.BillRequest
+	err := c.ShouldBindQuery(&query)
+	if err != nil {
+		code.FailWithMessage(err.Error(), c)
+		return
+	}
+	userID := utils.FindUserID(c)
+	data, cd, err := ledgerService.GetBillListByCategoryIdService(query, userID, c)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
+}

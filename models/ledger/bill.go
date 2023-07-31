@@ -57,6 +57,8 @@ type BillRequest struct {
 	Type string `form:"type" json:"type"`
 	//	计入收支
 	NotBudget string `form:"not_budget" json:"not_budget"`
+	//	账单分类ID
+	CategoryID string `form:"category_id" json:"category_id"`
 }
 
 type BillChildren struct {

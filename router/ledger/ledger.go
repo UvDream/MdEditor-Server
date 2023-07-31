@@ -41,6 +41,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.GET("/bill/list", accountApi.GetBillList)
 		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
 		ledgerRouter.GET("/bill/normal/list", accountApi.GetBillNormalList)
+		//根据分类ID获取账单列表
+		ledgerRouter.GET("/bill/category/list", accountApi.GetBillListByCategoryId)
 		//预算
 		ledgerRouter.POST("/budget/create", accountApi.CreateBudget)
 		ledgerRouter.DELETE("/budget/delete", accountApi.DeleteBudget)

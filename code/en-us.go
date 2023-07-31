@@ -1,3 +1,11 @@
+/*
+ * @Author: wangzhongjie
+ * @Date: 2022-08-12 15:21:50
+ * @LastEditors: wangzhongjie
+ * @LastEditTime: 2023-07-28 17:25:45
+ * @Description:
+ * @Email: UvDream@163.com
+ */
 package code
 
 var enUSText = map[int]string{
@@ -69,4 +77,8 @@ var enUSText = map[int]string{
 	ErrorGetTotalAmount:                "get total amount failed",
 	ErrorFeedback:                      "feedback failed",
 	ErrorFeedbackList:                  "feedback list failed",
+	ErrorMissingSearchParam:            "missing search param",
+	ErrorUserList:                      "user list failed",
+	ErrorRoleList:                      "role list failed",
+	ErrorGetUser:                       "get user failed",
 }

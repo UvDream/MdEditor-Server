@@ -19,7 +19,7 @@ type Ledger struct {
 	//	账本描述
 	Description string `json:"description"`
 	//	账本类型
-	Type string `json:"type"` // 0:个人账本 1:家庭账本 2:团队账本
+	Type string `json:"type" default:"0"` // 0:个人账本 1:家庭账本 2:团队账本
 	//	账本创建者
 	Creator system.User `json:"creator"`
 	//	账本创建者ID
@@ -69,7 +69,7 @@ type DataSummary struct {
 	Expenditure float64 `json:"expenditure"`
 }
 
-//LoopAccount 循环记账
+// LoopAccount 循环记账
 type LoopAccount struct {
 	models.Model
 	//	类型
@@ -93,4 +93,16 @@ type LoopAccount struct {
 	CreatorID string `json:"creator_id" gorm:"type:varchar(255);comment:账单创建者ID;"`
 	//	账单创建者
 	Creator system.User `json:"creator" gorm:"foreignKey:CreatorID;references:ID"`
+}
+type LedgerRequest struct {
+	//	账本名称
+	Name string `json:"name" form:"name" `
+	//	描述
+	Description string `json:"description" form:"description"`
+	//	账本类型
+	Type string `json:"type" form:"type"`
+	//	开始时间
+	StartTime string `json:"start_time" form:"start_time"`
+	//	结束时间
+	EndTime string `json:"end_time" form:"end_time"`
 }

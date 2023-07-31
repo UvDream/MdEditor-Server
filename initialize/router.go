@@ -30,6 +30,7 @@ func Routers() *gin.Engine {
 	ledgerRouter := router.RoutersGroupApp.Account
 	//halo相关路由
 	haloRouter := router.RoutersGroupApp.Halo
+	adminRouter := router.RoutersGroupApp.Admin
 	//跨域设置
 	Router.Use(middleware.Cors()) //放行所有的请求
 	//Router.Use(middleware.CorsByRules())  //按照配置规则放行跨域
@@ -62,5 +63,9 @@ func Routers() *gin.Engine {
 	//管理端路由
 	AdminGroup := Router.Group("/admin")
 	AdminGroup.Use(middleware.JWTAuth())
+	{
+		adminRouter.InitUserAdminRouter(AdminGroup)
+		adminRouter.InitLedgerAdminRouter(AdminGroup)
+	}
 	return Router
 }

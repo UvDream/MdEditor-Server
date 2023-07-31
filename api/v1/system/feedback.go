@@ -32,14 +32,23 @@ func (*UserApi) Feedback(c *gin.Context) {
 // FeedbackList 建议反馈列表
 // @Tags system
 // @Summary 建议反馈列表
+// @Accept  json
 // @Produce  json
 // @Param  query  query    models.PaginationRequest  true  "参数"
-// @Success 200 {string} code.Response{"success":true,"data":system.Feedback,"msg":"设置成功"}
+// @Param  query  query    system.Feedback true  "参数"
+// @Success 200 {object} code.Response{code=int,msg=string,success=bool,data=[]system.Feedback}
 // @Router /user/feedback_list [get]
 func (*UserApi) FeedbackList(c *gin.Context) {
+	//获取参数
+	var query system.Feedback
+	if err := c.ShouldBindQuery(&query); err != nil {
+		code.FailResponse(code.ErrorMissingLedgerId, c)
+		return
+	}
+	keyword := c.Query("key_word")
 	// 获取用户id
 	userId := utils.FindUserID(c)
-	data, total, cd, err := userService.FeedbackListService(userId, c)
+	data, total, cd, err := userService.FeedbackListService(userId, query, keyword, c)
 	if err != nil {
 		code.FailResponse(cd, c)
 		return

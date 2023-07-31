@@ -2,6 +2,7 @@ package ledger
 
 import (
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"server/code"
 	"server/global"
@@ -222,4 +223,88 @@ func getCategoryName(id string) (name string, err error) {
 	}
 	//	返回父级名称+子级名称
 	return parent.Name + "-" + category.Name, nil
+}
+
+func (*LedgersService) GetBillListByCategoryIdService(query ledger.BillRequest, userId string, c *gin.Context) (
+	data []ledger.Bill, cd int, err error) {
+	db := global.DB
+	dc := global.DB
+	//排序
+	if query.Sort != "" {
+		db = db.Order(query.Sort + " desc")
+	} else {
+		db = db.Order("create_time desc")
+	}
+
+	// 账单类型
+	if query.Type != "" {
+		db = db.Where("type = ?", query.Type)
+	}
+	//是否计入收支
+	if query.NotBudget != "" {
+		db = db.Where("budget_id = ?", query.NotBudget)
+	}
+	//时间
+	if query.StartTime != "" && query.EndTime != "" {
+		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
+	}
+	//查询列表
+	if err := db.Preload(clause.Associations).Find(&data).Error; err != nil {
+		return data, code.ErrorGetBill, err
+	}
+	for i, v := range data {
+		data[i].CategoryName, err = getCategoryName(v.CategoryID)
+		if err != nil {
+			return data, code.ErrorGetCategory, err
+		}
+	}
+	if query.CategoryID == "" {
+		return data, code.SUCCESS, err
+	}
+	//查询分类
+	var category ledger.CategoryLedger
+	//根据Id查询分类并且查询子级
+	if err := dc.Where("id = ?", query.CategoryID).Preload(clause.Associations).First(&category).Error; err != nil {
+		return data, code.ErrorGetCategory, err
+	}
+
+	//如果没有父级就查询子级
+	if category.ParentID == "" {
+		FindChildren(dc, category.ID, &category.Children)
+	}
+	var newData []ledger.Bill
+	//如果没有父级直接筛选
+	if category.ParentID == "" {
+		for i, v := range data {
+			if v.CategoryID == category.ID {
+				newData = append(newData, data[i])
+			}
+		}
+	}
+	//如果有父级就筛选子级
+	if category.ParentID != "" {
+		for i, v := range data {
+			if v.CategoryID == category.ID {
+				newData = append(newData, data[i])
+			}
+			for _, j := range category.Children {
+				if v.CategoryID == j.ID {
+					//查询分类名称
+					data[i].CategoryName, err = getCategoryName(v.CategoryID)
+					if err != nil {
+						return data, code.ErrorGetCategory, err
+					}
+					newData = append(newData, data[i])
+				}
+			}
+		}
+	}
+	return newData, code.SUCCESS, err
+}
+
+func FindChildren(db *gorm.DB, parentID string, category *[]ledger.CategoryLedger) error {
+	if err := db.Where("parent_id = ?", parentID).Find(&category).Error; err != nil {
+		return err
+	}
+	return nil
 }

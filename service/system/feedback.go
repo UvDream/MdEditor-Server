@@ -16,17 +16,33 @@ func (*SysUserService) FeedbackService(feedback system.Feedback) (data system.Fe
 	return feedback, code.SUCCESS, nil
 }
 
-func (*SysUserService) FeedbackListService(userId string, c *gin.Context) (data []system.Feedback, total int64, cd int, err error) {
+func (*SysUserService) FeedbackListService(userId string, query system.Feedback, keyword string, c *gin.Context) (data []system.Feedback, total int64, cd int, err error) {
 	db := global.DB
 	db = db.Where("user_id = ?", userId)
 	//TODO 查询用户角色,管理员可以查看所有反馈
+	//关键字
+	if keyword != "" {
+		db = db.Where("content LIKE ?", "%"+keyword+"%")
+	}
+	//QQ搜索
+	if query.QQ != "" {
+		db = db.Where("qq LIKE ?", "%"+query.QQ+"%")
+	}
+	//邮箱搜索
+	if query.Email != "" {
+		db = db.Where("email LIKE ?", "%"+query.Email+"%")
+	}
+	//状态搜索
+	if query.Status != "" {
+		db = db.Where("status = ?", query.Status)
+	}
+
 	//	分页查询
 	if err := db.Model(&system.Feedback{}).Count(&total).Error; err != nil {
 		return data, total, code.ErrorFeedbackList, err
 	}
-	keyword := c.Query("keyword")
 	//	获取列表
-	if err := db.Where("content LIKE ?", "%"+keyword+"%").Preload(clause.Associations).Scopes(utils.Paginator(c)).Order("create_time desc").Find(&data).Error; err != nil {
+	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Order("create_time desc").Find(&data).Error; err != nil {
 		return data, total, code.ErrorFeedbackList, err
 	}
 	return data, total, code.SUCCESS, nil

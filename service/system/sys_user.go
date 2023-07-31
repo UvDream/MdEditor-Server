@@ -6,9 +6,10 @@ import (
 	"server/global"
 	"server/models/system"
 	"server/utils"
+	"time"
 )
 
-//GetUserListService 获取用户列表
+// GetUserListService 获取用户列表
 func (*SysUserService) GetUserListService(query *system.SysUserRequest) (list interface{}, total int64, mg string, err error) {
 	limit := query.PageSize
 	offset := query.PageSize * (query.Page - 1)
@@ -90,4 +91,35 @@ func (*SysUserService) BindEmailService(c *gin.Context, userID string, bindEmail
 		return code.ErrorUpdateUser, err
 	}
 	return code.SUCCESS, nil
+}
+
+// FindUserRoles 查询角色相关
+func (*SysUserService) FindUserRoles(userId string) (roleArr []string, err error) {
+	db := global.DB
+	//根据用户id查询角色
+	var user system.User
+	if err := db.Where("id = ?", userId).Preload("Roles").First(&user).Error; err != nil {
+		return nil, err
+	}
+	for _, role := range user.Roles {
+		roleArr = append(roleArr, role.RoleKey)
+	}
+	return roleArr, err
+}
+
+// FindIsMember 查询是否是会员
+func (*SysUserService) FindIsMember(userID string) (isMember bool) {
+	var user system.User
+	db := global.DB
+	if err := db.Where("id = ?", userID).Preload("Member").First(&user).Error; err != nil {
+		return false
+	}
+	//查询会员日期是否过期
+	if user.Member.ExpireTime.Before(time.Now()) {
+		return false
+	}
+	if user.Member.IsMember {
+		return true
+	}
+	return false
 }

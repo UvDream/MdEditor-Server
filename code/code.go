@@ -1,3 +1,11 @@
+/*
+ * @Author: wangzhongjie
+ * @Date: 2022-08-12 15:21:50
+ * @LastEditors: wangzhongjie
+ * @LastEditTime: 2023-07-28 17:25:42
+ * @Description:
+ * @Email: UvDream@163.com
+ */
 package code
 
 import "server/global"
@@ -64,6 +72,9 @@ const (
 	ErrorSetUserInviteCode          = 10045 //设置用户邀请码失败
 	ErrorFeedback                   = 10046 //反馈保存失败
 	ErrorFeedbackList               = 10047 //反馈列表获取失败
+	ErrorUserList                   = 10048 // 获取用户列表失败
+	ErrorRoleList                   = 10049 //获取角色列表失败
+	ErrorGetUser                    = 10050 //获取用户失败
 )
 
 func Text(code int) string {

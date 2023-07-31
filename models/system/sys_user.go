@@ -19,9 +19,7 @@ type User struct {
 	Email  string `json:"email" gorm:"comment:邮箱"`
 	Avatar string `json:"avatar" gorm:"comment:头像",default:"https://pic.imgdb.cn/item/64c0cc451ddac507ccd49532.png"`
 	//性别
-	Gender string `json:"gender" gorm:"comment:性别;default:'1'"` //1 男 2 女 3 保密
-	//关联到角色表
-	Roles        []SysRole  `json:"roles" gorm:"many2many:sys_user_role;"`
+	Gender       string     `json:"gender" gorm:"comment:性别;default:'0'"` //0 男 1 女 2 保密
 	UserConfigID string     `json:"user_config_id" gorm:"comment:用户配置ID"`
 	UserConfig   UserConfig `json:"user_config" gorm:"foreignKey:UserConfigID"`
 	//	来源
@@ -35,6 +33,21 @@ type User struct {
 	Member   Member `json:"member" gorm:"foreignKey:MemberID"`
 	// 被邀请码
 	InvitedCode string `json:"invited_code" gorm:"comment:被邀请码"`
+	//关联到角色表
+	Roles []Role `json:"roles" gorm:"many2many:user_roles;"`
+}
+
+type UserRole struct {
+	UserID string `json:"userID"`
+	RoleID string `json:"roleID"`
+}
+
+type Role struct {
+	models.Model
+	RoleName  string `json:"role_name" gorm:"comment:角色名"`
+	RoleKey   string `json:"role_key" gorm:"comment:角色key"`
+	Remark    string `json:"remark" gorm:"comment:备注"`
+	IsDefault string `json:"is_default" gorm:"comment:是否内置"`
 }
 
 // Member 会员信息
@@ -66,8 +79,11 @@ type RetrievePasswordRequest struct {
 // SysUserRequest 用户列表请求参数
 type SysUserRequest struct {
 	models.PaginationRequest
-	Username string `form:"username" json:"user_name"`
-	Nickname string `form:"nickname" json:"nick_name"`
+	Username string `form:"user_name" json:"user_name"`
+	Nickname string `form:"nick_name" json:"nick_name"`
+	Email    string `form:"email" json:"email"`
+	Phone    string `form:"phone" json:"phone"`
+	Gender   string `form:"gender" json:"gender"`
 }
 type BindEmail struct {
 	Email string `json:"email" binding:"required"`
@@ -78,7 +94,7 @@ type BindEmail struct {
 }
 
 func (user *User) BeforeSave(tx *gorm.DB) (err error) {
-	if user.Password == "" {
+	if user.Password != "" {
 		user.Password = utils.BcryptHash(user.Password)
 	}
 	return

@@ -5,13 +5,13 @@ import "server/models"
 type Feedback struct {
 	models.Model
 	//	类型
-	Type string `json:"type" gorm:"comment:类型"` // 1:bug,2:建议,3:其他
+	Type string `json:"type" form:"type" gorm:"comment:类型"` // 1:bug,2:建议,3:其他
 	//	内容
 	Content string `json:"content" gorm:"comment:内容"`
 	//	QQ联系方式
-	QQ string `json:"qq" gorm:"comment:QQ联系方式"`
+	QQ string `json:"qq" form:"qq" gorm:"comment:QQ联系方式"`
 	//	邮箱联系方式
-	Email string `json:"email" gorm:"comment:邮箱联系方式"`
+	Email string `json:"email" form:"email" gorm:"comment:邮箱联系方式"`
 	//	用户ID
 	UserID string `json:"user_id" gorm:"comment:用户ID"`
 	//	用户
@@ -19,7 +19,7 @@ type Feedback struct {
 	//接受团队联系
 	AcceptTeam string `json:"accept_team" gorm:"comment:接受团队联系"` // 1:接受,2:不接受
 	//	处理状态
-	Status string `json:"status" gorm:"comment:处理状态"` // 1:未处理,2:已处理
+	Status string `json:"status" form:"status" gorm:"comment:处理状态"` // 1:未处理,2:已处理
 	// 多图片附件
 	Attachments []Attachment `json:"attachments" gorm:"foreignKey:FeedbackID"`
 }

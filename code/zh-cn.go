@@ -104,4 +104,8 @@ var zhCNText = map[int]string{
 	ErrorGetTotalAmount:                 "查询总金额失败",
 	ErrorFeedback:                       "反馈失败",
 	ErrorFeedbackList:                   "查询反馈列表失败",
+	ErrorMissingSearchParam:             "缺少搜索参数",
+	ErrorUserList:                       "获取用户列表失败",
+	ErrorRoleList:                       "获取角色列表失败",
+	ErrorGetUser:                        "获取用户失败",
 }
