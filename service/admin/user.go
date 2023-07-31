@@ -67,22 +67,22 @@ func (u *UserService) GetRoleList(c *gin.Context) (roleList []system.Role, total
 	if err != nil {
 		return nil, 0, code.ErrorRoleList, err
 	}
+	//管理员和超级管理员可以查看所有角色
 	if len(roles) > 0 {
 		//查询roles中是否存在admin/root
 		for _, v := range roles {
 			if v == "admin" || v == "root" {
-				return nil, 0, code.ErrorRoleList, err
+				//查询角色列表
+				if err = db.Model(&system.Role{}).Count(&total).Error; err != nil {
+					return nil, 0, code.ErrorRoleList, err
+				}
+				//查询角色列表
+				if err = db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Find(&roleList).Error; err != nil {
+					return nil, 0, code.ErrorRoleList, err
+				}
 			}
 		}
 	}
 
-	//查询角色列表
-	if err = db.Model(&system.Role{}).Count(&total).Error; err != nil {
-		return nil, 0, code.ErrorRoleList, err
-	}
-	//查询角色列表
-	if err = db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Find(&roleList).Error; err != nil {
-		return nil, 0, code.ErrorRoleList, err
-	}
 	return roleList, total, code.SUCCESS, err
 }
