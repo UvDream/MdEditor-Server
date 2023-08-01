@@ -10,8 +10,7 @@ import (
 	"strconv"
 )
 
-type ServiceHalo struct {
-}
+type ServiceHalo struct{}
 
 func (*ServiceHalo) SaveArticle(query halo.ArticleHaloResponse) (token interface{}, code int, err error) {
 	url := query.Url + "/api/admin/posts"

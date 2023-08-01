@@ -7,8 +7,7 @@ import (
 	"server/service"
 )
 
-type ApiHaloGroup struct {
-}
+type ApiHaloGroup struct{}
 
 var serviceHalo = service.ServicesGroupApp.ServiceHalo
 
