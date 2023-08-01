@@ -11,13 +11,18 @@ import (
 )
 
 type ServicesGroup struct {
-	SystemServiceGroup  system.SysServiceGroup
-	ArticleServiceGroup article.ArticlesServiceGroup
-	FileServiceGroup    file.FilesServiceGroup
-	ThemeServiceGroup   theme.ThemesServiceGroup
-	LedgerServiceGroup  ledger.LedgersServiceGroup
-	HaloServiceGroup    halo.ServiceHaloGroup
-	AdminServiceGroup   admin.AdminServiceGroup
+	system.JWTService
+	system.SysConfigService
+	system.SysUserService
+	article.ToArticleService
+	article.TagService
+	article.CategoryService
+	file.FilesService
+	theme.ThemesService
+	ledger.LedgersService
+	halo.ServiceHalo
+	admin.UserService
+	admin.LedgerAdminService
 }
 
 var ServicesGroupApp = new(ServicesGroup)

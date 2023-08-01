@@ -7,10 +7,10 @@ import (
 	"server/models/theme"
 )
 
-type ThemesServiceGroup struct{}
+type ThemesService struct{}
 
 // GetThemeListService 获取主题列表
-func (*ThemesServiceGroup) GetThemeListService(keyword string, uuid string) (t []theme.Theme, code int, err error) {
+func (*ThemesService) GetThemeListService(keyword string, uuid string) (t []theme.Theme, code int, err error) {
 	db := global.DB
 	if keyword != "" {
 		db = db.Where("name like ?", "%"+keyword+"%").Or("description like ?", "%"+keyword+"%").Or("theme like ?", "%"+keyword+"%")
@@ -21,8 +21,8 @@ func (*ThemesServiceGroup) GetThemeListService(keyword string, uuid string) (t [
 	return t, code2.SUCCESS, err
 }
 
-//GetPublicThemeListService 获取公共主题列表
-func (*ThemesServiceGroup) GetPublicThemeListService(keyword string, uuid string) (t []theme.Theme, code int, err error) {
+// GetPublicThemeListService 获取公共主题列表
+func (*ThemesService) GetPublicThemeListService(keyword string, uuid string) (t []theme.Theme, code int, err error) {
 	db := global.DB
 	if keyword != "" {
 		db = db.Where("name like ?", "%"+keyword+"%").Or("description like ?", "%"+keyword+"%").Or("theme like ?", "%"+keyword+"%")

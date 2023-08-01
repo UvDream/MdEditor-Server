@@ -9,7 +9,7 @@ type ApiArticleGroup struct {
 }
 
 var (
-	articleService  = service.ServicesGroupApp.ArticleServiceGroup.ToArticleService
-	tagService      = service.ServicesGroupApp.ArticleServiceGroup.TagService
-	categoryService = service.ServicesGroupApp.ArticleServiceGroup.CategoryService
+	articleService  = service.ServicesGroupApp.ToArticleService
+	tagService      = service.ServicesGroupApp.TagService
+	categoryService = service.ServicesGroupApp.CategoryService
 )

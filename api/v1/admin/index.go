@@ -8,6 +8,6 @@ type ApiAdminGroup struct {
 }
 
 var (
-	userAdminService   = service.ServicesGroupApp.AdminServiceGroup.UserService
-	ledgerAdminService = service.ServicesGroupApp.AdminServiceGroup.LedgerAdminService
+	userAdminService   = service.ServicesGroupApp.UserService
+	ledgerAdminService = service.ServicesGroupApp.LedgerAdminService
 )

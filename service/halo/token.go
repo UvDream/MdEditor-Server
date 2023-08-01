@@ -8,7 +8,7 @@ import (
 	"server/models/halo"
 )
 
-func (*ServiceHaloGroup) GetToken(query halo.UserHalo) (token interface{}, code int, err error) {
+func (*ServiceHalo) GetToken(query halo.UserHalo) (token interface{}, code int, err error) {
 	url := query.Url + "/api/admin/login"
 	header := map[string]string{
 		"Content-Type": "application/json",

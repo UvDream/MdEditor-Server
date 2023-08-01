@@ -57,11 +57,11 @@ func (*SysUserService) GetUserInviteCode(userID string) (data string, cd int, er
 func (*SysUserService) GetUserInviteCodeList(userID string) (data []system.User, cd int, err error) {
 	//先根据id查出用户邀请码
 	var user system.User
-	if err := global.DB.Where("id = ?", userID).First(&user).Error; err != nil {
+	if err := global.DB.Where("id = ?", userID).Omit("Password").First(&user).Error; err != nil {
 		return data, code.ErrorFindUser, err
 	}
 	//查询邀请码列表
-	if err := global.DB.Where("invited_code = ?", user.InviteCode).Find(&data).Error; err != nil {
+	if err := global.DB.Where("invited_code = ?", user.InviteCode).Omit("Password").Find(&data).Error; err != nil {
 		return data, code.ErrorFindUser, err
 	}
 	return data, code.SUCCESS, nil

@@ -7,5 +7,5 @@ type ApiFileGroup struct {
 }
 
 var (
-	fileService = service.ServicesGroupApp.FileServiceGroup.FilesService
+	fileService = service.ServicesGroupApp.FilesService
 )

@@ -6,4 +6,4 @@ type APILedgerGroup struct {
 	ApiLedger
 }
 
-var ledgerService = service.ServicesGroupApp.LedgerServiceGroup
+var ledgerService = service.ServicesGroupApp.LedgersService

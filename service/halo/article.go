@@ -10,7 +10,10 @@ import (
 	"strconv"
 )
 
-func (*ServiceHaloGroup) SaveArticle(query halo.ArticleHaloResponse) (token interface{}, code int, err error) {
+type ServiceHalo struct {
+}
+
+func (*ServiceHalo) SaveArticle(query halo.ArticleHaloResponse) (token interface{}, code int, err error) {
 	url := query.Url + "/api/admin/posts"
 	header := map[string]string{
 		"Content-Type":        "application/json",

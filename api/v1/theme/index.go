@@ -14,7 +14,7 @@ type ApiThemeGroup struct {
 }
 
 var (
-	themeService = service.ServicesGroupApp.ThemeServiceGroup
+	themeService = service.ServicesGroupApp.ThemesService
 )
 
 type themeApi struct{}
@@ -100,7 +100,7 @@ func (*themeApi) Delete(c *gin.Context) {
 	code2.SuccessResponse(data, code, c)
 }
 
-//Update 主题更新
+// Update 主题更新
 // @Summary 主题更新
 // @Description 主题更新
 // @Tags theme
@@ -139,7 +139,7 @@ func (*themeApi) Update(c *gin.Context) {
 	code2.SuccessResponse(data, code, c)
 }
 
-//PublicList 查询公开主题
+// PublicList 查询公开主题
 // @Summary 查询公开主题
 // @Description 查询公开主题
 // @Tags theme

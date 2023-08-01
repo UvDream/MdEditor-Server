@@ -7,7 +7,7 @@ import (
 	code2 "server/code"
 )
 
-func (*ServiceHaloGroup) GetTags(url string, token string) (tags interface{}, code int, err error) {
+func (*ServiceHalo) GetTags(url string, token string) (tags interface{}, code int, err error) {
 	url = url + "/api/admin/tags"
 	header := map[string]string{
 		"Content-Type":        "application/json",
@@ -30,7 +30,7 @@ func (*ServiceHaloGroup) GetTags(url string, token string) (tags interface{}, co
 	return result["data"], code2.SUCCESS, nil
 }
 
-func (*ServiceHaloGroup) GetCategory(url string, token string) (tags interface{}, code int, err error) {
+func (*ServiceHalo) GetCategory(url string, token string) (tags interface{}, code int, err error) {
 	url = url + "/api/admin/categories"
 	header := map[string]string{
 		"Content-Type":        "application/json",

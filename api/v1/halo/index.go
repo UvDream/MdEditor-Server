@@ -10,7 +10,7 @@ import (
 type ApiHaloGroup struct {
 }
 
-var serviceHalo = service.ServicesGroupApp.HaloServiceGroup
+var serviceHalo = service.ServicesGroupApp.ServiceHalo
 
 // GetToken 获取token
 // @Summary 获取token
@@ -41,7 +41,7 @@ func (*ApiHaloGroup) GetToken(c *gin.Context) {
 // @Tags halo
 // @Accept  json
 // @Produce  json
-//@Param article body halo.ArticleHaloResponse true "创建文章"
+// @Param article body halo.ArticleHaloResponse true "创建文章"
 // @Success 200 {object} code.Response "{"code":200,"data":{},"msg":"操作成功"}"
 // @Router /halo/save [post]
 func (*ApiHaloGroup) SaveArticle(c *gin.Context) {
@@ -82,7 +82,7 @@ func (*ApiHaloGroup) GetTags(c *gin.Context) {
 	code.SuccessResponse(tags, cd, c)
 }
 
-//GetCategory 获取分类
+// GetCategory 获取分类
 // @Summary 获取分类
 // @Tags halo
 // @Accept  json
