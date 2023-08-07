@@ -54,7 +54,7 @@ func (*LedgersService) CreateBudget(budget ledger.MoneyBudget) (data ledger.Mone
 }
 func (*LedgersService) DeleteBudget(id string) (cd int, err error) {
 	db := global.DB
-	if err := db.Delete(&ledger.MoneyBudget{}, id).Error; err != nil {
+	if err := db.Unscoped().Delete(&ledger.MoneyBudget{}, id).Error; err != nil {
 		return code.ErrDeleteBudget, err
 	}
 	return code.SUCCESS, nil
@@ -62,8 +62,10 @@ func (*LedgersService) DeleteBudget(id string) (cd int, err error) {
 func (*LedgersService) UpdateBudget(budget ledger.MoneyBudget) (data ledger.MoneyBudget, cd int, err error) {
 	db := global.DB
 	//查询是否存在
-	if err := db.First(&data, budget.ID).Error; err != nil {
-		return data, code.ErrBudgetNotExist, err
+	//根据id查询是否存在
+	var oldData ledger.MoneyBudget
+	if err := db.Where("id = ?", budget.ID).First(&oldData).Error; err != nil {
+		return data, code.ErrGetBudget, err
 	}
 	if budget.IsSameMonth {
 		var budgets []ledger.MoneyBudget

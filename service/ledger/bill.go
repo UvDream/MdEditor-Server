@@ -275,14 +275,7 @@ func (*LedgersService) GetBillListByCategoryIdService(query ledger.BillRequest, 
 	var newData []ledger.Bill
 	//如果没有父级直接筛选
 	if category.ParentID == "" {
-		for i, v := range data {
-			if v.CategoryID == category.ID {
-				newData = append(newData, data[i])
-			}
-		}
-	}
-	//如果有父级就筛选子级
-	if category.ParentID != "" {
+		// 筛选父级分类的数据
 		for i, v := range data {
 			if v.CategoryID == category.ID {
 				newData = append(newData, data[i])
@@ -296,6 +289,14 @@ func (*LedgersService) GetBillListByCategoryIdService(query ledger.BillRequest, 
 					}
 					newData = append(newData, data[i])
 				}
+			}
+		}
+	}
+	//如果有父级就筛选子级
+	if category.ParentID != "" {
+		for i, v := range data {
+			if v.CategoryID == category.ID {
+				newData = append(newData, data[i])
 			}
 		}
 	}
