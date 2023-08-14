@@ -964,6 +964,73 @@ info:
   title: Swagger Example API
   version: 0.0.1
 paths:
+  /admin/ledger/bill/list:
+    get:
+      description: 获取账单列表admin
+      parameters:
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 账单金额
+        in: query
+        name: amount
+        type: string
+      - description: 账单分类ID
+        in: query
+        name: category_id
+        type: string
+      - collectionFormat: csv
+        description: 账单分类IDs数组
+        in: query
+        items:
+          type: string
+        name: category_ids
+        type: array
+      - in: query
+        name: end_time
+        type: string
+      - description: 账单ID
+        in: query
+        name: ledger_id
+        type: string
+      - description: 计入收支
+        in: query
+        name: not_budget
+        type: string
+      - description: 账单备注
+        in: query
+        name: remark
+        type: string
+      - description: 排序
+        in: query
+        name: sort
+        type: string
+      - in: query
+        name: start_time
+        type: string
+      - description: 账单类型
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取账单列表admin
+      tags:
+      - admin
   /admin/ledger/list:
     get:
       description: 获取账本列表admin

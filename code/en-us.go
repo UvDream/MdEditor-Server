@@ -81,4 +81,5 @@ var enUSText = map[int]string{
 	ErrorUserList:                      "user list failed",
 	ErrorRoleList:                      "role list failed",
 	ErrorGetUser:                       "get user failed",
+	ErrorGetPermission:                 "get permission failed",
 }

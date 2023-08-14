@@ -12,8 +12,10 @@ func (*LedgerAdminStruct) InitLedgerAdminRouter(Router *gin.RouterGroup) (R gin.
 	adminRouter := Router.Group("ledger")
 	ledgerAdminApi := v1.ApiGroupApp.AdminAPiGroup.LedgerAdminApi
 	{
-		//账本列表
+		//	账本列表
 		adminRouter.GET("/list", ledgerAdminApi.GetLedgerList)
+		//	账单列表
+		adminRouter.GET("/bill/list", ledgerAdminApi.GetBillList)
 	}
 	return adminRouter
 }

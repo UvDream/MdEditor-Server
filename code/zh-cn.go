@@ -108,4 +108,5 @@ var zhCNText = map[int]string{
 	ErrorUserList:                       "获取用户列表失败",
 	ErrorRoleList:                       "获取角色列表失败",
 	ErrorGetUser:                        "获取用户失败",
+	ErrorGetPermission:                  "获取权限失败",
 }

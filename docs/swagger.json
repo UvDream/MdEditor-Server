@@ -7,6 +7,108 @@
         "version": "0.0.1"
     },
     "paths": {
+        "/admin/ledger/bill/list": {
+            "get": {
+                "description": "获取账单列表admin",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "获取账单列表admin",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "key_word",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单金额",
+                        "name": "amount",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单分类ID",
+                        "name": "category_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "账单分类IDs数组",
+                        "name": "category_ids",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "end_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单ID",
+                        "name": "ledger_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "计入收支",
+                        "name": "not_budget",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单备注",
+                        "name": "remark",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "start_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "账单类型",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/ledger/list": {
             "get": {
                 "description": "获取账本列表admin",

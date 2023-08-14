@@ -10,4 +10,5 @@ type ApiAdminGroup struct {
 var (
 	userAdminService   = service.ServicesGroupApp.UserService
 	ledgerAdminService = service.ServicesGroupApp.LedgerAdminService
+	ledgerService      = service.ServicesGroupApp.LedgersService
 )

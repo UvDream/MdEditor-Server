@@ -49,5 +49,6 @@ const (
 	ErrorGetCategoryStatisticsDetail            = 11047 //	查询分类详情统计失败
 	ErrorGetTotalAmount                         = 11048 //	查询总金额失败
 	ErrorMissingSearchParam                     = 11049 //	缺少搜索参数
+	ErrorGetPermission                          = 11050 //	获取权限错误
 
 )
