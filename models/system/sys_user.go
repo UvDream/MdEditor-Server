@@ -47,7 +47,7 @@ type Role struct {
 	RoleName  string `json:"role_name" gorm:"comment:角色名"`
 	RoleKey   string `json:"role_key" gorm:"comment:角色key"`
 	Remark    string `json:"remark" gorm:"comment:备注"`
-	IsDefault string `json:"is_default" gorm:"comment:是否内置"`
+	IsDefault string `json:"is_default" gorm:"comment:是否内置"` // 0 否 1 是
 }
 
 // Member 会员信息

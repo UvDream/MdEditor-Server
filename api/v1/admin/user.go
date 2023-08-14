@@ -72,3 +72,43 @@ func (*UserAdminApi) GetRoleList(c *gin.Context) {
 	}
 	code.SuccessResponseList(data, total, cd, c)
 }
+
+// UpdateRole 修改角色
+// @Summary 修改角色
+// @Description 修改角色
+// @Tags admin
+// @Accept  json
+// @Produce  json
+// @Param  role  body  system.Role  true  "角色"
+// @Success 200 {object} code.Response
+// @Router /admin/user/update/role [post]
+func (*UserAdminApi) UpdateRole(c *gin.Context) {
+	var role system.Role
+	if err := c.ShouldBindJSON(&role); err != nil {
+		code.FailWithMessage(err.Error(), c)
+		return
+	}
+	if cd, err := userAdminService.UpdateRole(role); err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, code.SUCCESS, c)
+}
+
+// DeleteRole 删除角色
+// @Summary 删除角色
+// @Description 删除角色
+// @Tags admin
+// @Accept  json
+// @Produce  json
+// @Param  id  query  int  true  "角色ID"
+// @Success 200 {object} code.Response
+// @Router /admin/user/delete/role [post]
+func (*UserAdminApi) DeleteRole(c *gin.Context) {
+	id := c.Query("id")
+	if cd, err := userAdminService.DeleteRole(id); err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, code.SUCCESS, c)
+}

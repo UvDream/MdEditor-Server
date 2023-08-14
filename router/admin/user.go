@@ -14,9 +14,13 @@ func (*UserAdminStruct) InitUserAdminRouter(Router *gin.RouterGroup) (R gin.IRou
 	{
 		//用户列表
 		adminRouter.GET("/list", userAdminApi.GetUserList)
-		//	新增角色
+		//新增角色
 		adminRouter.POST("/add/role", userAdminApi.AddRole)
-		//	角色列表
+		//修改角色
+		adminRouter.POST("/update/role", userAdminApi.UpdateRole)
+		//删除角色
+		adminRouter.POST("/delete/role", userAdminApi.DeleteRole)
+		//角色列表
 		adminRouter.GET("/role/list", userAdminApi.GetRoleList)
 	}
 	return adminRouter

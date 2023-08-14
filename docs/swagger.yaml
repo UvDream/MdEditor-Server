@@ -817,6 +817,7 @@ definitions:
       id:
         type: string
       is_default:
+        description: 0 否 1 是
         type: string
       remark:
         type: string
@@ -1055,6 +1056,27 @@ paths:
       summary: 新增角色
       tags:
       - admin
+  /admin/user/delete/role:
+    post:
+      consumes:
+      - application/json
+      description: 删除角色
+      parameters:
+      - description: 角色ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 删除角色
+      tags:
+      - admin
   /admin/user/list:
     get:
       consumes:
@@ -1142,6 +1164,28 @@ paths:
           schema:
             $ref: '#/definitions/code.Response'
       summary: 角色列表
+      tags:
+      - admin
+  /admin/user/update/role:
+    post:
+      consumes:
+      - application/json
+      description: 修改角色
+      parameters:
+      - description: 角色
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/system.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 修改角色
       tags:
       - admin
   /article/create:
@@ -1610,6 +1654,13 @@ paths:
         in: query
         name: category_id
         type: string
+      - collectionFormat: csv
+        description: 账单分类IDs数组
+        in: query
+        items:
+          type: string
+        name: category_ids
+        type: array
       - in: query
         name: end_time
         type: string
@@ -1764,6 +1815,13 @@ paths:
         in: query
         name: category_id
         type: string
+      - collectionFormat: csv
+        description: 账单分类IDs数组
+        in: query
+        items:
+          type: string
+        name: category_ids
+        type: array
       - in: query
         name: end_time
         type: string
@@ -1838,6 +1896,13 @@ paths:
         in: query
         name: category_id
         type: string
+      - collectionFormat: csv
+        description: 账单分类IDs数组
+        in: query
+        items:
+          type: string
+        name: category_ids
+        type: array
       - in: query
         name: end_time
         type: string

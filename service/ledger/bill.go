@@ -179,6 +179,12 @@ func (*LedgersService) GetBillNormalListService(query ledger.BillRequest, userID
 	if query.Sort == "" {
 		query.Sort = "create_time"
 	}
+	//查询多分类
+	if len(query.CategoryIDs) > 0 {
+		db = db.Where("category_id in (?)", query.CategoryIDs)
+		di = di.Where("category_id in (?)", query.CategoryIDs)
+		de = de.Where("category_id in (?)", query.CategoryIDs)
+	}
 	//查询
 	if err := db.Preload(clause.Associations).Scopes(utils.Paginator(c)).Where("ledger_id = ?", query.LedgerID).Order(query.Sort + " desc").Find(&data).Error; err != nil {
 		return data, total, code.ErrorGetBill, income, expenditure, err

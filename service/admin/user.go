@@ -15,7 +15,7 @@ import (
 type UserService struct{}
 
 // GetUserList 获取用户列表
-func (u *UserService) GetUserList(query system.SysUserRequest, c *gin.Context) (userList []system.User, total int64, cd int, err error) {
+func (*UserService) GetUserList(query system.SysUserRequest, c *gin.Context) (userList []system.User, total int64, cd int, err error) {
 	db := global.DB
 	if query.Username != "" {
 		db = db.Where("user_name LIKE ?", "%"+query.Username+"%")
@@ -43,7 +43,7 @@ func (u *UserService) GetUserList(query system.SysUserRequest, c *gin.Context) (
 }
 
 // AddRole 新增角色
-func (u *UserService) AddRole(role system.Role) (err error) {
+func (*UserService) AddRole(role system.Role) (err error) {
 	//先查询是否存在该角色
 	if !errors.Is(global.DB.Where("role_name = ?", role.RoleName).First(&system.Role{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("存在相同角色名")
@@ -54,8 +54,33 @@ func (u *UserService) AddRole(role system.Role) (err error) {
 	return nil
 }
 
+// UpdateRole 更新角色
+func (*UserService) UpdateRole(role system.Role) (cd int, err error) {
+	//查询是否存在该角色,不存在则返回错误
+	if err := global.DB.Where("id = ?", role.ID).First(&system.Role{}).Error; err != nil {
+		return code.ErrorRoleList, err
+	}
+
+	if err = global.DB.Where("id = ?", role.ID).First(&system.Role{}).Updates(&role).Error; err != nil {
+		return code.ErrorRoleList, err
+	}
+	return code.SUCCESS, nil
+}
+
+// DeleteRole 删除角色
+func (*UserService) DeleteRole(id string) (cd int, err error) {
+	//	查询是否存在
+	if err := global.DB.Where("id = ?", id).First(&system.Role{}).Error; err != nil {
+		return code.ErrorRoleList, err
+	}
+	if err = global.DB.Where("id = ?", id).Delete(&system.Role{}).Error; err != nil {
+		return code.ErrorRoleList, err
+	}
+	return code.SUCCESS, nil
+}
+
 // GetRoleList 角色列表
-func (u *UserService) GetRoleList(c *gin.Context) (roleList []system.Role, total int64, cd int, err error) {
+func (*UserService) GetRoleList(c *gin.Context) (roleList []system.Role, total int64, cd int, err error) {
 	roleName := c.Query("roleName")
 	db := global.DB
 	if roleName != "" {

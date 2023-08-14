@@ -165,6 +165,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/user/delete/role": {
+            "post": {
+                "description": "删除角色",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "删除角色",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "角色ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/user/list": {
             "get": {
                 "description": "获取用户列表",
@@ -295,6 +327,40 @@ const docTemplate = `{
                         "name": "page_size",
                         "in": "query",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/user/update/role": {
+            "post": {
+                "description": "修改角色",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "修改角色",
+                "parameters": [
+                    {
+                        "description": "角色",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.Role"
+                        }
                     }
                 ],
                 "responses": {
@@ -1041,6 +1107,16 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "账单分类IDs数组",
+                        "name": "category_ids",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "name": "end_time",
                         "in": "query"
@@ -1296,6 +1372,16 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "账单分类IDs数组",
+                        "name": "category_ids",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "name": "end_time",
                         "in": "query"
@@ -1411,6 +1497,16 @@ const docTemplate = `{
                         "type": "string",
                         "description": "账单分类ID",
                         "name": "category_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "账单分类IDs数组",
+                        "name": "category_ids",
                         "in": "query"
                     },
                     {
@@ -5612,6 +5708,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "is_default": {
+                    "description": "0 否 1 是",
                     "type": "string"
                 },
                 "remark": {
