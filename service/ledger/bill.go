@@ -162,6 +162,18 @@ func (*LedgersService) GetBillNormalListService(query ledger.BillRequest, userID
 		di = di.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
 		de = de.Where("remark LIKE ? OR amount = ?", "%"+keyWord+"%", keyWord)
 	}
+	//amount
+	if query.Amount != "" {
+		db = db.Where("amount = ?", query.Amount)
+		di = di.Where("amount = ?", query.Amount)
+		de = de.Where("amount = ?", query.Amount)
+	}
+	//remark
+	if query.Remark != "" {
+		db = db.Where("remark LIKE ?", "%"+query.Remark+"%")
+		di = di.Where("remark LIKE ?", "%"+query.Remark+"%")
+		de = de.Where("remark LIKE ?", "%"+query.Remark+"%")
+	}
 	//是否计入收支
 	if query.NotBudget != "" {
 		db = db.Where("budget_id = ?", query.NotBudget)
