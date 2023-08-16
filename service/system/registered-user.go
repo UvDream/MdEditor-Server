@@ -49,6 +49,14 @@ func (*SysUserService) RegisterService(opts system.User) (user system.User, code
 	if err := db.Create(&opts).Error; err != nil {
 		return opts, code2.ErrorCreateUser, err
 	}
+	//邀请码是否存在
+	if opts.InvitedCode != "" {
+		var sysService = SysUserService{}
+		user, cd, err := sysService.FillUserInviteCode(opts.ID, opts.InvitedCode)
+		if err != nil {
+			return user, cd, err
+		}
+	}
 	//饭米粒记账用户注册
 	if opts.Source == "account" {
 		var ledger = ledger2.Ledger{

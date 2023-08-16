@@ -37,6 +37,12 @@ func (*LedgerAdminService) GetBillListService(query ledger.BillRequest, c *gin.C
 		di = di.Where("remark LIKE ?", "%"+query.Remark+"%")
 		de = de.Where("remark LIKE ?", "%"+query.Remark+"%")
 	}
+	//ledger_id
+	if query.LedgerID != "" {
+		db = db.Where("ledger_id = ?", query.LedgerID)
+		di = di.Where("ledger_id = ?", query.LedgerID)
+		de = de.Where("ledger_id = ?", query.LedgerID)
+	}
 	//是否计入收支
 	if query.NotBudget != "" {
 		db = db.Where("not_budget = ?", query.NotBudget)

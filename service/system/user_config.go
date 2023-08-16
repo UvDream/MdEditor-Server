@@ -5,6 +5,7 @@ import (
 	"server/global"
 	"server/models/system"
 	"server/utils"
+	"time"
 )
 
 func (*SysUserService) SetUserConfig(userConfig system.UserConfig, userID string) (config system.UserConfig, cd int, err error) {
@@ -72,14 +73,44 @@ func (*SysUserService) FillUserInviteCode(userID, inviteCode string) (data syste
 	if err := global.DB.Where("invite_code = ?", inviteCode).First(&user).Error; err != nil {
 		return user, code.ErrorFindUser, err
 	}
+	if user.ID == userID {
+		return system.User{}, code.ErrorFindUser, err
+	}
 	//保存邀请码
 	var user2 system.User
-	if err := global.DB.Where("id = ?", userID).First(&user2).Error; err != nil {
+	if err := global.DB.Where("id = ?", userID).First(&user2).Preload("Member").Error; err != nil {
 		return user2, code.ErrorFindUser, err
 	}
 	user2.InvitedCode = inviteCode
 	if err := global.DB.Save(&user2).Error; err != nil {
 		return user2, code.ErrorSetUserInviteCode, err
 	}
+	//不存在
+	if user.MemberID == "" {
+		// 将会员时间为今天的时间加一个月
+		user.Member.ExpireTime = time.Now().AddDate(0, 1, 0)
+		if err := global.DB.Save(&user.Member).Error; err != nil {
+			return user, code.ErrorSetUserInviteCode, err
+		}
+	} else {
+		//存在
+		user.Member.ExpireTime = user.Member.ExpireTime.AddDate(0, 1, 0)
+		if err := global.DB.Save(&user.Member).Error; err != nil {
+			return user, code.ErrorSetUserInviteCode, err
+		}
+	}
+	//use2
+	if user2.MemberID == "" {
+		user2.Member.ExpireTime = time.Now().AddDate(0, 0, 14)
+		if err := global.DB.Save(&user2.Member).Error; err != nil {
+			return user2, code.ErrorSetUserInviteCode, err
+		}
+	} else {
+		user2.Member.ExpireTime = user2.Member.ExpireTime.AddDate(0, 0, 14)
+		if err := global.DB.Save(&user2.Member).Error; err != nil {
+			return user2, code.ErrorSetUserInviteCode, err
+		}
+	}
+
 	return user, code.SUCCESS, nil
 }

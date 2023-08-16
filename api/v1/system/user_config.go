@@ -122,7 +122,7 @@ func (*UserApi) GetUserInviteCodeList(c *gin.Context) {
 // @Tags system
 // @Summary 填充用户邀请码
 // @Produce  json
-// @Param  invite_code body string true "邀请码"
+// @Param  invite_code query string true "邀请码"
 // @Success 200 {string} code.Response {"success":true,"data":system.UserInviteCode,"msg":"设置成功"}
 // @Router /user/fill_user_invite_code [post]
 func (*UserApi) FillUserInviteCode(c *gin.Context) {

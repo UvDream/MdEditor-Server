@@ -4386,13 +4386,11 @@ const docTemplate = `{
                 "summary": "填充用户邀请码",
                 "parameters": [
                     {
+                        "type": "string",
                         "description": "邀请码",
                         "name": "invite_code",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {

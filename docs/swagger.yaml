@@ -3674,11 +3674,10 @@ paths:
     post:
       parameters:
       - description: 邀请码
-        in: body
+        in: query
         name: invite_code
         required: true
-        schema:
-          type: string
+        type: string
       produces:
       - application/json
       responses:
