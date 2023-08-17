@@ -99,13 +99,13 @@ func (*ApiLedger) GetPersonalStatistics(c *gin.Context) {
 	personalStatisticsData := &ledger.PersonalStatisticsData{}
 	db := global.DB
 	userID := utils.FindUserID(c)
-	//记账数目
+	//	记账数目
 	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Count(&personalStatisticsData.AccountingNumber).Error; err != nil {
 		code.FailResponse(code.ErrorGetPersonalStatistics, c)
 		return
 	}
 	//	算出记录天数
-	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Select("DATE_FORMAT(created_at,'%Y-%m-%d')").Distinct().Count(&personalStatisticsData.AccountingDays).Error; err != nil {
+	if err := db.Model(&ledger.Bill{}).Where("creator_id= ? ", userID).Select("count(distinct date_format(create_time,'%Y-%m-%d')) as accounting_days").Scan(&personalStatisticsData.AccountingDays).Error; err != nil {
 		code.FailResponse(code.ErrorGetPersonalStatistics, c)
 		return
 	}
