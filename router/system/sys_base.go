@@ -26,6 +26,8 @@ func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		baseRouter.GET("/send_email_code", baseApi.SendEmailCode)
 		//验证邮件验证是否正确
 		baseRouter.GET("/verify_email_code", baseApi.VerifyEmailCode)
+		//更新用户信息
+		baseRouter.POST("/update_user_info", baseApi.UpdateUserInfo)
 	}
 	return baseRouter
 }

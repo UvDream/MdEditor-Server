@@ -106,7 +106,7 @@ func (*BaseApi) GetOpenId(c *gin.Context) {
 	code.SuccessResponse(data, cd, c)
 }
 
-//GetToken 获取token
+// GetToken 获取token
 // @Tags WeChat
 // @Summary 获取token
 // @Description 获取token
@@ -174,4 +174,30 @@ func (*BaseApi) VerifyEmailCode(c *gin.Context) {
 		return
 	}
 	code.SuccessResponse("验证成功", cd, c)
+}
+
+// UpdateUserInfo 更新用户信息
+// @Tags user
+// @Summary 更新用户信息
+// @Produce  application/json
+// @Param user  body system.User true "user"
+// @Success 200 {object} code.Response{}
+// @Router  /public/base/update_user_info [post]
+func (*BaseApi) UpdateUserInfo(c *gin.Context) {
+	var user system.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		code.FailResponse(code.ErrorRegisterMissingParam, c)
+		return
+	}
+	userID := utils.FindUserID(c)
+	if userID != user.ID {
+		code.FailResponse(code.ErrorRegisterMissingParam, c)
+		return
+	}
+	cd, err := userService.UpdateUserInfoService(userID, user)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse("修改成功", cd, c)
 }

@@ -1503,7 +1503,7 @@ paths:
       summary: 修改Category
       tags:
       - category
-  /file/delete/{id}:
+  /file/delete:
     delete:
       parameters:
       - description: 参数
@@ -1532,6 +1532,10 @@ paths:
   /file/list:
     get:
       parameters:
+      - description: 关键字
+        in: query
+        name: name
+        type: string
       - description: 关键字
         in: query
         name: key_word
@@ -1574,16 +1578,11 @@ paths:
       summary: 文件列表
       tags:
       - file
-  /file/upload:
+  /file/public/upload:
     post:
       consumes:
       - multipart/form-data
       parameters:
-      - description: 携带的平台token参数
-        in: query
-        name: token
-        required: true
-        type: string
       - description: 文件
         in: formData
         name: file
@@ -1604,7 +1603,35 @@ paths:
           description: '{""code"":500,""message"":""服务器错误""}'
           schema:
             type: string
-      summary: 文件上传
+      summary: 公共文件上传
+      tags:
+      - file
+  /file/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 文件
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{""code"":200,""message"":""上传成功""}'
+          schema:
+            type: string
+        "400":
+          description: '{""code"":400,""message"":""上传失败""}'
+          schema:
+            type: string
+        "500":
+          description: '{""code"":500,""message"":""服务器错误""}'
+          schema:
+            type: string
+      summary: 私有文件上传
       tags:
       - file
   /halo/category:
@@ -3252,6 +3279,25 @@ paths:
                   type: boolean
               type: object
       summary: 发送邮箱验证码
+      tags:
+      - user
+  /public/base/update_user_info:
+    post:
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/system.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 更新用户信息
       tags:
       - user
   /public/base/verify_email_code:

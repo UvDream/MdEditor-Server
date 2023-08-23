@@ -32,6 +32,31 @@ func (*FilesService) UploadFileService(c *gin.Context) (data file2.File, ce int,
 	data, ce, err = SaveFileData(fileHeader, url, key, userID, user.UserConfig.OSSType, user.UserConfig.IsHttps)
 	return data, ce, err
 }
+func (*FilesService) PublicUploadFileService(c *gin.Context) (data file2.File, ce int, err error) {
+	file, fileHeader, _ := c.Request.FormFile("file")
+	userID := utils.FindUserID(c)
+	var user system.User
+	token := c.Query("token")
+	user.UserConfig.Token = token
+	user.UserConfig.OSSType = global.Config.System.OssType
+	//qi_niu_access_key
+	user.UserConfig.QiNiuAccessKey = global.Config.Qiniu.AccessKey
+	//qi_niu_secret_key
+	user.UserConfig.QiNiuSecretKey = global.Config.Qiniu.SecretKey
+	//qi_niu_bucket
+	user.UserConfig.QiNiuBucket = global.Config.Qiniu.Bucket
+	//qi_niu_domain
+	user.UserConfig.QiNiuDomain = global.Config.Qiniu.DomainName
+	//qi_niu_position
+	user.UserConfig.QiNiuPosition = global.Config.Qiniu.Domain
+	user.UserConfig.IsHttps = global.Config.Qiniu.DomainProtocol == "https"
+	url, key, codes, err := NewOss(user.UserConfig.OSSType).UploadFile(fileHeader, file, user.UserConfig)
+	if err != nil {
+		return data, codes, err
+	}
+	data, ce, err = SaveFileData(fileHeader, url, key, userID, user.UserConfig.OSSType, user.UserConfig.IsHttps)
+	return data, ce, err
+}
 
 func (*FilesService) DeleteFileService(c *gin.Context, id string) (file file2.File, codeNumber int, err error) {
 	db := global.DB

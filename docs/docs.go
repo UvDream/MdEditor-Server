@@ -861,7 +861,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/file/delete/{id}": {
+        "/file/delete": {
             "delete": {
                 "produces": [
                     "application/json"
@@ -911,6 +911,12 @@ const docTemplate = `{
                 ],
                 "summary": "文件列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "name",
+                        "in": "query"
+                    },
                     {
                         "type": "string",
                         "description": "关键字",
@@ -979,6 +985,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/file/public/upload": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "公共文件上传",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "文件",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"\"code\"\":200,\"\"message\"\":\"\"上传成功\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"\"code\"\":400,\"\"message\"\":\"\"上传失败\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"\"code\"\":500,\"\"message\"\":\"\"服务器错误\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/file/upload": {
             "post": {
                 "consumes": [
@@ -990,15 +1039,8 @@ const docTemplate = `{
                 "tags": [
                     "file"
                 ],
-                "summary": "文件上传",
+                "summary": "私有文件上传",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "携带的平台token参数",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "type": "file",
                         "description": "文件",
@@ -3709,6 +3751,36 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/public/base/update_user_info": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "更新用户信息",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
                         }
                     }
                 }

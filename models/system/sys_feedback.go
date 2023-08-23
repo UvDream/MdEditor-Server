@@ -19,7 +19,7 @@ type Feedback struct {
 	//接受团队联系
 	AcceptTeam string `json:"accept_team" gorm:"comment:接受团队联系"` // 1:接受,2:不接受
 	//	处理状态
-	Status string `json:"status" form:"status" gorm:"comment:处理状态"` // 1:未处理,2:已处理
+	Status string `json:"status" form:"status" gorm:"comment:处理状态;default:0"` // 0:未处理,1:已处理
 	// 多图片附件
 	Attachments []Attachment `json:"attachments" gorm:"foreignKey:FeedbackID"`
 }

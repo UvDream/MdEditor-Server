@@ -12,9 +12,8 @@ func (*FilesService) ListFileService(query models.PaginationRequest, uuid string
 	offset := query.PageSize * (query.Page - 1)
 	db := global.DB.Model(file.File{})
 	if query.KeyWord != "" {
-		db = db.Where("name like ?", "%"+query.KeyWord+"%").Or("path like ?", "%"+query.KeyWord+"%").Or("url like ?", "%"+query.KeyWord+"%").Or("key like ?", "%"+query.KeyWord+"%").Or("type like ?", "%"+query.KeyWord+"%").Or("position like ?", "%"+query.KeyWord+"%")
+		db = db.Where("name like ?", "%"+query.KeyWord+"%").Or("url like ?", "%"+query.KeyWord+"%")
 	}
-	db = db.Where("auth_id = ?", uuid)
 	if err = db.Count(&total).Error; err != nil {
 		return list, total, code2.ErrorListFile, err
 	}

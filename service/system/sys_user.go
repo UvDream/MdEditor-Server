@@ -123,3 +123,26 @@ func (*SysUserService) FindIsMember(userID string) (isMember bool) {
 	}
 	return false
 }
+
+func (*SysUserService) UpdateUserInfoService(userID string, user system.User) (cd int, err error) {
+	db := global.DB
+	//查询用户是否存在
+	var u system.User
+	if err := db.Where("id = ?", userID).First(&u).Error; err != nil {
+		return code.ErrorUserNotExist, err
+	}
+	//username禁止修改
+	user.UserName = u.UserName
+	//查询邀请码是否填充
+	if u.InviteCode != "" {
+		user.InvitedCode = u.InviteCode
+	}
+	//查询邮箱是否已经被绑定
+	if err := db.Where("email = ?", user.Email).First(&u).Error; err == nil {
+		return code.ErrorEmailExist, err
+	}
+	if err := db.Save(&user).Error; err != nil {
+		return code.ErrorUpdateUser, err
+	}
+	return code.SUCCESS, nil
+}

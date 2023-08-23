@@ -12,10 +12,9 @@ type FilesApi struct{}
 
 // Upload 文件上传
 // @Tags file
-// @Summary 文件上传
+// @Summary 私有文件上传
 // @Accept multipart/form-data
 // @Produce json
-// @Param    token   query     string  true  "携带的平台token参数"
 // @Param file formData file true "文件"
 // @Success 200 {string} string "{""code"":200,""message"":""上传成功""}"
 // @Failure 400 {string} string "{""code"":400,""message"":""上传失败""}"
@@ -35,6 +34,30 @@ func (i *FilesApi) Upload(c *gin.Context) {
 	code.SuccessResponse(data, ce, c)
 }
 
+// PublicUpload 公共文件上传
+// @Tags file
+// @Summary 公共文件上传
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "文件"
+// @Success 200 {string} string "{""code"":200,""message"":""上传成功""}"
+// @Failure 400 {string} string "{""code"":400,""message"":""上传失败""}"
+// @Failure 500 {string} string "{""code"":500,""message"":""服务器错误""}"
+// @Router /file/public/upload [post]
+func (i *FilesApi) PublicUpload(c *gin.Context) {
+	_, _, err := c.Request.FormFile("file")
+	if err != nil {
+		code.FailResponse(code.ErrorImageNotFound, c)
+		return
+	}
+	data, ce, err := fileService.PublicUploadFileService(c)
+	if err != nil {
+		code.FailResponse(ce, c)
+		return
+	}
+	code.SuccessResponse(data, ce, c)
+}
+
 // Delete 文件删除
 // @Tags file
 // @Summary 文件删除
@@ -43,7 +66,7 @@ func (i *FilesApi) Upload(c *gin.Context) {
 // @Success 200 {string} string "{""code"":200,""message"":""删除成功""}"
 // @Failure 400 {string} string "{""code"":400,""message"":""删除失败""}"
 // @Failure 500 {string} string "{""code"":500,""message"":""服务器错误""}"
-// @Router /file/delete/{id} [delete]
+// @Router /file/delete [delete]
 func (i *FilesApi) Delete(c *gin.Context) {
 	id := c.Query("id")
 	if id == "" {
@@ -62,8 +85,9 @@ func (i *FilesApi) Delete(c *gin.Context) {
 // @Tags file
 // @Summary 文件列表
 // @Produce json
+// @Param    name   query     string  false  "关键字"
 // @Param    query   query     models.PaginationRequest  false  "分页参数"
-//@Success 200 {object} code.Response{data=code.PaginatedData{list=[]file.File,total=int64},code=int,msg=string,success=bool}
+// @Success 200 {object} code.Response{data=code.PaginatedData{list=[]file.File,total=int64},code=int,msg=string,success=bool}
 // @Router /file/list [get]
 func (i *FilesApi) List(c *gin.Context) {
 	var fileOpts models.PaginationRequest
