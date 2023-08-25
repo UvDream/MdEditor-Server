@@ -65,6 +65,9 @@ func RegistrationTable(db *gorm.DB) {
 		ledger.MoneyBudget{},
 		ledger.LedgerUser{},
 		ledger.LoopAccount{},
+		ledger.IconClassification{},
+		ledger.Icon{},
+		ledger.Color{},
 		//	反馈
 		system.Feedback{},
 		system.Attachment{},

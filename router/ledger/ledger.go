@@ -41,6 +41,10 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.GET("/bill/list", accountApi.GetBillList)
 		ledgerRouter.GET("/bill/detail", accountApi.GetBillDetail)
 		ledgerRouter.GET("/bill/normal/list", accountApi.GetBillNormalList)
+		//获取图标列表
+		ledgerRouter.GET("/icon/list", accountApi.GetIconList)
+		//获取图标颜色列表
+		ledgerRouter.GET("/icon/color/list", accountApi.GetIconColorList)
 		//根据分类ID获取账单列表
 		ledgerRouter.GET("/bill/category/list", accountApi.GetBillListByCategoryId)
 		//预算

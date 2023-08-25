@@ -109,4 +109,7 @@ var zhCNText = map[int]string{
 	ErrorRoleList:                       "获取角色列表失败",
 	ErrorGetUser:                        "获取用户失败",
 	ErrorGetPermission:                  "获取权限失败",
+	ErrorGetLedgerMember:                "获取账本成员失败",
+	ErrorGetIcon:                        "获取图标失败",
+	ErrorGetColor:                       "获取颜色失败",
 }

@@ -24,7 +24,7 @@ type CategoryLedger struct {
 	UserID string `json:"user_id"`
 	//父元素ID
 	ParentID string `json:"parent_id"`
-	//	类型  0 支出/ 1收入....
+	//	类型  0 支出/ 1 收入....
 	Type string `json:"type"`
 	//账本ID
 	LedgerID string           `json:"ledger_id"`
@@ -33,6 +33,45 @@ type CategoryLedger struct {
 	Color string `json:"color"`
 	//	背景色
 	BackgroundColor string `json:"background_color"`
+}
+
+// IconClassification 图标
+type IconClassification struct {
+	models.Model
+	// 分类名称
+	Name  string `json:"name"`
+	Title string `json:"title"`
+	// 分类和图标一对多
+	Icons []Icon `json:"icons"`
+	//	用户ID
+	UserID string `json:"user_id"`
+	//	用户
+	User system.User `json:"user"`
+}
+type Icon struct {
+	models.Model
+	// 图标类型
+	Type      string `json:"type"`
+	Img       string `json:"img"`
+	Unicode   string `json:"unicode"`
+	ClassName string `json:"class_name"`
+	Name      string `json:"name"`
+	//	分类id
+	IconClassificationID string `json:"icon_classification_id"`
+	UserID               string `json:"user_id"`
+	//	用户
+	User system.User `json:"user"`
+}
+type Color struct {
+	models.Model
+	// 颜色
+	Color string `json:"color"`
+	//是否是背景
+	IsBgColor string `json:"is_bg_color"`
+	//	用户ID
+	UserID string `json:"user_id"`
+	//	用户
+	User system.User `json:"user"`
 }
 
 var InitLedgerCategory = []CategoryLedger{

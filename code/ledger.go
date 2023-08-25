@@ -50,5 +50,8 @@ const (
 	ErrorGetTotalAmount                         = 11048 //	查询总金额失败
 	ErrorMissingSearchParam                     = 11049 //	缺少搜索参数
 	ErrorGetPermission                          = 11050 //	获取权限错误
-
+	ErrorGetLedgerMember                        = 11051 //	获取账本成员错误
+	ErrorGetIcon                                = 11052 //	获取图标错误
+	ErrorGetColor                               = 11053 //	获取颜色错误
+	ErrColor                                    = 11054 //	颜色错误
 )
