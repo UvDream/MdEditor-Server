@@ -12,13 +12,6 @@ func (*LedgersService) GetIconListService(ledgerId string) (IconList []ledger2.I
 	if err != nil {
 		return IconList, cd, err
 	}
-	//for _, v := range userList {
-	//	iconList, cd, err := GetIconListByUserIdService(v)
-	//	if err != nil {
-	//		return IconList, cd, err
-	//	}
-	//	IconList = append(IconList, iconList...)
-	//}
 	db := global.DB
 	if err := db.Where("user_id in ?", userList).Preload(clause.Associations).Find(&IconList).Error; err != nil {
 		return IconList, cd, err
@@ -32,13 +25,6 @@ func (*LedgersService) GetIconColorListService(ledgerId string, isBgColor string
 	if err != nil {
 		return colorList, cd, err
 	}
-	//for _, v := range userList {
-	//	colorList, cd, err := GetColorListByUserIdService(v, isBgColor)
-	//	if err != nil {
-	//		return colorList, cd, err
-	//	}
-	//	colorList = append(colorList, colorList...)
-	//}
 	db := global.DB
 	if err := db.Where("user_id in ?", userList).Where("is_bg_color = ?", isBgColor).Find(&colorList).Error; err != nil {
 		return colorList, cd, err
