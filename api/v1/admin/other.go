@@ -8,7 +8,7 @@ import (
 
 // GetColorList 获取颜色列表
 // @Summary 获取颜色列表
-// @Tags admin
+// @Tags admin/color
 // @Accept  json
 // @Produce  json
 // @Param ledger_id query int true "账单ID"
@@ -29,7 +29,7 @@ func (*LedgerAdminApi) GetColorList(c *gin.Context) {
 
 // AddColor 新增颜色
 // @Summary 新增颜色
-// @Tags admin
+// @Tags admin/color
 // @Accept  json
 // @Produce  json
 // @Param color body ledger.Color true "颜色"
@@ -51,7 +51,7 @@ func (*LedgerAdminApi) AddColor(c *gin.Context) {
 
 // GetIconList 获取图标列表admin
 // @Summary 获取图标列表admin
-// @Tags admin
+// @Tags admin/icon
 // @Accept  json
 // @Produce  json
 // @Param ledger_id query int true "账单ID"
@@ -66,4 +66,40 @@ func (*LedgerAdminApi) GetIconList(c *gin.Context) {
 		return
 	}
 	code.SuccessResponseList(data, total, cd, c)
+}
+
+// DeleteIcon 删除图标
+// @Summary 删除图标
+// @Tags admin/icon
+// @Accept  json
+// @Produce  json
+// @Param id query string true "图标ID"
+// @Success 200 {object} code.Response
+// @Router /admin/ledger/icon/delete [post]
+func (*LedgerAdminApi) DeleteIcon(c *gin.Context) {
+	id := c.Query("id")
+	cd, err := ledgerAdminService.DeleteIconService(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
+}
+
+// DeleteColor 删除颜色
+// @Summary 删除颜色
+// @Tags admin/color
+// @Accept  json
+// @Produce  json
+// @Param id query string true "颜色ID"
+// @Success 200 {object} code.Response
+// @Router /admin/ledger/color/delete [post]
+func (*LedgerAdminApi) DeleteColor(c *gin.Context) {
+	id := c.Query("id")
+	cd, err := ledgerAdminService.DeleteColorService(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
 }

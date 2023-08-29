@@ -12,7 +12,7 @@ type LedgerAdminApi struct {
 // GetLedgerList 获取账本列表admin
 // @Summary 获取账本列表admin
 // @Description 获取账本列表admin
-// @Tags admin
+// @Tags admin/ledger
 // @Produce  json
 // @Param query query models.PaginationRequest true "分页参数"
 // @Param query query ledger.LedgerRequest true "搜索参数"

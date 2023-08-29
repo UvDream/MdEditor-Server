@@ -46,3 +46,19 @@ func (*LedgerAdminService) AddColorService(color ledger2.Color, c *gin.Context) 
 	}
 	return code.SUCCESS, err
 }
+
+// DeleteColorService 删除颜色
+func (*LedgerAdminService) DeleteColorService(id string) (cd int, err error) {
+	if err := global.DB.Where("id = ?", id).Delete(&ledger2.Color{}).Error; err != nil {
+		return code.ErrColor, err
+	}
+	return code.SUCCESS, err
+}
+
+// 删除icon
+func (*LedgerAdminService) DeleteIconService(id string) (cd int, err error) {
+	if err := global.DB.Where("id = ?", id).Delete(&ledger2.IconClassification{}).Error; err != nil {
+		return code.ErrIcon, err
+	}
+	return code.SUCCESS, err
+}

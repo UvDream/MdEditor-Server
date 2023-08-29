@@ -20,9 +20,13 @@ func (*LedgerAdminStruct) InitLedgerAdminRouter(Router *gin.RouterGroup) (R gin.
 		adminRouter.GET("/color/list", ledgerAdminApi.GetColorList)
 		//	新增颜色
 		adminRouter.POST("/color/add", ledgerAdminApi.AddColor)
+		//	删除颜色
+		adminRouter.DELETE("/color/delete", ledgerAdminApi.DeleteColor)
 		//	icon列表
 		adminRouter.GET("/icon/list", ledgerAdminApi.GetIconList)
-
+		//	新增icon
+		//	删除icon
+		adminRouter.DELETE("/icon/delete", ledgerAdminApi.DeleteIcon)
 	}
 	return adminRouter
 }

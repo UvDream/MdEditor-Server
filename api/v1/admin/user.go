@@ -12,7 +12,7 @@ type UserAdminApi struct {
 // GetUserList 获取用户列表
 // @Summary 获取用户列表
 // @Description 获取用户列表
-// @Tags admin
+// @Tags admin/user
 // @Accept  json
 // @Produce  json
 // @Param  query  query    system.SysUserRequest  true  "用户查询参数"
@@ -35,7 +35,7 @@ func (*UserAdminApi) GetUserList(c *gin.Context) {
 // AddRole 新增角色
 // @Summary 新增角色
 // @Description 新增角色
-// @Tags admin
+// @Tags admin/role
 // @Accept  json
 // @Produce  json
 // @Param  role  body  system.Role  true  "角色"
@@ -57,7 +57,7 @@ func (*UserAdminApi) AddRole(c *gin.Context) {
 // 角色列表 GetRoleList
 // @Summary 角色列表
 // @Description 角色列表
-// @Tags admin
+// @Tags admin/role
 // @Accept  json
 // @Produce  json
 // @Param  query  query    string  true  "角色名称"
@@ -76,7 +76,7 @@ func (*UserAdminApi) GetRoleList(c *gin.Context) {
 // UpdateRole 修改角色
 // @Summary 修改角色
 // @Description 修改角色
-// @Tags admin
+// @Tags admin/role
 // @Accept  json
 // @Produce  json
 // @Param  role  body  system.Role  true  "角色"
@@ -98,7 +98,7 @@ func (*UserAdminApi) UpdateRole(c *gin.Context) {
 // DeleteRole 删除角色
 // @Summary 删除角色
 // @Description 删除角色
-// @Tags admin
+// @Tags admin/role
 // @Accept  json
 // @Produce  json
 // @Param  id  query  int  true  "角色ID"

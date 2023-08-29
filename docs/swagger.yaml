@@ -1054,7 +1054,7 @@ paths:
             $ref: '#/definitions/code.Response'
       summary: 获取账单列表admin
       tags:
-      - admin
+      - admin/bill
   /admin/ledger/color/add:
     post:
       consumes:
@@ -1075,7 +1075,27 @@ paths:
             $ref: '#/definitions/code.Response'
       summary: 新增颜色
       tags:
-      - admin
+      - admin/color
+  /admin/ledger/color/delete:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 颜色ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 删除颜色
+      tags:
+      - admin/color
   /admin/ledger/color/list:
     get:
       consumes:
@@ -1120,7 +1140,27 @@ paths:
               type: object
       summary: 获取颜色列表
       tags:
-      - admin
+      - admin/color
+  /admin/ledger/icon/delete:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 图标ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 删除图标
+      tags:
+      - admin/icon
   /admin/ledger/icon/list:
     get:
       consumes:
@@ -1152,7 +1192,7 @@ paths:
             $ref: '#/definitions/code.Response'
       summary: 获取图标列表admin
       tags:
-      - admin
+      - admin/icon
   /admin/ledger/list:
     get:
       description: 获取账本列表admin
@@ -1211,7 +1251,7 @@ paths:
               type: object
       summary: 获取账本列表admin
       tags:
-      - admin
+      - admin/ledger
   /admin/user/add/role:
     post:
       consumes:
@@ -1244,7 +1284,7 @@ paths:
               type: object
       summary: 新增角色
       tags:
-      - admin
+      - admin/role
   /admin/user/delete/role:
     post:
       consumes:
@@ -1265,7 +1305,7 @@ paths:
             $ref: '#/definitions/code.Response'
       summary: 删除角色
       tags:
-      - admin
+      - admin/role
   /admin/user/list:
     get:
       consumes:
@@ -1321,7 +1361,7 @@ paths:
               type: object
       summary: 获取用户列表
       tags:
-      - admin
+      - admin/user
   /admin/user/role/list:
     get:
       consumes:
@@ -1354,7 +1394,7 @@ paths:
             $ref: '#/definitions/code.Response'
       summary: 角色列表
       tags:
-      - admin
+      - admin/role
   /admin/user/update/role:
     post:
       consumes:
@@ -1376,7 +1416,7 @@ paths:
             $ref: '#/definitions/code.Response'
       summary: 修改角色
       tags:
-      - admin
+      - admin/role
   /article/create:
     post:
       consumes:

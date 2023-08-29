@@ -23,7 +23,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/bill"
                 ],
                 "summary": "获取账单列表admin",
                 "parameters": [
@@ -127,7 +127,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/color"
                 ],
                 "summary": "新增颜色",
                 "parameters": [
@@ -151,6 +151,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/ledger/color/delete": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin/color"
+                ],
+                "summary": "删除颜色",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "颜色ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/ledger/color/list": {
             "get": {
                 "consumes": [
@@ -160,7 +191,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/color"
                 ],
                 "summary": "获取颜色列表",
                 "parameters": [
@@ -224,6 +255,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/ledger/icon/delete": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin/icon"
+                ],
+                "summary": "删除图标",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "图标ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/ledger/icon/list": {
             "get": {
                 "consumes": [
@@ -233,7 +295,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/icon"
                 ],
                 "summary": "获取图标列表admin",
                 "parameters": [
@@ -280,7 +342,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/ledger"
                 ],
                 "summary": "获取账本列表admin",
                 "parameters": [
@@ -377,7 +439,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/role"
                 ],
                 "summary": "新增角色",
                 "parameters": [
@@ -432,7 +494,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/role"
                 ],
                 "summary": "删除角色",
                 "parameters": [
@@ -464,7 +526,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/user"
                 ],
                 "summary": "获取用户列表",
                 "parameters": [
@@ -556,7 +618,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/role"
                 ],
                 "summary": "角色列表",
                 "parameters": [
@@ -606,7 +668,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "admin"
+                    "admin/role"
                 ],
                 "summary": "修改角色",
                 "parameters": [

@@ -54,4 +54,5 @@ const (
 	ErrorGetIcon                                = 11052 //	获取图标错误
 	ErrorGetColor                               = 11053 //	获取颜色错误
 	ErrColor                                    = 11054 //	颜色错误
+	ErrIcon                                     = 11055 //	图标错误
 )

@@ -112,4 +112,5 @@ var zhCNText = map[int]string{
 	ErrorGetLedgerMember:                "获取账本成员失败",
 	ErrorGetIcon:                        "获取图标失败",
 	ErrorGetColor:                       "获取颜色失败",
+	ErrIcon:                             "图标错误",
 }

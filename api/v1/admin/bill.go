@@ -11,7 +11,7 @@ import (
 // GetBillList 获取账单列表admin
 // @Summary 获取账单列表admin
 // @Description 获取账单列表admin
-// @Tags admin
+// @Tags admin/bill
 // @Produce  json
 // @Param query query models.PaginationRequest true "分页参数"
 // @Param query query ledger.BillRequest true "搜索参数"

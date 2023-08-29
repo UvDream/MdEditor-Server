@@ -85,4 +85,5 @@ var enUSText = map[int]string{
 	ErrorGetLedgerMember:               "get ledger member failed",
 	ErrorGetIcon:                       "get icon failed",
 	ErrorGetColor:                      "get color failed",
+	ErrIcon:                            "icon error",
 }
