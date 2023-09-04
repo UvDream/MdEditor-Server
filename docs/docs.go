@@ -4902,6 +4902,25 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/is_vip": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system"
+                ],
+                "summary": "查询是否是会员",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/unbind_email": {
             "post": {
                 "produces": [

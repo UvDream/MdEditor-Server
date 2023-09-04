@@ -202,6 +202,12 @@ func (*LedgersService) GetCategoryStatisticsDetailService(filter ledger.Category
 			var itemData ledger.CategoryStatisticsData
 			itemData.CategoryID = v.ID
 			itemData.CategoryName = v.Name
+			//查询大类账单总额
+			amount, cd, err := getCategoryAmount(v.ID, filter.LedgerID, filter.StartTime, filter.EndTime, filter.Type)
+			if err != nil {
+				return nil, cd, err
+			}
+			itemData.Amount = amount
 			//	查询小类
 			arr, cd, err := getCategoryList(v.ID, filter.LedgerID)
 			if err != nil {

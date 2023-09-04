@@ -4080,6 +4080,18 @@ paths:
       summary: 获取用户信息
       tags:
       - user
+  /user/is_vip:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 查询是否是会员
+      tags:
+      - system
   /user/unbind_email:
     post:
       produces:
