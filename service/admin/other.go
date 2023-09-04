@@ -43,7 +43,15 @@ func (*LedgerAdminService) GetIconListService(ledgerId string, c *gin.Context) (
 	if err := db.Where("user_id in ?", userList).Preload(clause.Associations).Scopes(utils.Paginator(c)).Find(&IconList).Error; err != nil {
 		return IconList, total, cd, err
 	}
-	return IconList, total, cd, err
+	return IconList, total, code.SUCCESS, err
+}
+
+func (*LedgerAdminService) AddIconClassificationService(iconClassification ledger2.IconClassification) (cd int, err error) {
+	db := global.DB
+	if err := db.Create(&iconClassification).Error; err != nil {
+		return code.ErrIcon, err
+	}
+	return code.SUCCESS, err
 }
 
 func (*LedgerAdminService) AddColorService(color ledger2.Color, c *gin.Context) (cd int, err error) {

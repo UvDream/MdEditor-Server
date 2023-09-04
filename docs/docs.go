@@ -267,6 +267,50 @@ const docTemplate = `{
                     "admin/icon"
                 ],
                 "summary": "增加图标",
+                "parameters": [
+                    {
+                        "description": "图标",
+                        "name": "icon",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.Icon"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/ledger/icon/classification/add": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin/icon"
+                ],
+                "summary": "新增icon分类",
+                "parameters": [
+                    {
+                        "description": "icon分类",
+                        "name": "icon_classification",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.IconClassification"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -5791,6 +5835,94 @@ const docTemplate = `{
                 "income": {
                     "description": "收入",
                     "type": "number"
+                }
+            }
+        },
+        "ledger.Icon": {
+            "type": "object",
+            "properties": {
+                "class_name": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "icon_classification_id": {
+                    "description": "分类id",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "图标类型",
+                    "type": "string"
+                },
+                "unicode": {
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "user": {
+                    "description": "用户",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ledger.IconClassification": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "icons": {
+                    "description": "分类和图标一对多",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ledger.Icon"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "分类名称",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                },
+                "user": {
+                    "description": "用户",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "string"
                 }
             }
         },

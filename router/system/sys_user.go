@@ -38,6 +38,8 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		userRouter.POST("feedback", baseApi.Feedback)
 		// 获取建议反馈列表
 		userRouter.GET("feedback_list", baseApi.FeedbackList)
+		//	查询是否是会员
+		userRouter.GET("is_vip", baseApi.IsVip)
 
 	}
 	return userRouter

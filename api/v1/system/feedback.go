@@ -55,3 +55,20 @@ func (*UserApi) FeedbackList(c *gin.Context) {
 	}
 	code.SuccessResponseList(data, total, cd, c)
 }
+
+// IsVip 查询是否是会员
+// @Tags system
+// @Summary 查询是否是会员
+// @Produce  json
+// @Success 200 {string} code.Response{}
+// @Router /user/is_vip [get]
+func (*UserApi) IsVip(c *gin.Context) {
+	// 获取用户id
+	userId := utils.FindUserID(c)
+	data, cd, err := userService.IsVipService(userId)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
+}

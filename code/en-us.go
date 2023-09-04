@@ -86,4 +86,5 @@ var enUSText = map[int]string{
 	ErrorGetIcon:                       "get icon failed",
 	ErrorGetColor:                      "get color failed",
 	ErrIcon:                            "icon error",
+	ErrIconClassification:              "icon classification error",
 }

@@ -69,12 +69,37 @@ func (*LedgerAdminApi) GetIconList(c *gin.Context) {
 	code.SuccessResponseList(data, total, cd, c)
 }
 
+// AddIconClassification 新增icon分类
+// @Summary 新增icon分类
+// @Tags admin/icon
+// @Accept  json
+// @Produce  json
+// @Param icon_classification body ledger.IconClassification true "icon分类"
+// @Success 200 {object} code.Response{}
+// @Router /admin/ledger/icon/classification/add [post]
+func (*LedgerAdminApi) AddIconClassification(c *gin.Context) {
+	var iconClassification ledger.IconClassification
+	if err := c.ShouldBindJSON(&iconClassification); err != nil {
+		code.FailResponse(code.ErrIconClassification, c)
+		return
+	}
+	userId := utils.FindUserID(c)
+	iconClassification.UserID = userId
+	cd, err := ledgerAdminService.AddIconClassificationService(iconClassification)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
+}
+
 // AddIcon 新增icon
 // @Summary 增加图标
 // @Tags admin/icon
 // @Accept json
 // @Produce json
-// @Success 200 {object} code.Response
+// @Param icon body ledger.Icon true "图标"
+// @Success 200 {object} code.Response{}
 // @Router /admin/ledger/icon/add [post]
 func (*LedgerAdminApi) AddIcon(c *gin.Context) {
 	var icon ledger.Icon

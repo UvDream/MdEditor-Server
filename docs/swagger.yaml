@@ -523,6 +523,63 @@ definitions:
         description: 收入
         type: number
     type: object
+  ledger.Icon:
+    properties:
+      class_name:
+        type: string
+      create_time:
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      icon_classification_id:
+        description: 分类id
+        type: string
+      id:
+        type: string
+      img:
+        type: string
+      name:
+        type: string
+      type:
+        description: 图标类型
+        type: string
+      unicode:
+        type: string
+      update_time:
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/system.User'
+        description: 用户
+      user_id:
+        type: string
+    type: object
+  ledger.IconClassification:
+    properties:
+      create_time:
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      icons:
+        description: 分类和图标一对多
+        items:
+          $ref: '#/definitions/ledger.Icon'
+        type: array
+      id:
+        type: string
+      name:
+        description: 分类名称
+        type: string
+      update_time:
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/system.User'
+        description: 用户
+      user_id:
+        description: 用户ID
+        type: string
+    type: object
   ledger.IncomeExpenditureStatisticsData:
     properties:
       amount:
@@ -1145,6 +1202,13 @@ paths:
     post:
       consumes:
       - application/json
+      parameters:
+      - description: 图标
+        in: body
+        name: icon
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.Icon'
       produces:
       - application/json
       responses:
@@ -1153,6 +1217,27 @@ paths:
           schema:
             $ref: '#/definitions/code.Response'
       summary: 增加图标
+      tags:
+      - admin/icon
+  /admin/ledger/icon/classification/add:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: icon分类
+        in: body
+        name: icon_classification
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.IconClassification'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 新增icon分类
       tags:
       - admin/icon
   /admin/ledger/icon/delete:

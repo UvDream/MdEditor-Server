@@ -39,8 +39,7 @@ type CategoryLedger struct {
 type IconClassification struct {
 	models.Model
 	// 分类名称
-	Name  string `json:"name"`
-	Title string `json:"title"`
+	Name string `json:"name"`
 	// 分类和图标一对多
 	Icons []Icon `json:"icons"`
 	//	用户ID

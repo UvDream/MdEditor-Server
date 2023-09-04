@@ -6,6 +6,7 @@ import (
 	"server/code"
 	"server/global"
 	"server/models/system"
+	"server/service/ledger"
 	"server/utils"
 )
 
@@ -14,6 +15,11 @@ func (*SysUserService) FeedbackService(feedback system.Feedback) (data system.Fe
 		return feedback, code.ErrorFeedback, err
 	}
 	return feedback, code.SUCCESS, nil
+}
+
+func (*SysUserService) IsVipService(userId string) (data bool, cd int, err error) {
+	data = ledger.FindIsMember(userId, global.DB)
+	return data, code.SUCCESS, nil
 }
 
 func (*SysUserService) FeedbackListService(userId string, query system.Feedback, keyword string, c *gin.Context) (data []system.Feedback, total int64, cd int, err error) {

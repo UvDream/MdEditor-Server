@@ -75,6 +75,7 @@ const (
 	ErrorUserList                   = 10048 // 获取用户列表失败
 	ErrorRoleList                   = 10049 //获取角色列表失败
 	ErrorGetUser                    = 10050 //获取用户失败
+	ErrIconClassification           = 10051 //新增icon分类失败
 )
 
 func Text(code int) string {

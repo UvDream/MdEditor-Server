@@ -24,6 +24,8 @@ func (*LedgerAdminStruct) InitLedgerAdminRouter(Router *gin.RouterGroup) (R gin.
 		adminRouter.DELETE("/color/delete", ledgerAdminApi.DeleteColor)
 		//	icon列表
 		adminRouter.GET("/icon/list", ledgerAdminApi.GetIconList)
+		//	新增icon分类
+		adminRouter.POST("/icon/classification/add", ledgerAdminApi.AddIconClassification)
 		//	新增icon
 		adminRouter.POST("/icon/add", ledgerAdminApi.AddIcon)
 		//	删除icon
