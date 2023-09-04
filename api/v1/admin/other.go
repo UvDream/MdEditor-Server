@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"server/code"
 	"server/models/ledger"
+	"server/utils"
 )
 
 // GetColorList 获取颜色列表
@@ -66,6 +67,29 @@ func (*LedgerAdminApi) GetIconList(c *gin.Context) {
 		return
 	}
 	code.SuccessResponseList(data, total, cd, c)
+}
+
+// AddIcon 新增icon
+// @Summary 增加图标
+// @Tags admin/icon
+// @Accept json
+// @Produce json
+// @Success 200 {object} code.Response
+// @Router /admin/ledger/icon/add [post]
+func (*LedgerAdminApi) AddIcon(c *gin.Context) {
+	var icon ledger.Icon
+	if err := c.ShouldBindJSON(&icon); err != nil {
+		code.FailResponse(code.ErrIcon, c)
+		return
+	}
+	userId := utils.FindUserID(c)
+	icon.UserID = userId
+	cd, err := ledgerAdminService.AddIconService(icon)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
 }
 
 // DeleteIcon 删除图标

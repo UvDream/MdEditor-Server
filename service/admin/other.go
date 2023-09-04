@@ -26,6 +26,14 @@ func (*LedgerAdminService) GetColorListService(ledgerId string, isBgColor string
 	return colorList, total, cd, err
 }
 
+func (*LedgerAdminService) AddIconService(icon ledger2.Icon) (cd int, err error) {
+	db := global.DB
+	if err := db.Create(&icon).Error; err != nil {
+		return code.ErrIcon, err
+	}
+	return cd, err
+}
+
 func (*LedgerAdminService) GetIconListService(ledgerId string, c *gin.Context) (IconList []ledger2.IconClassification, total int64, cd int, err error) {
 	userList, cd, err := ledger.GetLedgerUserListService(ledgerId)
 	if err != nil {

@@ -1141,6 +1141,20 @@ paths:
       summary: 获取颜色列表
       tags:
       - admin/color
+  /admin/ledger/icon/add:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 增加图标
+      tags:
+      - admin/icon
   /admin/ledger/icon/delete:
     post:
       consumes:

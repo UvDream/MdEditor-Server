@@ -255,6 +255,28 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/ledger/icon/add": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin/icon"
+                ],
+                "summary": "增加图标",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/ledger/icon/delete": {
             "post": {
                 "consumes": [

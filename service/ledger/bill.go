@@ -209,11 +209,11 @@ func (*LedgersService) GetBillNormalListService(query ledger.BillRequest, userID
 	}
 
 	//查询总收入
-	if err := di.Model(&ledger.Bill{}).Where("type = ?", "1").Select("sum(amount) as income_total").Scan(&ledgerTotal).Error; err != nil {
+	if err := di.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Where("type = ?", "1").Select("sum(amount) as income_total").Scan(&ledgerTotal).Error; err != nil {
 		return data, total, code.ErrorGetBill, ledgerTotal.IncomeTotal, ledgerTotal.ExpendTotal, err
 	}
 	//查询总支出
-	if err := de.Model(&ledger.Bill{}).Where("type = ?", "0").Select("sum(amount) as expend_total").Scan(&ledgerTotal).Error; err != nil {
+	if err := de.Model(&ledger.Bill{}).Where("ledger_id = ?", query.LedgerID).Where("type = ?", "0").Select("sum(amount) as expend_total").Scan(&ledgerTotal).Error; err != nil {
 		return data, total, code.ErrorGetBill, ledgerTotal.IncomeTotal, ledgerTotal.ExpendTotal, err
 	}
 	//查询总数
