@@ -1208,7 +1208,9 @@ paths:
         name: icon
         required: true
         schema:
-          $ref: '#/definitions/ledger.Icon'
+          items:
+            $ref: '#/definitions/ledger.Icon'
+          type: array
       produces:
       - application/json
       responses:

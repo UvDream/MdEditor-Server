@@ -27,7 +27,50 @@ func (*LedgerAdminService) GetLedgerListService(query ledger.LedgerRequest, c *g
 			}
 		}
 	}
-	return data, 0, code.SUCCESS, err
+	//普通用户
+	data, total, cd, err = getNormalLedgerList(query, c)
+	if err != nil {
+		return nil, 0, code.ErrorMissingLedgerId, err
+	}
+	return data, total, code.SUCCESS, err
+}
+
+func getNormalLedgerList(query ledger.LedgerRequest, c *gin.Context) (data []ledger.Ledger, total int64, cd int, err error) {
+	userId := utils.FindUserID(c)
+	db := global.DB
+	dp := global.DB
+	if query.Name != "" {
+		db = db.Where("name LIKE ?", "%"+query.Name+"%")
+	}
+	if query.Type != "" {
+		db = db.Where("type = ?", query.Type)
+	}
+	if query.Description != "" {
+		db = db.Where("description LIKE ?", "%"+query.Description+"%")
+	}
+	//开始时间和结束时间
+	if query.StartTime != "" && query.EndTime != "" {
+		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
+	}
+	//查询自己创建的账本
+	if err := db.Where("creator_id = ?", userId).Find(&data).Error; err != nil {
+		return nil, 0, code.ErrorMissingLedgerId, err
+	}
+	//查询用户协同的账本
+	var ledgerUser []ledger.LedgerUser
+	if err := dp.Where("user_id = ?", userId).Find(&ledgerUser).Error; err != nil {
+		return nil, 0, code.ErrorMissingLedgerId, err
+	}
+	//查询协同账本
+	for _, v := range ledgerUser {
+		var ledger ledger.Ledger
+		if err := db.Where("id = ?", v.LedgerID).Find(&ledger).Error; err != nil {
+			return nil, 0, code.ErrorMissingLedgerId, err
+		}
+		data = append(data, ledger)
+	}
+	total = int64(len(data))
+	return data, total, code.SUCCESS, err
 }
 
 func getAllLedgerList(query ledger.LedgerRequest, c *gin.Context) (data []ledger.Ledger, total int64, cd int, err error) {
@@ -43,7 +86,7 @@ func getAllLedgerList(query ledger.LedgerRequest, c *gin.Context) (data []ledger
 	}
 	//开始时间和结束时间
 	if query.StartTime != "" && query.EndTime != "" {
-		db = db.Where("created_at BETWEEN ? AND ?", query.StartTime, query.EndTime)
+		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
 	}
 	//查询总数
 	if err := db.Model(&ledger.Ledger{}).Count(&total).Error; err != nil {

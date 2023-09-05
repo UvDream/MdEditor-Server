@@ -274,7 +274,10 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ledger.Icon"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ledger.Icon"
+                            }
                         }
                     }
                 ],

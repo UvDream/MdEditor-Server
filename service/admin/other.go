@@ -26,12 +26,19 @@ func (*LedgerAdminService) GetColorListService(ledgerId string, isBgColor string
 	return colorList, total, cd, err
 }
 
-func (*LedgerAdminService) AddIconService(icon ledger2.Icon) (cd int, err error) {
+func (*LedgerAdminService) AddIconService(icons []ledger2.Icon) (cd int, err error) {
 	db := global.DB
-	if err := db.Create(&icon).Error; err != nil {
-		return code.ErrIcon, err
+	for _, v := range icons {
+		//	先查询是否存在,不存在则创建
+		var icon ledger2.Icon
+		if err := db.Where("icon_name = ?", v.Name).Where("user_id = ?", v.UserID).First(&icon).Error; err != nil {
+			if err := db.Create(&v).Error; err != nil {
+				return code.ErrIcon, err
+			}
+		}
+
 	}
-	return cd, err
+	return code.SUCCESS, err
 }
 
 func (*LedgerAdminService) GetIconListService(ledgerId string, c *gin.Context) (IconList []ledger2.IconClassification, total int64, cd int, err error) {
@@ -71,7 +78,7 @@ func (*LedgerAdminService) DeleteColorService(id string) (cd int, err error) {
 	return code.SUCCESS, err
 }
 
-// 删除icon
+// DeleteIconService 删除icon
 func (*LedgerAdminService) DeleteIconService(id string) (cd int, err error) {
 	if err := global.DB.Where("id = ?", id).Delete(&ledger2.IconClassification{}).Error; err != nil {
 		return code.ErrIcon, err

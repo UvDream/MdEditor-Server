@@ -98,18 +98,20 @@ func (*LedgerAdminApi) AddIconClassification(c *gin.Context) {
 // @Tags admin/icon
 // @Accept json
 // @Produce json
-// @Param icon body ledger.Icon true "图标"
+// @Param icon body []ledger.Icon true "图标"
 // @Success 200 {object} code.Response{}
 // @Router /admin/ledger/icon/add [post]
 func (*LedgerAdminApi) AddIcon(c *gin.Context) {
-	var icon ledger.Icon
-	if err := c.ShouldBindJSON(&icon); err != nil {
+	var icons []ledger.Icon
+	if err := c.ShouldBindJSON(&icons); err != nil {
 		code.FailResponse(code.ErrIcon, c)
 		return
 	}
 	userId := utils.FindUserID(c)
-	icon.UserID = userId
-	cd, err := ledgerAdminService.AddIconService(icon)
+	for i := 0; i < len(icons); i++ {
+		icons[i].UserID = userId
+	}
+	cd, err := ledgerAdminService.AddIconService(icons)
 	if err != nil {
 		code.FailResponse(cd, c)
 		return
