@@ -46,6 +46,8 @@ type IconClassification struct {
 	UserID string `json:"user_id"`
 	//	用户
 	User system.User `json:"user"`
+	//	是否公开
+	IsPublic string `json:"is_public" gorm:"default:0"`
 }
 type Icon struct {
 	models.Model
@@ -54,7 +56,6 @@ type Icon struct {
 	Img       string `json:"img"`
 	Unicode   string `json:"unicode"`
 	ClassName string `json:"class_name"`
-	Name      string `json:"name"`
 	//	分类id
 	IconClassificationID string `json:"icon_classification_id"`
 	UserID               string `json:"user_id"`
@@ -71,6 +72,8 @@ type Color struct {
 	UserID string `json:"user_id"`
 	//	用户
 	User system.User `json:"user"`
+	//	是否公开
+	IsPublic string `json:"is_public" gorm:"default:0"`
 }
 
 var InitLedgerCategory = []CategoryLedger{

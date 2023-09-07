@@ -81,7 +81,7 @@ func (*UserAdminApi) GetRoleList(c *gin.Context) {
 // @Produce  json
 // @Param  role  body  system.Role  true  "角色"
 // @Success 200 {object} code.Response
-// @Router /admin/user/update/role [post]
+// @Router /admin/user/update/role [put]
 func (*UserAdminApi) UpdateRole(c *gin.Context) {
 	var role system.Role
 	if err := c.ShouldBindJSON(&role); err != nil {

@@ -17,7 +17,7 @@ func (*UserAdminStruct) InitUserAdminRouter(Router *gin.RouterGroup) (R gin.IRou
 		//新增角色
 		adminRouter.POST("/add/role", userAdminApi.AddRole)
 		//修改角色
-		adminRouter.POST("/update/role", userAdminApi.UpdateRole)
+		adminRouter.PUT("/update/role", userAdminApi.UpdateRole)
 		//删除角色
 		adminRouter.POST("/delete/role", userAdminApi.DeleteRole)
 		//角色列表

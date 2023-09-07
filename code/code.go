@@ -76,6 +76,10 @@ const (
 	ErrorRoleList                   = 10049 //获取角色列表失败
 	ErrorGetUser                    = 10050 //获取用户失败
 	ErrIconClassification           = 10051 //新增icon分类失败
+	ErrorDeleteMenuFail             = 10052 //删除菜单失败
+	ErrorAddMenuFail                = 10053 //新增菜单失败
+	ErrorMenuList                   = 10054 //菜单列表获取失败
+	ErrorUserRoleFail               = 10055 //分配用户角色失败
 )
 
 func Text(code int) string {

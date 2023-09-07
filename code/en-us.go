@@ -87,4 +87,8 @@ var enUSText = map[int]string{
 	ErrorGetColor:                      "get color failed",
 	ErrIcon:                            "icon error",
 	ErrIconClassification:              "icon classification error",
+	ErrorDeleteMenuFail:                "delete menu failed",
+	ErrorAddMenuFail:                   "add menu failed",
+	ErrorMenuList:                      "menu list failed",
+	ErrorUserRoleFail:                  "user role failed",
 }

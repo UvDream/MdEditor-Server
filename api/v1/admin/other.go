@@ -119,6 +119,24 @@ func (*LedgerAdminApi) AddIcon(c *gin.Context) {
 	code.SuccessResponse(nil, cd, c)
 }
 
+// DeleteIconClassification 删除icon分类
+// @Summary 删除icon分类
+// @Tags admin/icon
+// @Accept  json
+// @Produce  json
+// @Param id query string true "icon分类ID"
+// @Success 200 {object} code.Response
+// @Router /admin/ledger/icon/classification/delete [delete]
+func (*LedgerAdminApi) DeleteIconClassification(c *gin.Context) {
+	id := c.Query("id")
+	cd, err := ledgerAdminService.DeleteIconClassificationService(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
+}
+
 // DeleteIcon 删除图标
 // @Summary 删除图标
 // @Tags admin/icon
@@ -126,7 +144,7 @@ func (*LedgerAdminApi) AddIcon(c *gin.Context) {
 // @Produce  json
 // @Param id query string true "图标ID"
 // @Success 200 {object} code.Response
-// @Router /admin/ledger/icon/delete [post]
+// @Router /admin/ledger/icon/delete [delete]
 func (*LedgerAdminApi) DeleteIcon(c *gin.Context) {
 	id := c.Query("id")
 	cd, err := ledgerAdminService.DeleteIconService(id)
@@ -144,7 +162,7 @@ func (*LedgerAdminApi) DeleteIcon(c *gin.Context) {
 // @Produce  json
 // @Param id query string true "颜色ID"
 // @Success 200 {object} code.Response
-// @Router /admin/ledger/color/delete [post]
+// @Router /admin/ledger/color/delete [delete]
 func (*LedgerAdminApi) DeleteColor(c *gin.Context) {
 	id := c.Query("id")
 	cd, err := ledgerAdminService.DeleteColorService(id)

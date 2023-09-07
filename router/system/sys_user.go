@@ -40,6 +40,16 @@ func (s *UserRouter) InitUserRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 		userRouter.GET("feedback_list", baseApi.FeedbackList)
 		//	查询是否是会员
 		userRouter.GET("is_vip", baseApi.IsVip)
+		//	新增菜单
+		userRouter.POST("add_menu", baseApi.AddMenu)
+		//	删除菜单
+		userRouter.DELETE("delete_menu", baseApi.DeleteMenu)
+		//	菜单列表
+		userRouter.GET("menu_list", baseApi.MenuList)
+		//	分配用户角色
+		userRouter.POST("user_role", baseApi.UserRole)
+		//	获取权限
+		userRouter.GET("get_permission", baseApi.GetPermission)
 
 	}
 	return userRouter

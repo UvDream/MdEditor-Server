@@ -114,4 +114,8 @@ var zhCNText = map[int]string{
 	ErrorGetColor:                       "获取颜色失败",
 	ErrIcon:                             "图标错误",
 	ErrIconClassification:               "新增icon分类失败",
+	ErrorDeleteMenuFail:                 "删除菜单失败",
+	ErrorAddMenuFail:                    "新增菜单失败",
+	ErrorMenuList:                       "获取菜单列表失败",
+	ErrorUserRoleFail:                   "分配用户角色失败",
 }

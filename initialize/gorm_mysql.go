@@ -42,7 +42,11 @@ func RegistrationTable(db *gorm.DB) {
 		//系统内置表
 		system.User{},
 		system.Member{},
+		//角色
 		system.Role{},
+		//权限
+		system.Permission{},
+		system.RolePermission{},
 		system.UserRole{},
 		//system.SysUserRole{},
 		system.UserConfig{},

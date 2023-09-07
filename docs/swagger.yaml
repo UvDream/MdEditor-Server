@@ -501,6 +501,9 @@ definitions:
       is_bg_color:
         description: 是否是背景
         type: string
+      is_public:
+        description: 是否公开
+        type: string
       update_time:
         type: string
       user:
@@ -538,8 +541,6 @@ definitions:
         type: string
       img:
         type: string
-      name:
-        type: string
       type:
         description: 图标类型
         type: string
@@ -566,6 +567,9 @@ definitions:
           $ref: '#/definitions/ledger.Icon'
         type: array
       id:
+        type: string
+      is_public:
+        description: 是否公开
         type: string
       name:
         description: 分类名称
@@ -876,6 +880,23 @@ definitions:
       update_time:
         type: string
     type: object
+  system.Permission:
+    properties:
+      create_time:
+        type: string
+      delete_time:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: string
+      key:
+        type: string
+      name:
+        type: string
+      remark:
+        type: string
+      update_time:
+        type: string
+    type: object
   system.RetrievePasswordRequest:
     properties:
       email:
@@ -900,6 +921,15 @@ definitions:
       is_default:
         description: 0 否 1 是
         type: string
+      menu_arr:
+        items:
+          type: string
+        type: array
+      permissions:
+        description: 关联到权限表
+        items:
+          $ref: '#/definitions/system.Permission'
+        type: array
       remark:
         type: string
       role_key:
@@ -1002,6 +1032,18 @@ definitions:
         type: string
       update_time:
         type: string
+    type: object
+  system.UserRoleRequest:
+    properties:
+      roles_id:
+        items:
+          type: string
+        type: array
+      user_id:
+        type: string
+    required:
+    - roles_id
+    - user_id
     type: object
   theme.Theme:
     properties:
@@ -1134,7 +1176,7 @@ paths:
       tags:
       - admin/color
   /admin/ledger/color/delete:
-    post:
+    delete:
       consumes:
       - application/json
       parameters:
@@ -1242,8 +1284,28 @@ paths:
       summary: 新增icon分类
       tags:
       - admin/icon
+  /admin/ledger/icon/classification/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: icon分类ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 删除icon分类
+      tags:
+      - admin/icon
   /admin/ledger/icon/delete:
-    post:
+    delete:
       consumes:
       - application/json
       parameters:
@@ -1497,7 +1559,7 @@ paths:
       tags:
       - admin/role
   /admin/user/update/role:
-    post:
+    put:
       consumes:
       - application/json
       description: 修改角色
@@ -3913,6 +3975,25 @@ paths:
       summary: 主题更新
       tags:
       - theme
+  /user/add_menu:
+    post:
+      parameters:
+      - description: 菜单信息
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/system.Permission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"删除成功"}'
+          schema:
+            type: string
+      summary: 新增菜单
+      tags:
+      - system/role
   /user/bind_email:
     post:
       consumes:
@@ -3945,6 +4026,24 @@ paths:
       summary: 绑定邮箱
       tags:
       - user
+  /user/delete_menu:
+    delete:
+      parameters:
+      - description: 菜单id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"删除成功"}'
+          schema:
+            type: string
+      summary: 删除菜单
+      tags:
+      - system/role
   /user/feedback:
     post:
       parameters:
@@ -4059,6 +4158,18 @@ paths:
       summary: 填充用户邀请码
       tags:
       - system
+  /user/get_permission:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取权限
+      tags:
+      - system/role
   /user/get_user_info:
     get:
       produces:
@@ -4094,6 +4205,29 @@ paths:
       summary: 查询是否是会员
       tags:
       - system
+  /user/menu_list:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Response'
+            - properties:
+                data:
+                  items:
+                    type: string
+                  type: array
+                msg:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: 菜单列表
+      tags:
+      - system/role
   /user/unbind_email:
     post:
       produces:
@@ -4200,6 +4334,25 @@ paths:
       summary: 获取用户邀请码列表
       tags:
       - system
+  /user/user_role:
+    post:
+      parameters:
+      - description: 分配用户角色
+        in: body
+        name: query
+        required: true
+        schema:
+          $ref: '#/definitions/system.UserRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"删除成功"}'
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 分配用户角色
+      tags:
+      - system/role
 securityDefinitions:
   ApiKeyAuth:
     in: header

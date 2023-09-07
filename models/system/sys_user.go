@@ -41,13 +41,33 @@ type UserRole struct {
 	UserID string `json:"userID"`
 	RoleID string `json:"roleID"`
 }
+type UserRoleRequest struct {
+	UserID  string   `json:"user_id" binding:"required"`
+	RolesID []string `json:"roles_id" binding:"required"`
+}
 
 type Role struct {
 	models.Model
-	RoleName  string `json:"role_name" gorm:"comment:角色名"`
-	RoleKey   string `json:"role_key" gorm:"comment:角色key"`
-	Remark    string `json:"remark" gorm:"comment:备注"`
-	IsDefault string `json:"is_default" gorm:"comment:是否内置"` // 0 否 1 是
+	MenuArr   []string `json:"menu_arr" gorm:"-"`
+	RoleName  string   `json:"role_name" gorm:"comment:角色名"`
+	RoleKey   string   `json:"role_key" gorm:"comment:角色key"`
+	Remark    string   `json:"remark" gorm:"comment:备注"`
+	IsDefault string   `json:"is_default" gorm:"comment:是否内置"` // 0 否 1 是
+	//	关联到权限表
+	Permissions []Permission `json:"permissions" gorm:"many2many:role_permissions;"`
+}
+
+type RolePermission struct {
+	RoleID       string `json:"role_id"`
+	PermissionID string `json:"permission_id"`
+}
+
+// Permission 权限表
+type Permission struct {
+	models.Model
+	Name   string `json:"name" gorm:"comment:权限名"`
+	Key    string `json:"key" gorm:"comment:权限key"`
+	Remark string `json:"remark" gorm:"comment:备注"`
 }
 
 // Member 会员信息

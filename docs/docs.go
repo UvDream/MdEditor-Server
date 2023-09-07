@@ -152,7 +152,7 @@ const docTemplate = `{
             }
         },
         "/admin/ledger/color/delete": {
-            "post": {
+            "delete": {
                 "consumes": [
                     "application/json"
                 ],
@@ -324,8 +324,39 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/ledger/icon/classification/delete": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin/icon"
+                ],
+                "summary": "删除icon分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "icon分类ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/ledger/icon/delete": {
-            "post": {
+            "delete": {
                 "consumes": [
                     "application/json"
                 ],
@@ -728,7 +759,7 @@ const docTemplate = `{
             }
         },
         "/admin/user/update/role": {
-            "post": {
+            "put": {
                 "description": "修改角色",
                 "consumes": [
                     "application/json"
@@ -4630,6 +4661,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/add_menu": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system/role"
+                ],
+                "summary": "新增菜单",
+                "parameters": [
+                    {
+                        "description": "菜单信息",
+                        "name": "menu",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.Permission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"success\":true,\"data\":{},\"msg\":\"删除成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/bind_email": {
             "post": {
                 "consumes": [
@@ -4679,6 +4740,34 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/user/delete_menu": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system/role"
+                ],
+                "summary": "删除菜单",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "菜单id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"success\":true,\"data\":{},\"msg\":\"删除成功\"}",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -4865,6 +4954,25 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/get_permission": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system/role"
+                ],
+                "summary": "获取权限",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user/get_user_info": {
             "get": {
                 "produces": [
@@ -4919,6 +5027,46 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/menu_list": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system/role"
+                ],
+                "summary": "菜单列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -5089,6 +5237,36 @@ const docTemplate = `{
                         "description": "success\":true,\"data\":system.UserInviteCode,\"msg\":\"设置成功\"}",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/user_role": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "system/role"
+                ],
+                "summary": "分配用户角色",
+                "parameters": [
+                    {
+                        "description": "分配用户角色",
+                        "name": "query",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.UserRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"success\":true,\"data\":{},\"msg\":\"删除成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
                         }
                     }
                 }
@@ -5826,6 +6004,10 @@ const docTemplate = `{
                     "description": "是否是背景",
                     "type": "string"
                 },
+                "is_public": {
+                    "description": "是否公开",
+                    "type": "string"
+                },
                 "update_time": {
                     "type": "string"
                 },
@@ -5882,9 +6064,6 @@ const docTemplate = `{
                 "img": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
-                },
                 "type": {
                     "description": "图标类型",
                     "type": "string"
@@ -5925,6 +6104,10 @@ const docTemplate = `{
                     }
                 },
                 "id": {
+                    "type": "string"
+                },
+                "is_public": {
+                    "description": "是否公开",
                     "type": "string"
                 },
                 "name": {
@@ -6381,6 +6564,32 @@ const docTemplate = `{
                 }
             }
         },
+        "system.Permission": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
+                }
+            }
+        },
         "system.RetrievePasswordRequest": {
             "type": "object",
             "properties": {
@@ -6416,6 +6625,19 @@ const docTemplate = `{
                 "is_default": {
                     "description": "0 否 1 是",
                     "type": "string"
+                },
+                "menu_arr": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "permissions": {
+                    "description": "关联到权限表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/system.Permission"
+                    }
                 },
                 "remark": {
                     "type": "string"
@@ -6563,6 +6785,24 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "update_time": {
+                    "type": "string"
+                }
+            }
+        },
+        "system.UserRoleRequest": {
+            "type": "object",
+            "required": [
+                "roles_id",
+                "user_id"
+            ],
+            "properties": {
+                "roles_id": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "user_id": {
                     "type": "string"
                 }
             }
