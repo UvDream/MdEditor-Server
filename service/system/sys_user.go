@@ -6,7 +6,6 @@ import (
 	"server/global"
 	"server/models/system"
 	"server/utils"
-	"time"
 )
 
 // GetUserListService 获取用户列表
@@ -32,22 +31,6 @@ func (*SysUserService) GetUserListService(query *system.SysUserRequest) (list in
 	}
 	return userList, total, "查询用户列表成功", nil
 }
-
-//func (*SysUserService) FindIsMember(userID string) bool {
-//	var user system.User
-//	db := global.DB
-//	if err := db.Where("id = ?", userID).Preload("Member").First(&user).Error; err != nil {
-//		return false
-//	}
-//	//查询会员日期是否过期
-//	if user.Member.ExpireTime.Before(time.Now()) {
-//		return false
-//	}
-//	if user.Member.IsMember {
-//		return true
-//	}
-//	return false
-//}
 
 func (*SysUserService) GetUserInfoService(userId string) (user system.User, cd int, err error) {
 	var u system.User
@@ -105,23 +88,6 @@ func (*SysUserService) FindUserRoles(userId string) (roleArr []string, err error
 		roleArr = append(roleArr, role.RoleKey)
 	}
 	return roleArr, err
-}
-
-// FindIsMember 查询是否是会员
-func (*SysUserService) FindIsMember(userID string) (isMember bool) {
-	var user system.User
-	db := global.DB
-	if err := db.Where("id = ?", userID).Preload("Member").First(&user).Error; err != nil {
-		return false
-	}
-	//查询会员日期是否过期
-	if user.Member.ExpireTime.Before(time.Now()) {
-		return false
-	}
-	if user.Member.IsMember {
-		return true
-	}
-	return false
 }
 
 func (*SysUserService) UpdateUserInfoService(userID string, user system.User) (cd int, err error) {

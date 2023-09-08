@@ -267,7 +267,7 @@ func (*LedgersService) GetBillListByCategoryIdService(query ledger.BillRequest, 
 		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
 	}
 	//查询列表
-	if err := db.Preload(clause.Associations).Find(&data).Error; err != nil {
+	if err := db.Preload(clause.Associations).Where("ledger_id =?", query.LedgerID).Find(&data).Error; err != nil {
 		return data, code.ErrorGetBill, err
 	}
 	for i, v := range data {
