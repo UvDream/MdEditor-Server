@@ -28,7 +28,7 @@ func FindIsMember(userID string, db *gorm.DB) bool {
 	return false
 }
 
-//CreateLedger 创建账本
+// CreateLedger 创建账本
 func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int, error) {
 	//校验会员和非会员账本数量 会员可创建5个账本 非会员可创建1个账本
 	db := global.DB
@@ -68,7 +68,7 @@ func (*LedgersService) CreateLedger(ledger ledger2.Ledger) (ledger2.Ledger, int,
 	return ledger, code.SUCCESS, nil
 }
 
-//GetLedgerList 获取账本
+// GetLedgerList 获取账本
 func (*LedgersService) GetLedgerList(userID string) ([]ledger2.Ledger, int, error) {
 	//查出自己创建的账本
 	var ledgers []ledger2.Ledger
@@ -92,7 +92,7 @@ func (*LedgersService) GetLedgerList(userID string) ([]ledger2.Ledger, int, erro
 	return ledgers, code.SUCCESS, nil
 }
 
-//去重
+// 去重
 func removeDuplicateLedger(ledgers []ledger2.Ledger) []ledger2.Ledger {
 	result := make([]ledger2.Ledger, 0, len(ledgers))
 	temp := map[string]struct{}{}
@@ -164,8 +164,13 @@ func (*LedgersService) ShareLedger(id string, userID string) (string, int, error
 
 func (*LedgersService) JoinLedger(shareCode string, userID string) (int, error) {
 	db := global.DB
+
 	//判断账本是否存在
 	var ledger ledger2.Ledger
+	//判断用户是否是账本创建者
+	if err := db.Where("creator_id = ?", userID).First(&ledger).Error; err == nil {
+		return code.ErrorJoinLedger, err
+	}
 	if err := db.Where("share_code = ?", shareCode).First(&ledger).Error; err != nil {
 		return code.ErrorLedgerNotExist, err
 	}

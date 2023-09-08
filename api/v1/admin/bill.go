@@ -31,7 +31,16 @@ func (*LedgerAdminApi) GetBillList(c *gin.Context) {
 		code.FailResponse(code.ErrorGetPermission, c)
 		return
 	}
-	if len(roles) > 0 {
+	isAdmin := false
+	//判断是否是管理员
+	for _, role := range roles {
+		if role == "admin" {
+			isAdmin = true
+			break
+		}
+	}
+
+	if isAdmin {
 		data, total, cd, income, expenditure, err := ledgerAdminService.GetBillListService(query, c)
 		if err != nil {
 			code.FailResponse(cd, c)
