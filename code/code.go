@@ -80,6 +80,7 @@ const (
 	ErrorAddMenuFail                = 10053 //新增菜单失败
 	ErrorMenuList                   = 10054 //菜单列表获取失败
 	ErrorUserRoleFail               = 10055 //分配用户角色失败
+	ErrorGetAppNeedUpdate           = 10056 //获取app版本失败
 )
 
 func Text(code int) string {

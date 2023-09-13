@@ -70,7 +70,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		//金额统计
 		ledgerRouter.GET("/statistics/amount", accountApi.GetAmountStatistics)
 		//	App相关
-
+		// 是否有更新
+		ledgerRouter.GET("/app/need_update", accountApi.GetAppNeedUpdate)
 	}
 	return ledgerRouter
 }

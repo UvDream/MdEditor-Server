@@ -2060,6 +2060,21 @@ paths:
       summary: 获取token
       tags:
       - halo
+  /ledger/app/need_update:
+    get:
+      consumes:
+      - application/json
+      description: 获取app是否需要更新
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取app是否需要更新
+      tags:
+      - statistics
   /ledger/bill/category/list:
     get:
       consumes:

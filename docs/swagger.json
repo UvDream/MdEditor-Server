@@ -1533,6 +1533,29 @@
                 }
             }
         },
+        "/ledger/app/need_update": {
+            "get": {
+                "description": "获取app是否需要更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "statistics"
+                ],
+                "summary": "获取app是否需要更新",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/bill/category/list": {
             "get": {
                 "consumes": [

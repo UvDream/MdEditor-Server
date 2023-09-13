@@ -118,4 +118,5 @@ var zhCNText = map[int]string{
 	ErrorAddMenuFail:                    "新增菜单失败",
 	ErrorMenuList:                       "获取菜单列表失败",
 	ErrorUserRoleFail:                   "分配用户角色失败",
+	ErrorGetAppNeedUpdate:               "获取app版本失败",
 }
