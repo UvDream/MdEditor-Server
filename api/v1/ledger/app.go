@@ -23,19 +23,15 @@ type UpdateAppStruct struct {
 // @Success 200 {object}  code.Response{}
 // @Router /ledger/app/need_update [get]
 func (*ApiLedger) GetAppNeedUpdate(c *gin.Context) {
-
 	url := "https://www.pgyer.com/apiv2/app/check?_api_key=c3b11d1ce00808553eeed3276d33e386&appKey=62a36ed833fa3a0b0749a900f7b715da"
 	method := "POST"
-
 	client := &http.Client{}
 	req, err := http.NewRequest(method, url, nil)
-
 	if err != nil {
 		fmt.Println(err)
 		code.FailResponse(code.ErrorGetAppNeedUpdate, c)
 		return
 	}
-
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
@@ -50,7 +46,6 @@ func (*ApiLedger) GetAppNeedUpdate(c *gin.Context) {
 		code.FailResponse(code.ErrorGetAppNeedUpdate, c)
 		return
 	}
-	fmt.Println(string(body))
 	type AppResponse struct {
 		Code int `json:"code"`
 		Data struct {
