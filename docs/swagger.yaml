@@ -571,6 +571,11 @@ definitions:
       is_public:
         description: 是否公开
         type: string
+      ledger:
+        $ref: '#/definitions/ledger.Ledger'
+      ledger_id:
+        description: 账本
+        type: string
       name:
         description: 分类名称
         type: string
@@ -581,7 +586,7 @@ definitions:
         - $ref: '#/definitions/system.User'
         description: 用户
       user_id:
-        description: 用户ID
+        description: "//\t用户ID"
         type: string
     type: object
   ledger.IncomeExpenditureStatisticsData:
@@ -1354,6 +1359,26 @@ paths:
           schema:
             $ref: '#/definitions/code.Response'
       summary: 获取图标列表admin
+      tags:
+      - admin/icon
+  /admin/ledger/icon/select/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 账单ID
+        in: query
+        name: ledger_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取已选的Icon列表
       tags:
       - admin/icon
   /admin/ledger/list:

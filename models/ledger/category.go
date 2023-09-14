@@ -42,10 +42,13 @@ type IconClassification struct {
 	Name string `json:"name"`
 	// 分类和图标一对多
 	Icons []Icon `json:"icons"`
-	//	用户ID
+	////	用户ID
 	UserID string `json:"user_id"`
 	//	用户
-	User system.User `json:"user"`
+	User system.User `json:"user" `
+	// 账本
+	LedgerID string `json:"ledger_id"`
+	Ledger   Ledger `json:"ledger" gorm:"-"`
 	//	是否公开
 	IsPublic string `json:"is_public" gorm:"default:0"`
 }

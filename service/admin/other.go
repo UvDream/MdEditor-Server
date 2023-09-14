@@ -31,7 +31,7 @@ func (*LedgerAdminService) AddIconService(icons []ledger2.Icon) (cd int, err err
 	for _, v := range icons {
 		//	先查询是否存在,不存在则创建
 		var icon ledger2.Icon
-		if err := db.Where("icon_name = ?", v.ClassName).Where("user_id = ?", v.UserID).First(&icon).Error; err != nil {
+		if err := db.Where("class_name = ?", v.ClassName).Where("user_id = ?", v.UserID).First(&icon).Error; err != nil {
 			if err := db.Create(&v).Error; err != nil {
 				return code.ErrIcon, err
 			}
@@ -42,15 +42,25 @@ func (*LedgerAdminService) AddIconService(icons []ledger2.Icon) (cd int, err err
 }
 
 func (*LedgerAdminService) GetIconListService(ledgerId string, c *gin.Context) (IconList []ledger2.IconClassification, total int64, cd int, err error) {
-	userList, cd, err := ledger.GetLedgerUserListService(ledgerId)
-	if err != nil {
-		return IconList, total, cd, err
-	}
+
 	db := global.DB
-	if err := db.Where("user_id in ?", userList).Preload(clause.Associations).Scopes(utils.Paginator(c)).Find(&IconList).Error; err != nil {
+	if err := db.Where("ledger_id = ?", ledgerId).Preload(clause.Associations).Scopes(utils.Paginator(c)).Find(&IconList).Error; err != nil {
 		return IconList, total, cd, err
 	}
 	return IconList, total, code.SUCCESS, err
+}
+
+func (*LedgerAdminService) GetSelectIconListService(ledgerId string) (IconList []ledger2.Icon, cd int, err error) {
+	userList, cd, err := ledger.GetLedgerUserListService(ledgerId)
+	if err != nil {
+		return IconList, cd, err
+	}
+	//查询已有的icon分类
+	db := global.DB
+	if err := db.Where("user_id in ?", userList).Preload(clause.Associations).Find(&IconList).Error; err != nil {
+		return IconList, code.ErrIcon, err
+	}
+	return IconList, code.SUCCESS, err
 }
 
 func (*LedgerAdminService) AddIconClassificationService(iconClassification ledger2.IconClassification) (cd int, err error) {

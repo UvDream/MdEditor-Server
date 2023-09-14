@@ -69,6 +69,24 @@ func (*LedgerAdminApi) GetIconList(c *gin.Context) {
 	code.SuccessResponseList(data, total, cd, c)
 }
 
+// GetSelectIconList 获取已选的Icon列表
+// @Summary 获取已选的Icon列表
+// @Tags admin/icon
+// @Accept  json
+// @Produce  json
+// @Param ledger_id query int true "账单ID"
+// @Success 200 {object} code.Response
+// @Router /admin/ledger/icon/select/list [get]
+func (*LedgerAdminApi) GetSelectIconList(c *gin.Context) {
+	ledgerId := c.Query("ledger_id")
+	data, cd, err := ledgerAdminService.GetSelectIconListService(ledgerId)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(data, cd, c)
+}
+
 // AddIconClassification 新增icon分类
 // @Summary 新增icon分类
 // @Tags admin/icon

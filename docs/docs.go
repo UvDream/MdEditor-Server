@@ -435,6 +435,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/ledger/icon/select/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin/icon"
+                ],
+                "summary": "获取已选的Icon列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "账单ID",
+                        "name": "ledger_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/ledger/list": {
             "get": {
                 "description": "获取账本列表admin",
@@ -6133,6 +6164,13 @@ const docTemplate = `{
                     "description": "是否公开",
                     "type": "string"
                 },
+                "ledger": {
+                    "$ref": "#/definitions/ledger.Ledger"
+                },
+                "ledger_id": {
+                    "description": "账本",
+                    "type": "string"
+                },
                 "name": {
                     "description": "分类名称",
                     "type": "string"
@@ -6149,7 +6187,7 @@ const docTemplate = `{
                     ]
                 },
                 "user_id": {
-                    "description": "用户ID",
+                    "description": "//\t用户ID",
                     "type": "string"
                 }
             }
