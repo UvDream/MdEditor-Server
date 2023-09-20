@@ -53,7 +53,7 @@ func getNormalLedgerList(query ledger.LedgerRequest, c *gin.Context) (data []led
 		db = db.Where("create_time BETWEEN ? AND ?", query.StartTime, query.EndTime)
 	}
 	//查询自己创建的账本
-	if err := db.Where("creator_id = ?", userId).Find(&data).Error; err != nil {
+	if err := db.Where("creator_id = ?", userId).Preload(clause.Associations).Find(&data).Error; err != nil {
 		return nil, 0, code.ErrorMissingLedgerId, err
 	}
 	//查询用户协同的账本
@@ -64,7 +64,7 @@ func getNormalLedgerList(query ledger.LedgerRequest, c *gin.Context) (data []led
 	//查询协同账本
 	for _, v := range ledgerUser {
 		var ledger ledger.Ledger
-		if err := db.Where("id = ?", v.LedgerID).Find(&ledger).Error; err != nil {
+		if err := db.Where("id = ?", v.LedgerID).Preload(clause.Associations).Find(&ledger).Error; err != nil {
 			return nil, 0, code.ErrorMissingLedgerId, err
 		}
 		data = append(data, ledger)
