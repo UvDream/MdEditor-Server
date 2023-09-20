@@ -87,7 +87,12 @@ func (*LedgersService) GetLedgerList(userID string) ([]ledger2.Ledger, int, erro
 	//查询账本成员数量
 	for i, k := range ledgers {
 		ledgers[i].MemberCount = k.MemberCount + findMemberCount(k.ID)
+		if ledgers[i].CreatorID == userID {
+			//将创建者添加到协作者数量
+			ledgers[i].MemberCount = ledgers[i].MemberCount + 1
+		}
 	}
+
 	//ledgers = append(ledgers, ledgerArr...)
 	return ledgers, code.SUCCESS, nil
 }
