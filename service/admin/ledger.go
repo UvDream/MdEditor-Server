@@ -63,11 +63,11 @@ func getNormalLedgerList(query ledger.LedgerRequest, c *gin.Context) (data []led
 	}
 	//查询协同账本
 	for _, v := range ledgerUser {
-		var ledger ledger.Ledger
-		if err := db.Where("id = ?", v.LedgerID).Preload(clause.Associations).Find(&ledger).Error; err != nil {
+		var ledgerData ledger.Ledger
+		if err := db.Where("id = ?", v.LedgerID).Preload(clause.Associations).Find(&ledgerData).Error; err != nil {
 			return nil, 0, code.ErrorMissingLedgerId, err
 		}
-		data = append(data, ledger)
+		data = append(data, ledgerData)
 	}
 	total = int64(len(data))
 	return data, total, code.SUCCESS, err
