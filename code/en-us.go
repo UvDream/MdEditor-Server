@@ -92,4 +92,5 @@ var enUSText = map[int]string{
 	ErrorMenuList:                      "menu list failed",
 	ErrorUserRoleFail:                  "user role failed",
 	ErrorGetAppNeedUpdate:              "get app need update failed",
+	ErrorLoopAccount:                   "loop account failed",
 }

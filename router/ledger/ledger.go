@@ -72,6 +72,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		//	App相关
 		// 是否有更新
 		ledgerRouter.GET("/app/need_update", accountApi.GetAppNeedUpdate)
+		//	周期记账
+		ledgerRouter.POST("/loop_account", accountApi.LoopAccount)
 	}
 	return ledgerRouter
 }

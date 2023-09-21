@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"server/core"
 	"server/global"
 	"server/initialize"
@@ -28,8 +29,6 @@ func main() {
 	if global.DB != nil {
 		// 初始化表
 		initialize.RegistrationTable(global.DB)
-		//初始化默认数据
-
 		// 程序结束关闭数据库链接
 		db, _ := global.DB.DB()
 		defer func(db *sql.DB) {
@@ -39,5 +38,6 @@ func main() {
 			}
 		}(db)
 	}
+	fmt.Println("11111111")
 	core.RunServer()
 }

@@ -3061,6 +3061,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/ledger/loop_account": {
+            "post": {
+                "description": "周期记账",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ledger/loop"
+                ],
+                "summary": "周期记账",
+                "parameters": [
+                    {
+                        "description": "周期记账",
+                        "name": "loop_account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.LoopAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/share": {
             "post": {
                 "consumes": [
@@ -6286,6 +6320,71 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/system.User"
                     }
+                }
+            }
+        },
+        "ledger.LoopAccount": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "description": "金额",
+                    "type": "number"
+                },
+                "category_id": {
+                    "description": "分类ID",
+                    "type": "string"
+                },
+                "corn": {
+                    "description": "Corn表达式",
+                    "type": "string"
+                },
+                "create_time": {
+                    "description": "日期",
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "账单创建者",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.User"
+                        }
+                    ]
+                },
+                "creator_id": {
+                    "description": "作者ID",
+                    "type": "string"
+                },
+                "delete_time": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "ledger": {
+                    "$ref": "#/definitions/ledger.Ledger"
+                },
+                "ledger_id": {
+                    "description": "账本ID",
+                    "type": "string"
+                },
+                "not_budget": {
+                    "description": "不计入预算",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "账单备注",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "账单状态",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "账单类型",
+                    "type": "string"
+                },
+                "update_time": {
+                    "type": "string"
                 }
             }
         },

@@ -17,6 +17,7 @@ func RunServer() {
 	address := fmt.Sprintf(":%d", global.Config.System.Addr)
 	s := initServer(address, Router)
 	global.Log.Info(s.ListenAndServe().Error())
+
 }
 
 type server interface {
