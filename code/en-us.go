@@ -93,4 +93,7 @@ var enUSText = map[int]string{
 	ErrorUserRoleFail:                  "user role failed",
 	ErrorGetAppNeedUpdate:              "get app need update failed",
 	ErrorLoopAccount:                   "loop account failed",
+	ErrorDeleteLoopAccount:             "delete loop account failed",
+	ErrorUpdateLoopAccount:             "update loop account failed",
+	ErrorGetLoopList:                   "get loop list failed",
 }

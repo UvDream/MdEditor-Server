@@ -82,6 +82,9 @@ const (
 	ErrorUserRoleFail               = 10055 //分配用户角色失败
 	ErrorGetAppNeedUpdate           = 10056 //获取app版本失败
 	ErrorLoopAccount                = 10057 //周期记账失败
+	ErrorDeleteLoopAccount          = 10058 //删除周期记账失败
+	ErrorUpdateLoopAccount          = 10059 //更新周期记账失败
+	ErrorGetLoopList                = 10060 //获取周期记账列表失败
 )
 
 func Text(code int) string {

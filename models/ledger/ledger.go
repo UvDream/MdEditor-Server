@@ -89,7 +89,8 @@ type LoopAccount struct {
 	//	Corn表达式
 	Corn string `json:"corn"`
 	//	分类ID
-	CategoryID string `json:"category_id"`
+	CategoryID string         `json:"category_id"`
+	Category   CategoryLedger `json:"ledger_category"`
 	//	账本ID
 	LedgerID string `json:"ledger_id"`
 	Ledger   Ledger `json:"ledger"`

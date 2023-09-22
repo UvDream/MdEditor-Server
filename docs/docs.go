@@ -559,6 +559,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/ledger/loop/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin/loop"
+                ],
+                "summary": "获取定时任务列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "key_word",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/user/add/role": {
             "post": {
                 "description": "新增角色",
@@ -2552,7 +2594,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "分类类型",
-                        "name": "types",
+                        "name": "type",
                         "in": "query",
                         "required": true
                     }
@@ -3062,6 +3104,38 @@ const docTemplate = `{
             }
         },
         "/ledger/loop_account": {
+            "put": {
+                "description": "更新周期记账",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ledger/loop"
+                ],
+                "summary": "更新周期记账",
+                "parameters": [
+                    {
+                        "description": "周期记账",
+                        "name": "loop_account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ledger.LoopAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "周期记账",
                 "consumes": [
@@ -3083,6 +3157,38 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/ledger.LoopAccount"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/ledger/loop_account/delete": {
+            "delete": {
+                "description": "删除周期记账",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ledger/loop"
+                ],
+                "summary": "删除周期记账",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "周期记账ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -6362,6 +6468,9 @@ const docTemplate = `{
                 },
                 "ledger": {
                     "$ref": "#/definitions/ledger.Ledger"
+                },
+                "ledger_category": {
+                    "$ref": "#/definitions/ledger.CategoryLedger"
                 },
                 "ledger_id": {
                     "description": "账本ID",

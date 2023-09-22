@@ -69,11 +69,16 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.GET("/statistics/category_detail", accountApi.GetCategoryDetailStatistics)
 		//金额统计
 		ledgerRouter.GET("/statistics/amount", accountApi.GetAmountStatistics)
-		//	App相关
-		// 是否有更新
+		//App相关
+		//是否有更新
 		ledgerRouter.GET("/app/need_update", accountApi.GetAppNeedUpdate)
-		//	周期记账
+		//周期记账
+		//新增
 		ledgerRouter.POST("/loop_account", accountApi.LoopAccount)
+		//修改
+		ledgerRouter.PUT("/loop_account", accountApi.UpdateLoopAccount)
+		//删除周期记账
+		ledgerRouter.DELETE("/loop_account/delete", accountApi.DeleteLoopAccount)
 	}
 	return ledgerRouter
 }

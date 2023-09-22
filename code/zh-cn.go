@@ -120,4 +120,7 @@ var zhCNText = map[int]string{
 	ErrorUserRoleFail:                   "分配用户角色失败",
 	ErrorGetAppNeedUpdate:               "获取app版本失败",
 	ErrorLoopAccount:                    "周期记账失败",
+	ErrorDeleteLoopAccount:              "删除周期记账失败",
+	ErrorUpdateLoopAccount:              "更新周期记账失败",
+	ErrorGetLoopList:                    "获取周期记账列表失败",
 }

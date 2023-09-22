@@ -34,6 +34,8 @@ func (*LedgerAdminStruct) InitLedgerAdminRouter(Router *gin.RouterGroup) (R gin.
 		adminRouter.POST("/icon/add", ledgerAdminApi.AddIcon)
 		//	删除icon
 		adminRouter.DELETE("/icon/delete", ledgerAdminApi.DeleteIcon)
+		//	获取定时任务列表
+		adminRouter.GET("/loop/list", ledgerAdminApi.GetLoopList)
 	}
 	return adminRouter
 }

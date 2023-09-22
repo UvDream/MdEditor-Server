@@ -98,3 +98,31 @@ func getAllLedgerList(query ledger.LedgerRequest, c *gin.Context) (data []ledger
 	}
 	return data, total, code.SUCCESS, err
 }
+
+// GetUserLedgerService 根据用户id查询所有账本
+func (*LedgerAdminService) GetUserLedgerService(userId string) (ledgerIdArr []string, err error) {
+	//	根据用户查询账本
+	db := global.DB
+	var data []ledger.Ledger
+	//查询自己创建的账本
+	if err := db.Where("creator_id = ?", userId).Preload(clause.Associations).Find(&data).Error; err != nil {
+		return ledgerIdArr, err
+	}
+	//	查询协同账本
+	var ledgerUser []ledger.LedgerUser
+	if err := db.Where("user_id = ?", userId).Find(&ledgerUser).Error; err != nil {
+		return ledgerIdArr, err
+	}
+	//查询协同账本
+	for _, v := range ledgerUser {
+		var ledgerData ledger.Ledger
+		if err := db.Where("id = ?", v.LedgerID).Preload(clause.Associations).Find(&ledgerData).Error; err != nil {
+		}
+		data = append(data, ledgerData)
+	}
+	for _, v := range data {
+		ledgerIdArr = append(ledgerIdArr, v.ID)
+	}
+	return ledgerIdArr, err
+
+}

@@ -683,6 +683,8 @@ definitions:
         type: string
       ledger:
         $ref: '#/definitions/ledger.Ledger'
+      ledger_category:
+        $ref: '#/definitions/ledger.CategoryLedger'
       ledger_id:
         description: 账本ID
         type: string
@@ -1485,6 +1487,33 @@ paths:
       summary: 获取账本列表admin
       tags:
       - admin/ledger
+  /admin/ledger/loop/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 关键字
+        in: query
+        name: key_word
+        type: string
+      - in: query
+        name: page
+        required: true
+        type: integer
+      - in: query
+        name: page_size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 获取定时任务列表
+      tags:
+      - admin/loop
   /admin/user/add/role:
     post:
       consumes:
@@ -2724,7 +2753,7 @@ paths:
         type: string
       - description: 分类类型
         in: query
-        name: types
+        name: type
         required: true
         type: string
       produces:
@@ -3050,6 +3079,48 @@ paths:
           schema:
             $ref: '#/definitions/code.Response'
       summary: 周期记账
+      tags:
+      - Ledger/loop
+    put:
+      consumes:
+      - application/json
+      description: 更新周期记账
+      parameters:
+      - description: 周期记账
+        in: body
+        name: loop_account
+        required: true
+        schema:
+          $ref: '#/definitions/ledger.LoopAccount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 更新周期记账
+      tags:
+      - Ledger/loop
+  /ledger/loop_account/delete:
+    delete:
+      consumes:
+      - application/json
+      description: 删除周期记账
+      parameters:
+      - description: 周期记账ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 删除周期记账
       tags:
       - Ledger/loop
   /ledger/share:

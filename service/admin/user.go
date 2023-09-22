@@ -76,16 +76,18 @@ func (*UserService) UpdateRole(role system.Role) (cd int, err error) {
 	if err = global.DB.Where("id = ?", role.ID).First(&system.Role{}).Updates(&role).Error; err != nil {
 		return code.ErrorRoleList, err
 	}
+	if err = global.DB.Where("role_id = ?", role.ID).Delete(&system.RolePermission{}).Error; err != nil {
+		return code.ErrorRoleList, err
+	}
+	//更新菜单
 	if len(role.MenuArr) > 0 {
 		for _, v := range role.MenuArr {
 			roleMenu := system.RolePermission{
 				RoleID:       role.ID,
 				PermissionID: v,
 			}
-			//	更新所有角色权限
-			if err = global.DB.Where("role_id = ?", role.ID).Delete(&system.RolePermission{}).Error; err != nil {
-				return code.ErrorRoleList, err
-			}
+			//先删除所有的权限
+
 			if err = global.DB.Create(&roleMenu).Error; err != nil {
 				return code.ErrorRoleList, err
 			}

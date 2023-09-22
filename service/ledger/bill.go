@@ -27,6 +27,7 @@ func (*LedgersService) DeleteBillService(id string) (int, error) {
 	if err := db.Where("id = ?", id).Delete(&ledger.Bill{}).Error; err != nil {
 		return code.ErrorDeleteBill, err
 	}
+
 	return code.SUCCESS, nil
 }
 func (*LedgersService) UpdateBillService(bill ledger.Bill) (ledger.Bill, int, error) {
