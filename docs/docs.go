@@ -6476,6 +6476,10 @@ const docTemplate = `{
                     "description": "账本ID",
                     "type": "string"
                 },
+                "name": {
+                    "description": "定时任务名称",
+                    "type": "string"
+                },
                 "not_budget": {
                     "description": "不计入预算",
                     "type": "string"

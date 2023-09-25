@@ -86,6 +86,8 @@ type LedgerRequest struct {
 // LoopAccount 循环记账
 type LoopAccount struct {
 	models.Model
+	//定时任务名称
+	Name string `json:"name"`
 	//	Corn表达式
 	Corn string `json:"corn"`
 	//	分类ID

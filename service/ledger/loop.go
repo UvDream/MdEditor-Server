@@ -54,28 +54,30 @@ func (*LedgersService) CornService() {
 		global.Log.Error("查询定时任务失败")
 	}
 	var ledgerService LedgersService
-	for _, loopAccount := range loopAccounts {
+	if len(loopAccounts) > 0 {
+		for _, loopAccount := range loopAccounts {
 
-		id, er := c.AddFunc(loopAccount.Corn, func() {
-			fmt.Println("执行定时任务------定时任务ID:" + loopAccount.ID + "时间:" + time.Now().Format("2006-01-02 15:04:05"))
-			var bill ledger.Bill
-			bill.Amount = loopAccount.Amount
-			bill.CategoryID = loopAccount.CategoryID
-			bill.CreatorID = loopAccount.CreatorID
-			bill.LedgerID = loopAccount.LedgerID
-			bill.NotBudget = loopAccount.NotBudget
-			bill.Remark = loopAccount.Remark
-			bill.Type = loopAccount.Type
-			bill.CreateTime = time.Now()
-			_, _, err := ledgerService.AddBillService(bill)
-			if err != nil {
-				global.Log.Error("定时任务执行失败,定时任务ID" + loopAccount.ID)
+			id, er := c.AddFunc(loopAccount.Corn, func() {
+				fmt.Println("执行定时任务------定时任务ID:" + loopAccount.ID + "时间:" + time.Now().Format("2006-01-02 15:04:05"))
+				var bill ledger.Bill
+				bill.Amount = loopAccount.Amount
+				bill.CategoryID = loopAccount.CategoryID
+				bill.CreatorID = loopAccount.CreatorID
+				bill.LedgerID = loopAccount.LedgerID
+				bill.NotBudget = loopAccount.NotBudget
+				bill.Remark = loopAccount.Remark
+				bill.Type = loopAccount.Type
+				bill.CreateTime = time.Now()
+				_, _, err := ledgerService.AddBillService(bill)
+				if err != nil {
+					global.Log.Error("定时任务执行失败,定时任务ID" + loopAccount.ID)
+				}
+			})
+			if er != nil {
+				global.Log.Error("添加定时任务失败,定时任务ID" + loopAccount.ID)
 			}
-		})
-		if er != nil {
-			global.Log.Error("添加定时任务失败,定时任务ID" + loopAccount.ID)
+			fmt.Println("定时任务ID", id)
 		}
-		fmt.Println("定时任务ID", id)
 	}
 	c.Start()
 
