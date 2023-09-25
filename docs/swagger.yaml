@@ -698,7 +698,7 @@ definitions:
         description: 账单备注
         type: string
       status:
-        description: 账单状态
+        description: 状态
         type: string
       type:
         description: 账单类型
@@ -3103,6 +3103,27 @@ paths:
           schema:
             $ref: '#/definitions/code.Response'
       summary: 更新周期记账
+      tags:
+      - Ledger/loop
+  /ledger/loop_account/change_status:
+    put:
+      consumes:
+      - application/json
+      description: 改变周期记账状态
+      parameters:
+      - description: 周期记账ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/code.Response'
+      summary: 改变周期记账状态
       tags:
       - Ledger/loop
   /ledger/loop_account/delete:

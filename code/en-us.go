@@ -2,7 +2,7 @@
  * @Author: wangzhongjie
  * @Date: 2022-08-12 15:21:50
  * @LastEditors: wangzhongjie
- * @LastEditTime: 2023-07-28 17:25:45
+ * @LastEditTime: 2023-09-25 17:19:34
  * @Description:
  * @Email: UvDream@163.com
  */
@@ -96,4 +96,5 @@ var enUSText = map[int]string{
 	ErrorDeleteLoopAccount:             "delete loop account failed",
 	ErrorUpdateLoopAccount:             "update loop account failed",
 	ErrorGetLoopList:                   "get loop list failed",
+	ErrorLoopAccountNotExist:           "loop account not exist",
 }

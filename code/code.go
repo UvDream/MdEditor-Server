@@ -2,7 +2,7 @@
  * @Author: wangzhongjie
  * @Date: 2022-08-12 15:21:50
  * @LastEditors: wangzhongjie
- * @LastEditTime: 2023-07-28 17:25:42
+ * @LastEditTime: 2023-09-25 17:19:24
  * @Description:
  * @Email: UvDream@163.com
  */
@@ -85,6 +85,7 @@ const (
 	ErrorDeleteLoopAccount          = 10058 //删除周期记账失败
 	ErrorUpdateLoopAccount          = 10059 //更新周期记账失败
 	ErrorGetLoopList                = 10060 //获取周期记账列表失败
+	ErrorLoopAccountNotExist        = 10061 //周期记账不存在
 )
 
 func Text(code int) string {

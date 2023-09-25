@@ -3161,6 +3161,38 @@
                 }
             }
         },
+        "/ledger/loop_account/change_status": {
+            "put": {
+                "description": "改变周期记账状态",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Ledger/loop"
+                ],
+                "summary": "改变周期记账状态",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "周期记账ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/code.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ledger/loop_account/delete": {
             "delete": {
                 "description": "删除周期记账",
@@ -6481,7 +6513,7 @@
                     "type": "string"
                 },
                 "status": {
-                    "description": "账单状态",
+                    "description": "状态",
                     "type": "string"
                 },
                 "type": {

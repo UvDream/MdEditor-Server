@@ -74,3 +74,22 @@ func (*ApiLedger) DeleteLoopAccount(c *gin.Context) {
 	}
 	code.SuccessResponse(nil, cd, c)
 }
+
+// ChangeLoopAccountStatus 改变周期记账状态
+// @Tags Ledger/loop
+// @Summary 改变周期记账状态
+// @Description 改变周期记账状态
+// @Accept  json
+// @Produce  json
+// @Param id query string true "周期记账ID"
+// @Success 200 {object}  code.Response{}
+// @Router /ledger/loop_account/change_status [put]
+func (*ApiLedger) ChangeLoopAccountStatus(c *gin.Context) {
+	id := c.Query("id")
+	cd, err := ledgerService.ChangeLoopAccountStatusService(id)
+	if err != nil {
+		code.FailResponse(cd, c)
+		return
+	}
+	code.SuccessResponse(nil, cd, c)
+}

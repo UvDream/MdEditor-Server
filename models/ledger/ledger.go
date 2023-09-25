@@ -102,8 +102,6 @@ type LoopAccount struct {
 	CreateTime *utils.LocalTime `json:"create_time" gorm:"type:timestamp;comment:创建时间"`
 	//	账单类型
 	Type string `json:"type" gorm:"type:varchar(255)"`
-	//	账单状态
-	Status string `json:"status" gorm:"type:varchar(255);comment:账单状态"`
 	//	账单备注
 	Remark string `json:"remark" gorm:"type:varchar(255);comment:账单备注"`
 	//	不计入预算
@@ -112,4 +110,6 @@ type LoopAccount struct {
 	CreatorID string `json:"creator_id" gorm:"type:varchar(255);comment:账单创建者ID;"`
 	//	账单创建者
 	Creator system.User `json:"creator" gorm:"foreignKey:CreatorID;references:ID"`
+	//	状态
+	Status string `json:"status" gorm:"type:varchar(255);comment:周期记账状态;default:'1'"` //0 暂停 1 进行中
 }

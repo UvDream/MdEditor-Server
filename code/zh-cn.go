@@ -123,4 +123,5 @@ var zhCNText = map[int]string{
 	ErrorDeleteLoopAccount:              "删除周期记账失败",
 	ErrorUpdateLoopAccount:              "更新周期记账失败",
 	ErrorGetLoopList:                    "获取周期记账列表失败",
+	ErrorLoopAccountNotExist:            "周期记账不存在",
 }

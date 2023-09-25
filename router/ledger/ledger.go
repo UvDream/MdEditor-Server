@@ -79,6 +79,8 @@ func (*AccountsRouter) InitLedgerRouter(Router *gin.RouterGroup) (R gin.IRouter)
 		ledgerRouter.PUT("/loop_account", accountApi.UpdateLoopAccount)
 		//删除周期记账
 		ledgerRouter.DELETE("/loop_account/delete", accountApi.DeleteLoopAccount)
+		//改变周期记账状态
+		ledgerRouter.PUT("/loop_account/change_status", accountApi.ChangeLoopAccountStatus)
 	}
 	return ledgerRouter
 }
